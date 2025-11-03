@@ -1,0 +1,1020 @@
+---
+alwaysApply: true
+---
+
+# UI Design System
+
+## Design Philosophy
+
+The Sales Intelligence Platform UI should be:
+
+- Professional and sleek
+- Excel-like for data display
+- Interactive with subtle animations
+- Clean and minimal
+- Focused on data and functionality
+
+## Color Palette
+
+### Approved Colors
+
+**Primary Colors**:
+
+- Neutral Gray: `#2D3748` (dark text)
+- Soft Gray: `#E2E8F0` (backgrounds)
+- White: `#FFFFFF`
+- Off-white: `#F7FAFC`
+
+**Accent Colors**:
+
+- Blue: `#3182CE` (primary actions)
+- Teal: `#319795` (success states)
+- Orange: `#DD6B20` (warnings)
+- Red: `#E53E3E` (errors)
+
+**Text Colors**:
+
+- Primary: `#1A202C`
+- Secondary: `#4A5568`
+- Tertiary: `#718096`
+- Disabled: `#A0AEC0`
+
+### Restricted Colors
+
+Do NOT use:
+
+- Purple or Indigo
+- Lime or bright green
+- Cyan or bright blue
+- Neon or fluorescent colors
+- High saturation colors
+
+## Typography
+
+### Font Families
+
+```css
+--font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+--font-mono: "JetBrains Mono", "Fira Code", monospace;
+```
+
+### Font Sizes
+
+```css
+--text-xs: 0.75rem; /* 12px */
+--text-sm: 0.875rem; /* 14px */
+--text-base: 1rem; /* 16px */
+--text-lg: 1.125rem; /* 18px */
+--text-xl: 1.25rem; /* 20px */
+--text-2xl: 1.5rem; /* 24px */
+--text-3xl: 1.875rem; /* 30px */
+```
+
+### Font Weights
+
+```css
+--font-normal: 400;
+--font-medium: 500;
+--font-semibold: 600;
+--font-bold: 700;
+```
+
+## Spacing System
+
+```css
+--spacing-1: 0.25rem; /* 4px */
+--spacing-2: 0.5rem; /* 8px */
+--spacing-3: 0.75rem; /* 12px */
+--spacing-4: 1rem; /* 16px */
+--spacing-5: 1.25rem; /* 20px */
+--spacing-6: 1.5rem; /* 24px */
+--spacing-8: 2rem; /* 32px */
+--spacing-10: 2.5rem; /* 40px */
+--spacing-12: 3rem; /* 48px */
+```
+
+## Component Design Standards
+
+### Search Bar Component
+
+**Design**:
+
+- Large, prominent input field
+- Clear placeholder text
+- File upload button integrated
+- Loading indicator
+- Auto-complete suggestions
+
+**Specifications**:
+
+```
+Height: 56px
+Border: 1px solid #E2E8F0
+Border Radius: 8px
+Focus Border: 2px solid #3182CE
+Padding: 16px 20px
+Font Size: 16px
+```
+
+**Features**:
+
+- File drag and drop zone
+- Real-time file type detection
+- Upload progress indicator
+- Clear file button
+
+### Data Table Component (Excel-like)
+
+**Design**:
+
+- Fixed header row
+- Alternating row colors
+- Hover state on rows
+- Sortable columns
+- Resizable columns
+- Inline editing capability
+- Row selection
+
+**Specifications**:
+
+```
+Header Height: 40px
+Row Height: 36px
+Header Background: #F7FAFC
+Header Text: #2D3748, font-weight: 600
+Row Odd: #FFFFFF
+Row Even: #F7FAFC
+Row Hover: #EDF2F7
+Border: 1px solid #E2E8F0
+```
+
+**Column Types**:
+
+- Text: Left aligned
+- Number: Right aligned
+- Date: Center aligned
+- Email: Left aligned with icon
+- Link: Underlined on hover
+
+**Interactions**:
+
+- Click header to sort
+- Double-click cell to edit
+- Drag column border to resize
+- Shift+Click for multi-select
+- Right-click for context menu
+
+### Agent Activity Display
+
+**Design**:
+
+- Collapsible panel
+- Real-time status updates
+- Progress indicators
+- Step-by-step breakdown
+- Subtle animations
+
+**Specifications**:
+
+```
+Panel Width: 300px (sidebar)
+Background: #F7FAFC
+Border: 1px solid #E2E8F0
+Border Radius: 8px
+Padding: 16px
+```
+
+**Status Indicators**:
+
+- Analyzing: Blue pulse animation
+- Executing: Blue progress bar
+- Validating: Teal progress bar
+- Completed: Teal checkmark
+- Failed: Red X icon
+
+### Login Page
+
+**Design**:
+
+- Clean, minimal layout
+- Center-aligned form
+- Subtle gradient background
+- Clear error messages
+- Remember me option
+
+**Layout**:
+
+```
+Container Width: 400px
+Form Background: #FFFFFF
+Box Shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+Border Radius: 12px
+Padding: 40px
+```
+
+**Elements**:
+
+- Logo at top
+- Email input
+- Password input (with show/hide toggle)
+- Remember me checkbox
+- Login button (full width)
+- Forgot password link
+- Sign up link
+
+### Button Styles
+
+**Primary Button**:
+
+```css
+background: #3182ce;
+color: #ffffff;
+border: none;
+border-radius: 6px;
+padding: 10px 20px;
+font-weight: 500;
+transition: all 0.2s;
+
+&:hover {
+  background: #2c5282;
+}
+```
+
+**Secondary Button**:
+
+```css
+background: transparent;
+color: #3182ce;
+border: 1px solid #3182ce;
+border-radius: 6px;
+padding: 10px 20px;
+font-weight: 500;
+
+&:hover {
+  background: #ebf8ff;
+}
+```
+
+**Danger Button**:
+
+```css
+background: #e53e3e;
+color: #ffffff;
+border: none;
+border-radius: 6px;
+padding: 10px 20px;
+font-weight: 500;
+
+&:hover {
+  background: #c53030;
+}
+```
+
+### Input Fields
+
+**Standard Input**:
+
+```css
+border: 1px solid #e2e8f0;
+border-radius: 6px;
+padding: 10px 12px;
+font-size: 14px;
+color: #2d3748;
+background: #ffffff;
+
+&:focus {
+  border-color: #3182ce;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+&:disabled {
+  background: #f7fafc;
+  color: #a0aec0;
+  cursor: not-allowed;
+}
+```
+
+### Modal/Dialog
+
+**Design**:
+
+```css
+background: #ffffff;
+border-radius: 12px;
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+max-width: 600px;
+padding: 24px;
+
+overlay {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+}
+```
+
+### Loading States
+
+**Spinner**:
+
+```css
+border: 3px solid #e2e8f0;
+border-top-color: #3182ce;
+border-radius: 50%;
+width: 24px;
+height: 24px;
+animation: spin 0.6s linear infinite;
+```
+
+**Skeleton Loading**:
+
+```css
+background: linear-gradient(90deg, #f7fafc 0%, #e2e8f0 50%, #f7fafc 100%);
+background-size: 200% 100%;
+animation: shimmer 1.5s infinite;
+border-radius: 4px;
+```
+
+### Toast Notifications
+
+**Success**:
+
+```css
+background: #319795;
+color: #ffffff;
+border-left: 4px solid #2c7a7b;
+```
+
+**Error**:
+
+```css
+background: #e53e3e;
+color: #ffffff;
+border-left: 4px solid #c53030;
+```
+
+**Warning**:
+
+```css
+background: #dd6b20;
+color: #ffffff;
+border-left: 4px solid #c05621;
+```
+
+**Info**:
+
+```css
+background: #3182ce;
+color: #ffffff;
+border-left: 4px solid #2c5282;
+```
+
+## Layout Structure
+
+### Main Application Layout
+
+```
+┌─────────────────────────────────────────────┐
+│  Header (Logo, User Menu)                  │
+├─────────────────────────────────────────────┤
+│                                             │
+│  Search Bar (center, prominent)            │
+│                                             │
+├─────────────────────────────────────────────┤
+│                                       ┌─────┤
+│                                       │Agent│
+│  Data Table (Excel-like)              │Panel│
+│                                       │     │
+│                                       │     │
+│                                       └─────┤
+├─────────────────────────────────────────────┤
+│  Pagination / Export Controls              │
+└─────────────────────────────────────────────┘
+```
+
+## Animation Guidelines
+
+### Subtle Transitions
+
+```css
+transition-duration: 0.2s;
+transition-timing-function: ease-in-out;
+```
+
+### Hover Effects
+
+```css
+&:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+```
+
+### Loading Animations
+
+```css
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+```
+
+## Responsive Design
+
+### Breakpoints
+
+```css
+--mobile: 640px;
+--tablet: 768px;
+--desktop: 1024px;
+--wide: 1280px;
+```
+
+### Mobile Adaptations
+
+- Stack components vertically
+- Hide agent panel (show on tap)
+- Simplify data table (card view)
+- Larger touch targets (44px minimum)
+- Bottom sheet for filters
+
+## Accessibility
+
+### Standards
+
+- WCAG 2.1 Level AA compliance
+- Keyboard navigation support
+- Screen reader compatibility
+- Focus visible indicators
+- Sufficient color contrast (4.5:1 minimum)
+
+### Implementation
+
+```typescript
+// Proper semantic HTML
+<button aria-label="Search" role="button">
+  Search
+</button>
+
+// Keyboard navigation
+onKeyDown={(e) => {
+  if (e.key === 'Enter') handleSubmit();
+}}
+
+// Focus management
+const firstInputRef = useRef<HTMLInputElement>(null);
+useEffect(() => {
+  firstInputRef.current?.focus();
+}, []);
+```
+
+## Icon System
+
+**Icon Library**: Lucide React or Heroicons
+
+**Usage**:
+
+- 16px for inline icons
+- 20px for buttons
+- 24px for prominent actions
+- Consistent stroke width: 2px
+
+## Data Visualization
+
+When displaying statistics or metrics:
+
+- Use simple bar charts
+- Subtle gradients acceptable
+- Clear labels and axes
+- Tooltip on hover
+- Accessible color combinations
+# UI Design System
+
+## Design Philosophy
+
+The Sales Intelligence Platform UI should be:
+
+- Professional and sleek
+- Excel-like for data display
+- Interactive with subtle animations
+- Clean and minimal
+- Focused on data and functionality
+
+## Color Palette
+
+### Approved Colors
+
+**Primary Colors**:
+
+- Neutral Gray: `#2D3748` (dark text)
+- Soft Gray: `#E2E8F0` (backgrounds)
+- White: `#FFFFFF`
+- Off-white: `#F7FAFC`
+
+**Accent Colors**:
+
+- Blue: `#3182CE` (primary actions)
+- Teal: `#319795` (success states)
+- Orange: `#DD6B20` (warnings)
+- Red: `#E53E3E` (errors)
+
+**Text Colors**:
+
+- Primary: `#1A202C`
+- Secondary: `#4A5568`
+- Tertiary: `#718096`
+- Disabled: `#A0AEC0`
+
+### Restricted Colors
+
+Do NOT use:
+
+- Purple or Indigo
+- Lime or bright green
+- Cyan or bright blue
+- Neon or fluorescent colors
+- High saturation colors
+
+## Typography
+
+### Font Families
+
+```css
+--font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+--font-mono: "JetBrains Mono", "Fira Code", monospace;
+```
+
+### Font Sizes
+
+```css
+--text-xs: 0.75rem; /* 12px */
+--text-sm: 0.875rem; /* 14px */
+--text-base: 1rem; /* 16px */
+--text-lg: 1.125rem; /* 18px */
+--text-xl: 1.25rem; /* 20px */
+--text-2xl: 1.5rem; /* 24px */
+--text-3xl: 1.875rem; /* 30px */
+```
+
+### Font Weights
+
+```css
+--font-normal: 400;
+--font-medium: 500;
+--font-semibold: 600;
+--font-bold: 700;
+```
+
+## Spacing System
+
+```css
+--spacing-1: 0.25rem; /* 4px */
+--spacing-2: 0.5rem; /* 8px */
+--spacing-3: 0.75rem; /* 12px */
+--spacing-4: 1rem; /* 16px */
+--spacing-5: 1.25rem; /* 20px */
+--spacing-6: 1.5rem; /* 24px */
+--spacing-8: 2rem; /* 32px */
+--spacing-10: 2.5rem; /* 40px */
+--spacing-12: 3rem; /* 48px */
+```
+
+## Component Design Standards
+
+### Search Bar Component
+
+**Design**:
+
+- Large, prominent input field
+- Clear placeholder text
+- File upload button integrated
+- Loading indicator
+- Auto-complete suggestions
+
+**Specifications**:
+
+```
+Height: 56px
+Border: 1px solid #E2E8F0
+Border Radius: 8px
+Focus Border: 2px solid #3182CE
+Padding: 16px 20px
+Font Size: 16px
+```
+
+**Features**:
+
+- File drag and drop zone
+- Real-time file type detection
+- Upload progress indicator
+- Clear file button
+
+### Data Table Component (Excel-like)
+
+**Design**:
+
+- Fixed header row
+- Alternating row colors
+- Hover state on rows
+- Sortable columns
+- Resizable columns
+- Inline editing capability
+- Row selection
+
+**Specifications**:
+
+```
+Header Height: 40px
+Row Height: 36px
+Header Background: #F7FAFC
+Header Text: #2D3748, font-weight: 600
+Row Odd: #FFFFFF
+Row Even: #F7FAFC
+Row Hover: #EDF2F7
+Border: 1px solid #E2E8F0
+```
+
+**Column Types**:
+
+- Text: Left aligned
+- Number: Right aligned
+- Date: Center aligned
+- Email: Left aligned with icon
+- Link: Underlined on hover
+
+**Interactions**:
+
+- Click header to sort
+- Double-click cell to edit
+- Drag column border to resize
+- Shift+Click for multi-select
+- Right-click for context menu
+
+### Agent Activity Display
+
+**Design**:
+
+- Collapsible panel
+- Real-time status updates
+- Progress indicators
+- Step-by-step breakdown
+- Subtle animations
+
+**Specifications**:
+
+```
+Panel Width: 300px (sidebar)
+Background: #F7FAFC
+Border: 1px solid #E2E8F0
+Border Radius: 8px
+Padding: 16px
+```
+
+**Status Indicators**:
+
+- Analyzing: Blue pulse animation
+- Executing: Blue progress bar
+- Validating: Teal progress bar
+- Completed: Teal checkmark
+- Failed: Red X icon
+
+### Login Page
+
+**Design**:
+
+- Clean, minimal layout
+- Center-aligned form
+- Subtle gradient background
+- Clear error messages
+- Remember me option
+
+**Layout**:
+
+```
+Container Width: 400px
+Form Background: #FFFFFF
+Box Shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+Border Radius: 12px
+Padding: 40px
+```
+
+**Elements**:
+
+- Logo at top
+- Email input
+- Password input (with show/hide toggle)
+- Remember me checkbox
+- Login button (full width)
+- Forgot password link
+- Sign up link
+
+### Button Styles
+
+**Primary Button**:
+
+```css
+background: #3182ce;
+color: #ffffff;
+border: none;
+border-radius: 6px;
+padding: 10px 20px;
+font-weight: 500;
+transition: all 0.2s;
+
+&:hover {
+  background: #2c5282;
+}
+```
+
+**Secondary Button**:
+
+```css
+background: transparent;
+color: #3182ce;
+border: 1px solid #3182ce;
+border-radius: 6px;
+padding: 10px 20px;
+font-weight: 500;
+
+&:hover {
+  background: #ebf8ff;
+}
+```
+
+**Danger Button**:
+
+```css
+background: #e53e3e;
+color: #ffffff;
+border: none;
+border-radius: 6px;
+padding: 10px 20px;
+font-weight: 500;
+
+&:hover {
+  background: #c53030;
+}
+```
+
+### Input Fields
+
+**Standard Input**:
+
+```css
+border: 1px solid #e2e8f0;
+border-radius: 6px;
+padding: 10px 12px;
+font-size: 14px;
+color: #2d3748;
+background: #ffffff;
+
+&:focus {
+  border-color: #3182ce;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+&:disabled {
+  background: #f7fafc;
+  color: #a0aec0;
+  cursor: not-allowed;
+}
+```
+
+### Modal/Dialog
+
+**Design**:
+
+```css
+background: #ffffff;
+border-radius: 12px;
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+max-width: 600px;
+padding: 24px;
+
+overlay {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+}
+```
+
+### Loading States
+
+**Spinner**:
+
+```css
+border: 3px solid #e2e8f0;
+border-top-color: #3182ce;
+border-radius: 50%;
+width: 24px;
+height: 24px;
+animation: spin 0.6s linear infinite;
+```
+
+**Skeleton Loading**:
+
+```css
+background: linear-gradient(90deg, #f7fafc 0%, #e2e8f0 50%, #f7fafc 100%);
+background-size: 200% 100%;
+animation: shimmer 1.5s infinite;
+border-radius: 4px;
+```
+
+### Toast Notifications
+
+**Success**:
+
+```css
+background: #319795;
+color: #ffffff;
+border-left: 4px solid #2c7a7b;
+```
+
+**Error**:
+
+```css
+background: #e53e3e;
+color: #ffffff;
+border-left: 4px solid #c53030;
+```
+
+**Warning**:
+
+```css
+background: #dd6b20;
+color: #ffffff;
+border-left: 4px solid #c05621;
+```
+
+**Info**:
+
+```css
+background: #3182ce;
+color: #ffffff;
+border-left: 4px solid #2c5282;
+```
+
+## Layout Structure
+
+### Main Application Layout
+
+```
+┌─────────────────────────────────────────────┐
+│  Header (Logo, User Menu)                  │
+├─────────────────────────────────────────────┤
+│                                             │
+│  Search Bar (center, prominent)            │
+│                                             │
+├─────────────────────────────────────────────┤
+│                                       ┌─────┤
+│                                       │Agent│
+│  Data Table (Excel-like)              │Panel│
+│                                       │     │
+│                                       │     │
+│                                       └─────┤
+├─────────────────────────────────────────────┤
+│  Pagination / Export Controls              │
+└─────────────────────────────────────────────┘
+```
+
+## Animation Guidelines
+
+### Subtle Transitions
+
+```css
+transition-duration: 0.2s;
+transition-timing-function: ease-in-out;
+```
+
+### Hover Effects
+
+```css
+&:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+```
+
+### Loading Animations
+
+```css
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+```
+
+## Responsive Design
+
+### Breakpoints
+
+```css
+--mobile: 640px;
+--tablet: 768px;
+--desktop: 1024px;
+--wide: 1280px;
+```
+
+### Mobile Adaptations
+
+- Stack components vertically
+- Hide agent panel (show on tap)
+- Simplify data table (card view)
+- Larger touch targets (44px minimum)
+- Bottom sheet for filters
+
+## Accessibility
+
+### Standards
+
+- WCAG 2.1 Level AA compliance
+- Keyboard navigation support
+- Screen reader compatibility
+- Focus visible indicators
+- Sufficient color contrast (4.5:1 minimum)
+
+### Implementation
+
+```typescript
+// Proper semantic HTML
+<button aria-label="Search" role="button">
+  Search
+</button>
+
+// Keyboard navigation
+onKeyDown={(e) => {
+  if (e.key === 'Enter') handleSubmit();
+}}
+
+// Focus management
+const firstInputRef = useRef<HTMLInputElement>(null);
+useEffect(() => {
+  firstInputRef.current?.focus();
+}, []);
+```
+
+## Icon System
+
+**Icon Library**: Lucide React or Heroicons
+
+**Usage**:
+
+- 16px for inline icons
+- 20px for buttons
+- 24px for prominent actions
+- Consistent stroke width: 2px
+
+## Data Visualization
+
+When displaying statistics or metrics:
+
+- Use simple bar charts
+- Subtle gradients acceptable
+- Clear labels and axes
+- Tooltip on hover
+- Accessible color combinations

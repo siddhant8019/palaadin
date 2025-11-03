@@ -1,0 +1,978 @@
+---
+alwaysApply: true
+---
+
+# Code Standards and Best Practices
+
+## General Principles
+
+### Code Quality
+
+- Production-level code quality at all times
+- Modular, reusable components
+- Single Responsibility Principle
+- DRY (Don't Repeat Yourself)
+- SOLID principles
+
+### Documentation Standards
+
+- No decorative elements in code or comments
+- Clear, concise inline comments for complex logic
+- JSDoc/TSDoc for all public functions and classes
+- README files for each major module
+- API documentation using OpenAPI/Swagger
+
+## TypeScript Standards
+
+### Type Safety
+
+- Strict mode enabled
+- No `any` types unless absolutely necessary
+- Explicit return types for all functions
+- Interface-first design
+- Use type guards for runtime type checking
+
+### Naming Conventions
+
+- Files: kebab-case (e.g., `scraping-agent.ts`)
+- Classes: PascalCase (e.g., `ScrapingAgent`)
+- Interfaces: PascalCase with 'I' prefix (e.g., `IScrapingAgent`)
+- Functions: camelCase (e.g., `analyzeSiteStructure`)
+- Constants: UPPER_SNAKE_CASE (e.g., `MAX_RETRY_ATTEMPTS`)
+- Private members: camelCase with underscore prefix (e.g., `_privateMethod`)
+
+### File Organization
+
+```
+src/
+├── agents/              # AI agents
+├── api/                 # API routes and controllers
+├── config/              # Configuration files
+├── database/            # Database models and migrations
+├── middleware/          # Express middleware
+├── services/            # Business logic services
+├── utils/               # Utility functions
+├── types/               # Type definitions
+├── validators/          # Input validation schemas
+└── index.ts            # Application entry point
+```
+
+### Import Standards
+
+```typescript
+// 1. External imports
+import express from "express";
+import { Request, Response } from "express";
+
+// 2. Internal imports (absolute paths)
+import { IScrapingAgent } from "@/types/agents";
+import { DatabaseService } from "@/services/database";
+
+// 3. Relative imports
+import { validateInput } from "./validators";
+```
+
+## Backend Standards (Node.js + Express)
+
+### API Route Structure
+
+```typescript
+// routes/query.routes.ts
+import { Router } from "express";
+import { QueryController } from "@/api/controllers/query.controller";
+import { authenticateJWT } from "@/middleware/auth";
+import { validateRequest } from "@/middleware/validation";
+
+const router = Router();
+const queryController = new QueryController();
+
+router.post(
+  "/query",
+  authenticateJWT,
+  validateRequest(querySchema),
+  queryController.handleQuery
+);
+
+export default router;
+```
+
+### Controller Pattern
+
+```typescript
+// api/controllers/query.controller.ts
+export class QueryController {
+  constructor(
+    private queryService: QueryService,
+    private agentOrchestrator: AgentOrchestrator
+  ) {}
+
+  async handleQuery(req: Request, res: Response): Promise<void> {
+    try {
+      const { query, files } = req.body;
+      const userId = req.user.id;
+
+      const result = await this.agentOrchestrator.processQuery({
+        query,
+        files,
+        userId,
+      });
+
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+
+  private handleError(error: Error, res: Response): void {
+    // Comprehensive error handling
+  }
+}
+```
+
+### Service Layer Pattern
+
+```typescript
+// services/scraping.service.ts
+export class ScrapingService {
+  constructor(
+    private analysisAgent: AnalysisAgent,
+    private implementationAgent: ImplementationAgent,
+    private validationAgent: ValidationAgent
+  ) {}
+
+  async scrapeUrl(url: string): Promise<IScrapingResult> {
+    // Step 1: Analyze
+    const strategy = await this.analysisAgent.analyzeUrl(url);
+
+    // Step 2: Implement
+    const rawData = await this.implementationAgent.execute(url, strategy);
+
+    // Step 3: Validate
+    const validatedData = await this.validationAgent.validate(rawData);
+
+    if (!validatedData.isValid) {
+      // Retry with different strategy
+      return this.retryWithDifferentStrategy(url, strategy);
+    }
+
+    return validatedData;
+  }
+}
+```
+
+### Error Handling
+
+```typescript
+// utils/errors.ts
+export class AppError extends Error {
+  constructor(
+    public message: string,
+    public statusCode: number,
+    public isOperational: boolean = true
+  ) {
+    super(message);
+    Object.setPrototypeOf(this, AppError.prototype);
+  }
+}
+
+export class ValidationError extends AppError {
+  constructor(message: string) {
+    super(message, 400);
+  }
+}
+
+export class ScrapingError extends AppError {
+  constructor(message: string) {
+    super(message, 500);
+  }
+}
+
+// middleware/error-handler.ts
+export const errorHandler = (
+  err: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  if (err instanceof AppError) {
+    res.status(err.statusCode).json({
+      success: false,
+      error: {
+        message: err.message,
+        statusCode: err.statusCode,
+      },
+    });
+  } else {
+    // Unexpected errors
+    logger.error("Unexpected error:", err);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: "Internal server error",
+      },
+    });
+  }
+};
+```
+
+### Validation Pattern
+
+```typescript
+// validators/query.validator.ts
+import { z } from "zod";
+
+export const querySchema = z.object({
+  query: z.string().min(1).max(1000),
+  files: z
+    .array(
+      z.object({
+        filename: z.string(),
+        mimetype: z.string(),
+        size: z.number().max(10 * 1024 * 1024), // 10MB max
+      })
+    )
+    .optional(),
+});
+
+export type QueryInput = z.infer<typeof querySchema>;
+```
+
+## Frontend Standards (Next.js)
+
+### Component Structure
+
+```typescript
+// components/search-bar/SearchBar.tsx
+import { FC, useState, useCallback } from "react";
+import { ISearchBarProps } from "./SearchBar.types";
+import styles from "./SearchBar.module.css";
+
+export const SearchBar: FC<ISearchBarProps> = ({ onSubmit, isLoading }) => {
+  const [query, setQuery] = useState("");
+
+  const handleSubmit = useCallback(async () => {
+    if (!query.trim()) return;
+    await onSubmit(query);
+    setQuery("");
+  }, [query, onSubmit]);
+
+  return <div className={styles.container}>{/* Component JSX */}</div>;
+};
+```
+
+### Custom Hooks
+
+```typescript
+// hooks/useQuery.ts
+import { useState, useCallback } from "react";
+import { queryApi } from "@/services/api";
+
+export const useQuery = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState(null);
+
+  const executeQuery = useCallback(async (query: string) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await queryApi.submit(query);
+      setResult(response.data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  return { executeQuery, isLoading, error, result };
+};
+```
+
+### State Management
+
+```typescript
+// store/query.store.ts
+import { create } from "zustand";
+
+interface IQueryStore {
+  queries: IQuery[];
+  currentResult: IQueryResult | null;
+  addQuery: (query: IQuery) => void;
+  setResult: (result: IQueryResult) => void;
+  clearResult: () => void;
+}
+
+export const useQueryStore = create<IQueryStore>((set) => ({
+  queries: [],
+  currentResult: null,
+  addQuery: (query) =>
+    set((state) => ({
+      queries: [...state.queries, query],
+    })),
+  setResult: (result) => set({ currentResult: result }),
+  clearResult: () => set({ currentResult: null }),
+}));
+```
+
+## Database Standards
+
+### Model Definition
+
+```typescript
+// database/models/Person.model.ts
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
+import { Company } from "./Company.model";
+
+@Entity("people")
+export class Person {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
+
+  @Column({ type: "varchar", length: 255 })
+  firstName: string;
+
+  @Column({ type: "varchar", length: 255 })
+  lastName: string;
+
+  @Column({ type: "varchar", unique: true, nullable: true })
+  email: string;
+
+  @Column({ type: "varchar", nullable: true })
+  phone: string;
+
+  @Column({ type: "varchar", unique: true, nullable: true })
+  linkedinUrl: string;
+
+  @ManyToOne(() => Company, (company) => company.people)
+  @JoinColumn({ name: "company_id" })
+  company: Company;
+
+  @Column({ type: "varchar", nullable: true })
+  dataSource: string;
+
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  createdAt: Date;
+
+  @Column({
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP",
+    onUpdate: "CURRENT_TIMESTAMP",
+  })
+  updatedAt: Date;
+}
+```
+
+### Repository Pattern
+
+```typescript
+// database/repositories/person.repository.ts
+export class PersonRepository {
+  async findByEmail(email: string): Promise<Person | null> {
+    return await Person.findOne({ where: { email } });
+  }
+
+  async createPerson(data: ICreatePerson): Promise<Person> {
+    const person = Person.create(data);
+    return await person.save();
+  }
+
+  async upsertPerson(data: IUpsertPerson): Promise<Person> {
+    const existing = await this.findByEmail(data.email);
+
+    if (existing) {
+      Object.assign(existing, data);
+      return await existing.save();
+    }
+
+    return await this.createPerson(data);
+  }
+}
+```
+
+## Testing Standards
+
+### Unit Tests
+
+```typescript
+// services/__tests__/scraping.service.test.ts
+import { ScrapingService } from "../scraping.service";
+import { AnalysisAgent } from "@/agents/analysis.agent";
+
+describe("ScrapingService", () => {
+  let scrapingService: ScrapingService;
+  let mockAnalysisAgent: jest.Mocked<AnalysisAgent>;
+
+  beforeEach(() => {
+    mockAnalysisAgent = {
+      analyzeUrl: jest.fn(),
+    } as any;
+
+    scrapingService = new ScrapingService(
+      mockAnalysisAgent,
+      mockImplementationAgent,
+      mockValidationAgent
+    );
+  });
+
+  it("should successfully scrape a URL", async () => {
+    mockAnalysisAgent.analyzeUrl.mockResolvedValue({
+      strategy: "css-selector",
+      selectors: [".company-name"],
+    });
+
+    const result = await scrapingService.scrapeUrl("https://example.com");
+
+    expect(result.isValid).toBe(true);
+    expect(result.data).toBeDefined();
+  });
+});
+```
+
+## Security Standards
+
+### Input Sanitization
+
+```typescript
+import DOMPurify from "isomorphic-dompurify";
+
+export const sanitizeInput = (input: string): string => {
+  return DOMPurify.sanitize(input, {
+    ALLOWED_TAGS: [],
+    ALLOWED_ATTR: [],
+  });
+};
+```
+
+### Environment Variables
+
+```typescript
+// config/env.ts
+import { z } from "zod";
+
+const envSchema = z.object({
+  NODE_ENV: z.enum(["development", "production", "test"]),
+  DATABASE_URL: z.string().url(),
+  JWT_SECRET: z.string().min(32),
+  GEMINI_API_KEY: z.string(),
+  PORT: z.string().transform(Number),
+});
+
+export const env = envSchema.parse(process.env);
+```
+
+### Password Hashing
+
+```typescript
+import bcrypt from "bcrypt";
+
+const SALT_ROUNDS = 12;
+
+export const hashPassword = async (password: string): Promise<string> => {
+  return await bcrypt.hash(password, SALT_ROUNDS);
+};
+
+export const comparePassword = async (
+  password: string,
+  hash: string
+): Promise<boolean> => {
+  return await bcrypt.compare(password, hash);
+};
+```
+# Code Standards and Best Practices
+
+## General Principles
+
+### Code Quality
+
+- Production-level code quality at all times
+- Modular, reusable components
+- Single Responsibility Principle
+- DRY (Don't Repeat Yourself)
+- SOLID principles
+
+### Documentation Standards
+
+- No decorative elements in code or comments
+- Clear, concise inline comments for complex logic
+- JSDoc/TSDoc for all public functions and classes
+- README files for each major module
+- API documentation using OpenAPI/Swagger
+
+## TypeScript Standards
+
+### Type Safety
+
+- Strict mode enabled
+- No `any` types unless absolutely necessary
+- Explicit return types for all functions
+- Interface-first design
+- Use type guards for runtime type checking
+
+### Naming Conventions
+
+- Files: kebab-case (e.g., `scraping-agent.ts`)
+- Classes: PascalCase (e.g., `ScrapingAgent`)
+- Interfaces: PascalCase with 'I' prefix (e.g., `IScrapingAgent`)
+- Functions: camelCase (e.g., `analyzeSiteStructure`)
+- Constants: UPPER_SNAKE_CASE (e.g., `MAX_RETRY_ATTEMPTS`)
+- Private members: camelCase with underscore prefix (e.g., `_privateMethod`)
+
+### File Organization
+
+```
+src/
+├── agents/              # AI agents
+├── api/                 # API routes and controllers
+├── config/              # Configuration files
+├── database/            # Database models and migrations
+├── middleware/          # Express middleware
+├── services/            # Business logic services
+├── utils/               # Utility functions
+├── types/               # Type definitions
+├── validators/          # Input validation schemas
+└── index.ts            # Application entry point
+```
+
+### Import Standards
+
+```typescript
+// 1. External imports
+import express from "express";
+import { Request, Response } from "express";
+
+// 2. Internal imports (absolute paths)
+import { IScrapingAgent } from "@/types/agents";
+import { DatabaseService } from "@/services/database";
+
+// 3. Relative imports
+import { validateInput } from "./validators";
+```
+
+## Backend Standards (Node.js + Express)
+
+### API Route Structure
+
+```typescript
+// routes/query.routes.ts
+import { Router } from "express";
+import { QueryController } from "@/api/controllers/query.controller";
+import { authenticateJWT } from "@/middleware/auth";
+import { validateRequest } from "@/middleware/validation";
+
+const router = Router();
+const queryController = new QueryController();
+
+router.post(
+  "/query",
+  authenticateJWT,
+  validateRequest(querySchema),
+  queryController.handleQuery
+);
+
+export default router;
+```
+
+### Controller Pattern
+
+```typescript
+// api/controllers/query.controller.ts
+export class QueryController {
+  constructor(
+    private queryService: QueryService,
+    private agentOrchestrator: AgentOrchestrator
+  ) {}
+
+  async handleQuery(req: Request, res: Response): Promise<void> {
+    try {
+      const { query, files } = req.body;
+      const userId = req.user.id;
+
+      const result = await this.agentOrchestrator.processQuery({
+        query,
+        files,
+        userId,
+      });
+
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    } catch (error) {
+      this.handleError(error, res);
+    }
+  }
+
+  private handleError(error: Error, res: Response): void {
+    // Comprehensive error handling
+  }
+}
+```
+
+### Service Layer Pattern
+
+```typescript
+// services/scraping.service.ts
+export class ScrapingService {
+  constructor(
+    private analysisAgent: AnalysisAgent,
+    private implementationAgent: ImplementationAgent,
+    private validationAgent: ValidationAgent
+  ) {}
+
+  async scrapeUrl(url: string): Promise<IScrapingResult> {
+    // Step 1: Analyze
+    const strategy = await this.analysisAgent.analyzeUrl(url);
+
+    // Step 2: Implement
+    const rawData = await this.implementationAgent.execute(url, strategy);
+
+    // Step 3: Validate
+    const validatedData = await this.validationAgent.validate(rawData);
+
+    if (!validatedData.isValid) {
+      // Retry with different strategy
+      return this.retryWithDifferentStrategy(url, strategy);
+    }
+
+    return validatedData;
+  }
+}
+```
+
+### Error Handling
+
+```typescript
+// utils/errors.ts
+export class AppError extends Error {
+  constructor(
+    public message: string,
+    public statusCode: number,
+    public isOperational: boolean = true
+  ) {
+    super(message);
+    Object.setPrototypeOf(this, AppError.prototype);
+  }
+}
+
+export class ValidationError extends AppError {
+  constructor(message: string) {
+    super(message, 400);
+  }
+}
+
+export class ScrapingError extends AppError {
+  constructor(message: string) {
+    super(message, 500);
+  }
+}
+
+// middleware/error-handler.ts
+export const errorHandler = (
+  err: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  if (err instanceof AppError) {
+    res.status(err.statusCode).json({
+      success: false,
+      error: {
+        message: err.message,
+        statusCode: err.statusCode,
+      },
+    });
+  } else {
+    // Unexpected errors
+    logger.error("Unexpected error:", err);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: "Internal server error",
+      },
+    });
+  }
+};
+```
+
+### Validation Pattern
+
+```typescript
+// validators/query.validator.ts
+import { z } from "zod";
+
+export const querySchema = z.object({
+  query: z.string().min(1).max(1000),
+  files: z
+    .array(
+      z.object({
+        filename: z.string(),
+        mimetype: z.string(),
+        size: z.number().max(10 * 1024 * 1024), // 10MB max
+      })
+    )
+    .optional(),
+});
+
+export type QueryInput = z.infer<typeof querySchema>;
+```
+
+## Frontend Standards (Next.js)
+
+### Component Structure
+
+```typescript
+// components/search-bar/SearchBar.tsx
+import { FC, useState, useCallback } from "react";
+import { ISearchBarProps } from "./SearchBar.types";
+import styles from "./SearchBar.module.css";
+
+export const SearchBar: FC<ISearchBarProps> = ({ onSubmit, isLoading }) => {
+  const [query, setQuery] = useState("");
+
+  const handleSubmit = useCallback(async () => {
+    if (!query.trim()) return;
+    await onSubmit(query);
+    setQuery("");
+  }, [query, onSubmit]);
+
+  return <div className={styles.container}>{/* Component JSX */}</div>;
+};
+```
+
+### Custom Hooks
+
+```typescript
+// hooks/useQuery.ts
+import { useState, useCallback } from "react";
+import { queryApi } from "@/services/api";
+
+export const useQuery = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState(null);
+
+  const executeQuery = useCallback(async (query: string) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await queryApi.submit(query);
+      setResult(response.data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  return { executeQuery, isLoading, error, result };
+};
+```
+
+### State Management
+
+```typescript
+// store/query.store.ts
+import { create } from "zustand";
+
+interface IQueryStore {
+  queries: IQuery[];
+  currentResult: IQueryResult | null;
+  addQuery: (query: IQuery) => void;
+  setResult: (result: IQueryResult) => void;
+  clearResult: () => void;
+}
+
+export const useQueryStore = create<IQueryStore>((set) => ({
+  queries: [],
+  currentResult: null,
+  addQuery: (query) =>
+    set((state) => ({
+      queries: [...state.queries, query],
+    })),
+  setResult: (result) => set({ currentResult: result }),
+  clearResult: () => set({ currentResult: null }),
+}));
+```
+
+## Database Standards
+
+### Model Definition
+
+```typescript
+// database/models/Person.model.ts
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
+import { Company } from "./Company.model";
+
+@Entity("people")
+export class Person {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
+
+  @Column({ type: "varchar", length: 255 })
+  firstName: string;
+
+  @Column({ type: "varchar", length: 255 })
+  lastName: string;
+
+  @Column({ type: "varchar", unique: true, nullable: true })
+  email: string;
+
+  @Column({ type: "varchar", nullable: true })
+  phone: string;
+
+  @Column({ type: "varchar", unique: true, nullable: true })
+  linkedinUrl: string;
+
+  @ManyToOne(() => Company, (company) => company.people)
+  @JoinColumn({ name: "company_id" })
+  company: Company;
+
+  @Column({ type: "varchar", nullable: true })
+  dataSource: string;
+
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  createdAt: Date;
+
+  @Column({
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP",
+    onUpdate: "CURRENT_TIMESTAMP",
+  })
+  updatedAt: Date;
+}
+```
+
+### Repository Pattern
+
+```typescript
+// database/repositories/person.repository.ts
+export class PersonRepository {
+  async findByEmail(email: string): Promise<Person | null> {
+    return await Person.findOne({ where: { email } });
+  }
+
+  async createPerson(data: ICreatePerson): Promise<Person> {
+    const person = Person.create(data);
+    return await person.save();
+  }
+
+  async upsertPerson(data: IUpsertPerson): Promise<Person> {
+    const existing = await this.findByEmail(data.email);
+
+    if (existing) {
+      Object.assign(existing, data);
+      return await existing.save();
+    }
+
+    return await this.createPerson(data);
+  }
+}
+```
+
+## Testing Standards
+
+### Unit Tests
+
+```typescript
+// services/__tests__/scraping.service.test.ts
+import { ScrapingService } from "../scraping.service";
+import { AnalysisAgent } from "@/agents/analysis.agent";
+
+describe("ScrapingService", () => {
+  let scrapingService: ScrapingService;
+  let mockAnalysisAgent: jest.Mocked<AnalysisAgent>;
+
+  beforeEach(() => {
+    mockAnalysisAgent = {
+      analyzeUrl: jest.fn(),
+    } as any;
+
+    scrapingService = new ScrapingService(
+      mockAnalysisAgent,
+      mockImplementationAgent,
+      mockValidationAgent
+    );
+  });
+
+  it("should successfully scrape a URL", async () => {
+    mockAnalysisAgent.analyzeUrl.mockResolvedValue({
+      strategy: "css-selector",
+      selectors: [".company-name"],
+    });
+
+    const result = await scrapingService.scrapeUrl("https://example.com");
+
+    expect(result.isValid).toBe(true);
+    expect(result.data).toBeDefined();
+  });
+});
+```
+
+## Security Standards
+
+### Input Sanitization
+
+```typescript
+import DOMPurify from "isomorphic-dompurify";
+
+export const sanitizeInput = (input: string): string => {
+  return DOMPurify.sanitize(input, {
+    ALLOWED_TAGS: [],
+    ALLOWED_ATTR: [],
+  });
+};
+```
+
+### Environment Variables
+
+```typescript
+// config/env.ts
+import { z } from "zod";
+
+const envSchema = z.object({
+  NODE_ENV: z.enum(["development", "production", "test"]),
+  DATABASE_URL: z.string().url(),
+  JWT_SECRET: z.string().min(32),
+  GEMINI_API_KEY: z.string(),
+  PORT: z.string().transform(Number),
+});
+
+export const env = envSchema.parse(process.env);
+```
+
+### Password Hashing
+
+```typescript
+import bcrypt from "bcrypt";
+
+const SALT_ROUNDS = 12;
+
+export const hashPassword = async (password: string): Promise<string> => {
+  return await bcrypt.hash(password, SALT_ROUNDS);
+};
+
+export const comparePassword = async (
+  password: string,
+  hash: string
+): Promise<boolean> => {
+  return await bcrypt.compare(password, hash);
+};
+```

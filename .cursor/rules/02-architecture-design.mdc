@@ -1,0 +1,558 @@
+---
+alwaysApply: true
+---
+
+# Architecture Design
+
+## System Architecture Overview
+
+The Sales Intelligence Platform follows a layered, modular architecture with clear separation of concerns.
+
+## Layer Architecture
+
+### Presentation Layer (Frontend - Next.js)
+
+- Natural language search interface
+- Excel-like data grid components
+- File upload handlers
+- Real-time agent activity display
+- Authentication UI (login/signup)
+
+### Application Layer (Backend - Node.js)
+
+- RESTful API endpoints
+- JWT authentication middleware
+- Request validation and sanitization
+- Rate limiting and security
+- Error handling and logging
+
+### Business Logic Layer
+
+- Multi-agent orchestration (LangGraph)
+- Scraping engine (3-agent system)
+- Data processing and validation
+- Online search integration
+- File processors (Excel, HAR)
+
+### Data Layer
+
+- PostgreSQL database
+- ORM/Query builder
+- Migration management
+- Connection pooling
+- Transaction management
+
+### Integration Layer
+
+- Gemini API client
+- Web search API integration
+- LinkedIn data scraping
+- External API connectors
+
+## Multi-Agent System Architecture
+
+### Conversational Agent Layer
+
+#### Intent Recognition Agent
+
+- Analyzes user input
+- Determines query type (1-5)
+- Extracts key entities and parameters
+
+#### Context Management Agent
+
+- Maintains conversation history
+- Tracks user session state
+- Provides context to other agents
+
+#### Router Agent
+
+- Routes requests to appropriate execution pipeline
+- Manages agent workflow orchestration
+- Handles parallel and sequential execution
+
+#### Database Query Agent
+
+- Executes database searches
+- Formats results for display
+- Handles complex queries with joins
+
+#### Scraper Controller Agent
+
+- Manages scraping workflow
+- Triggers Analysis, Implementation, Validation agents
+- Monitors scraping progress
+
+#### File Processor Agent
+
+- Detects file type (Excel vs HAR)
+- Routes to appropriate parser
+- Handles column mapping for Excel
+- Parses HAR files for scraping data
+
+#### Online Search Agent
+
+- Searches web when data not in database
+- Finds LinkedIn profiles
+- Extracts and validates information
+- Adds verified data to database
+
+#### Response Formatter Agent
+
+- Formats data for Excel-like display
+- Generates natural language responses
+- Handles error messages
+- Provides progress updates
+
+### Scraping Agent Layer
+
+#### Analysis Agent
+
+- Analyzes target website structure
+- Detects content type (static, SPA, API-based)
+- Determines optimal scraping strategy
+- Checks for authentication requirements
+
+#### Implementation Agent
+
+- Executes chosen scraping strategy
+- Methods: CSS selectors, HAR processing, OCR/ML, API calls
+- Handles pagination and dynamic content
+- Extracts structured data
+
+#### Validation Agent
+
+- Validates scraped data accuracy
+- Verifies expected data count
+- Checks logical consistency
+- Triggers retry with different method if validation fails
+- Updates database only after validation success
+
+## Database Architecture
+
+### Core Tables
+
+#### people
+
+- id (UUID, Primary Key)
+- first_name
+- last_name
+- email (unique, indexed)
+- phone
+- linkedin_url (unique, indexed)
+- title
+- company_id (Foreign Key to companies)
+- location
+- data_source
+- created_at
+- updated_at
+
+#### companies
+
+- id (UUID, Primary Key)
+- name (indexed)
+- domain (unique, indexed)
+- industry
+- size
+- location
+- linkedin_url (unique, indexed)
+- description
+- data_source
+- created_at
+- updated_at
+
+#### scraping_jobs
+
+- id (UUID, Primary Key)
+- url
+- status (pending, in_progress, completed, failed)
+- strategy_used
+- records_extracted
+- validation_status
+- error_message
+- created_at
+- completed_at
+
+#### user_sessions
+
+- id (UUID, Primary Key)
+- user_id (Foreign Key to users)
+- conversation_history (JSONB)
+- active
+- created_at
+- updated_at
+
+#### users
+
+- id (UUID, Primary Key)
+- email (unique, indexed)
+- password_hash
+- role
+- created_at
+- last_login
+
+### Relationships
+
+- people.company_id → companies.id
+- scraping_jobs → generates records in people/companies
+- user_sessions.user_id → users.id
+
+## API Architecture
+
+### Authentication Endpoints
+
+- POST /api/auth/register
+- POST /api/auth/login
+- POST /api/auth/refresh
+- POST /api/auth/logout
+
+### Query Endpoints
+
+- POST /api/query (main conversational endpoint)
+- POST /api/query/file (file upload endpoint)
+- GET /api/query/status/:jobId
+
+### Data Endpoints
+
+- GET /api/people (with filters, pagination)
+- GET /api/people/:id
+- GET /api/companies (with filters, pagination)
+- GET /api/companies/:id
+
+### Scraping Endpoints
+
+- POST /api/scrape/url
+- POST /api/scrape/har
+- GET /api/scrape/jobs/:id
+
+### Export Endpoints
+
+- POST /api/export/excel
+- POST /api/export/csv
+
+## Security Architecture
+
+### Authentication
+
+- JWT access tokens (15 min expiry)
+- Refresh tokens (7 day expiry)
+- Secure HTTP-only cookies
+- Token rotation on refresh
+
+### Authorization
+
+- Role-based access control
+- Resource-level permissions
+- API key management
+
+### Input Validation
+
+- Schema validation on all endpoints
+- SQL injection prevention
+- XSS protection
+- File upload validation
+
+### Data Security
+
+- Encrypted passwords (bcrypt)
+- Environment variable secrets
+- HTTPS enforcement
+- CORS configuration
+
+## Performance Architecture
+
+### Caching Strategy
+
+- In-memory caching for frequent queries
+- Database query result caching
+- API response caching
+
+### Async Processing
+
+- Background job queue for scraping
+- Parallel agent execution
+- Non-blocking I/O operations
+
+### Database Optimization
+
+- Proper indexing strategy
+- Connection pooling
+- Query optimization
+- Read replicas for scaling
+# Architecture Design
+
+## System Architecture Overview
+
+The Sales Intelligence Platform follows a layered, modular architecture with clear separation of concerns.
+
+## Layer Architecture
+
+### Presentation Layer (Frontend - Next.js)
+
+- Natural language search interface
+- Excel-like data grid components
+- File upload handlers
+- Real-time agent activity display
+- Authentication UI (login/signup)
+
+### Application Layer (Backend - Node.js)
+
+- RESTful API endpoints
+- JWT authentication middleware
+- Request validation and sanitization
+- Rate limiting and security
+- Error handling and logging
+
+### Business Logic Layer
+
+- Multi-agent orchestration (LangGraph)
+- Scraping engine (3-agent system)
+- Data processing and validation
+- Online search integration
+- File processors (Excel, HAR)
+
+### Data Layer
+
+- PostgreSQL database
+- ORM/Query builder
+- Migration management
+- Connection pooling
+- Transaction management
+
+### Integration Layer
+
+- Gemini API client
+- Web search API integration
+- LinkedIn data scraping
+- External API connectors
+
+## Multi-Agent System Architecture
+
+### Conversational Agent Layer
+
+#### Intent Recognition Agent
+
+- Analyzes user input
+- Determines query type (1-5)
+- Extracts key entities and parameters
+
+#### Context Management Agent
+
+- Maintains conversation history
+- Tracks user session state
+- Provides context to other agents
+
+#### Router Agent
+
+- Routes requests to appropriate execution pipeline
+- Manages agent workflow orchestration
+- Handles parallel and sequential execution
+
+#### Database Query Agent
+
+- Executes database searches
+- Formats results for display
+- Handles complex queries with joins
+
+#### Scraper Controller Agent
+
+- Manages scraping workflow
+- Triggers Analysis, Implementation, Validation agents
+- Monitors scraping progress
+
+#### File Processor Agent
+
+- Detects file type (Excel vs HAR)
+- Routes to appropriate parser
+- Handles column mapping for Excel
+- Parses HAR files for scraping data
+
+#### Online Search Agent
+
+- Searches web when data not in database
+- Finds LinkedIn profiles
+- Extracts and validates information
+- Adds verified data to database
+
+#### Response Formatter Agent
+
+- Formats data for Excel-like display
+- Generates natural language responses
+- Handles error messages
+- Provides progress updates
+
+### Scraping Agent Layer
+
+#### Analysis Agent
+
+- Analyzes target website structure
+- Detects content type (static, SPA, API-based)
+- Determines optimal scraping strategy
+- Checks for authentication requirements
+
+#### Implementation Agent
+
+- Executes chosen scraping strategy
+- Methods: CSS selectors, HAR processing, OCR/ML, API calls
+- Handles pagination and dynamic content
+- Extracts structured data
+
+#### Validation Agent
+
+- Validates scraped data accuracy
+- Verifies expected data count
+- Checks logical consistency
+- Triggers retry with different method if validation fails
+- Updates database only after validation success
+
+## Database Architecture
+
+### Core Tables
+
+#### people
+
+- id (UUID, Primary Key)
+- first_name
+- last_name
+- email (unique, indexed)
+- phone
+- linkedin_url (unique, indexed)
+- title
+- company_id (Foreign Key to companies)
+- location
+- data_source
+- created_at
+- updated_at
+
+#### companies
+
+- id (UUID, Primary Key)
+- name (indexed)
+- domain (unique, indexed)
+- industry
+- size
+- location
+- linkedin_url (unique, indexed)
+- description
+- data_source
+- created_at
+- updated_at
+
+#### scraping_jobs
+
+- id (UUID, Primary Key)
+- url
+- status (pending, in_progress, completed, failed)
+- strategy_used
+- records_extracted
+- validation_status
+- error_message
+- created_at
+- completed_at
+
+#### user_sessions
+
+- id (UUID, Primary Key)
+- user_id (Foreign Key to users)
+- conversation_history (JSONB)
+- active
+- created_at
+- updated_at
+
+#### users
+
+- id (UUID, Primary Key)
+- email (unique, indexed)
+- password_hash
+- role
+- created_at
+- last_login
+
+### Relationships
+
+- people.company_id → companies.id
+- scraping_jobs → generates records in people/companies
+- user_sessions.user_id → users.id
+
+## API Architecture
+
+### Authentication Endpoints
+
+- POST /api/auth/register
+- POST /api/auth/login
+- POST /api/auth/refresh
+- POST /api/auth/logout
+
+### Query Endpoints
+
+- POST /api/query (main conversational endpoint)
+- POST /api/query/file (file upload endpoint)
+- GET /api/query/status/:jobId
+
+### Data Endpoints
+
+- GET /api/people (with filters, pagination)
+- GET /api/people/:id
+- GET /api/companies (with filters, pagination)
+- GET /api/companies/:id
+
+### Scraping Endpoints
+
+- POST /api/scrape/url
+- POST /api/scrape/har
+- GET /api/scrape/jobs/:id
+
+### Export Endpoints
+
+- POST /api/export/excel
+- POST /api/export/csv
+
+## Security Architecture
+
+### Authentication
+
+- JWT access tokens (15 min expiry)
+- Refresh tokens (7 day expiry)
+- Secure HTTP-only cookies
+- Token rotation on refresh
+
+### Authorization
+
+- Role-based access control
+- Resource-level permissions
+- API key management
+
+### Input Validation
+
+- Schema validation on all endpoints
+- SQL injection prevention
+- XSS protection
+- File upload validation
+
+### Data Security
+
+- Encrypted passwords (bcrypt)
+- Environment variable secrets
+- HTTPS enforcement
+- CORS configuration
+
+## Performance Architecture
+
+### Caching Strategy
+
+- In-memory caching for frequent queries
+- Database query result caching
+- API response caching
+
+### Async Processing
+
+- Background job queue for scraping
+- Parallel agent execution
+- Non-blocking I/O operations
+
+### Database Optimization
+
+- Proper indexing strategy
+- Connection pooling
+- Query optimization
+- Read replicas for scaling

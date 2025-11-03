@@ -1,0 +1,1026 @@
+---
+alwaysApply: true
+---
+
+# Multi-Agent System Architecture
+
+## Overview
+
+The platform uses a sophisticated multi-agent system powered by LangGraph and Gemini API to handle various user queries and operations.
+
+## Agent Layer Structure
+
+### Layer 1: Conversational Agents
+
+Handle natural language understanding and orchestration
+
+### Layer 2: Execution Agents
+
+Perform specific tasks (scraping, database operations, file processing)
+
+### Layer 3: Validation Agents
+
+Ensure data quality and accuracy
+
+## Conversational Agent Layer
+
+### Intent Recognition Agent
+
+**Purpose**: Analyze user input and determine query type
+
+**Responsibilities**:
+
+- Parse natural language input
+- Identify query type (database query, scraping request, entity lookup, file upload, HAR processing)
+- Extract entities (names, companies, URLs, etc.)
+- Detect file attachments and their types
+
+**Implementation**:
+
+```typescript
+interface IIntentRecognitionAgent {
+  analyzeQuery(input: string, files?: File[]): Promise<IQueryIntent>;
+}
+
+interface IQueryIntent {
+  type:
+    | "database"
+    | "scraping"
+    | "entity_lookup"
+    | "file_upload"
+    | "har_processing";
+  entities: IExtractedEntity[];
+  parameters: Record<string, any>;
+  confidence: number;
+}
+```
+
+**Gemini Prompt**:
+
+```
+Analyze this user query and determine:
+1. Query type (database, scraping, entity lookup, file upload, har processing)
+2. Key entities (people names, company names, URLs)
+3. Specific parameters (filters, date ranges, etc.)
+4. If files are attached, identify their type and purpose
+
+User query: "{query}"
+Files attached: {fileList}
+```
+
+### Context Management Agent
+
+**Purpose**: Maintain conversation state and history
+
+**Responsibilities**:
+
+- Store conversation history
+- Track user session state
+- Provide context to other agents
+- Maintain reference to previous queries and results
+
+**Implementation**:
+
+```typescript
+interface IContextManagementAgent {
+  addToContext(message: IMessage): void;
+  getContext(userId: string): IConversationContext;
+  clearContext(userId: string): void;
+}
+
+interface IConversationContext {
+  userId: string;
+  messages: IMessage[];
+  lastQuery: IQueryIntent;
+  sessionData: Record<string, any>;
+}
+```
+
+### Router Agent
+
+**Purpose**: Route requests to appropriate execution agents
+
+**Responsibilities**:
+
+- Determine execution path based on intent
+- Orchestrate multiple agents for complex queries
+- Manage parallel vs sequential execution
+- Handle fallback strategies
+
+**Implementation**:
+
+```typescript
+interface IRouterAgent {
+  route(
+    intent: IQueryIntent,
+    context: IConversationContext
+  ): Promise<IExecutionPlan>;
+}
+
+interface IExecutionPlan {
+  primaryAgent: string;
+  supportingAgents: string[];
+  executionMode: "parallel" | "sequential";
+  fallbackStrategy?: IExecutionPlan;
+}
+```
+
+### Database Query Agent
+
+**Purpose**: Execute database searches and queries
+
+**Responsibilities**:
+
+- Build SQL queries from natural language
+- Execute complex joins across People and Companies tables
+- Apply filters and pagination
+- Format results for display
+
+**Implementation**:
+
+```typescript
+interface IDatabaseQueryAgent {
+  searchPeople(filters: IPersonFilter): Promise<IPerson[]>;
+  searchCompanies(filters: ICompanyFilter): Promise<ICompany[]>;
+  executeCustomQuery(query: string): Promise<any[]>;
+}
+```
+
+**Example Queries**:
+
+- "Show me all people working at tech companies in San Francisco"
+- "Find companies in the SaaS industry with more than 100 employees"
+- "Get all contacts from Series A funded startups"
+
+### Scraper Controller Agent
+
+**Purpose**: Manage the scraping workflow
+
+**Responsibilities**:
+
+- Initialize scraping job
+- Coordinate Analysis, Implementation, Validation agents
+- Monitor scraping progress
+- Handle failures and retries
+- Update database with results
+
+**Implementation**:
+
+```typescript
+interface IScraperControllerAgent {
+  initiateScraping(url: string): Promise<IScrapingJob>;
+  monitorProgress(jobId: string): Promise<IScrapingProgress>;
+  handleFailure(jobId: string): Promise<void>;
+}
+
+interface IScrapingJob {
+  id: string;
+  url: string;
+  status:
+    | "pending"
+    | "analyzing"
+    | "scraping"
+    | "validating"
+    | "completed"
+    | "failed";
+  strategy: IScrapingStrategy;
+  progress: number;
+  recordsExtracted: number;
+}
+```
+
+### File Processor Agent
+
+**Purpose**: Handle file uploads (Excel, HAR)
+
+**Responsibilities**:
+
+- Detect file type automatically
+- Route Excel files to column mapping processor
+- Route HAR files to HTTP Archive parser
+- Validate file content and structure
+
+**Implementation**:
+
+```typescript
+interface IFileProcessorAgent {
+  processFile(file: File): Promise<IFileProcessingResult>;
+  detectFileType(file: File): "excel" | "har" | "unknown";
+}
+
+interface IExcelProcessor {
+  mapColumns(headers: string[]): Promise<IColumnMapping>;
+  processRows(rows: any[][], mapping: IColumnMapping): Promise<IProcessedData>;
+}
+
+interface IHARProcessor {
+  parseHAR(harContent: string): Promise<IHARData>;
+  extractDataFromHAR(harData: IHARData): Promise<IScrapedData>;
+}
+```
+
+**Excel Column Mapping Example**:
+
+```
+User Excel: ["Full Name", "Email Address", "Company Name"]
+Database: ["first_name", "last_name", "email", "company_id"]
+
+Intelligent Mapping:
+- "Full Name" → split into "first_name" + "last_name"
+- "Email Address" → "email"
+- "Company Name" → lookup/create "company_id"
+```
+
+### Online Search Agent
+
+**Purpose**: Search web for missing data
+
+**Responsibilities**:
+
+- Search when entity not found in database
+- Find LinkedIn profiles
+- Extract verified information
+- Add data to database
+
+**Implementation**:
+
+```typescript
+interface IOnlineSearchAgent {
+  searchPerson(name: string): Promise<IPerson>;
+  searchCompany(name: string): Promise<ICompany>;
+  findLinkedInProfile(name: string, company?: string): Promise<string>;
+  verifyAndExtractData(url: string): Promise<IVerifiedData>;
+}
+```
+
+**Search Flow**:
+
+1. Query database for entity
+2. If not found, search web
+3. Find LinkedIn profile
+4. Extract information
+5. Validate data accuracy (100% requirement)
+6. Add to database
+7. Return to user
+
+### Response Formatter Agent
+
+**Purpose**: Format results for user display
+
+**Responsibilities**:
+
+- Convert database results to Excel-like format
+- Generate natural language responses
+- Format error messages
+- Provide progress updates
+
+**Implementation**:
+
+```typescript
+interface IResponseFormatterAgent {
+  formatTableData(data: any[]): ITableFormat;
+  generateNLResponse(data: any, query: string): string;
+  formatError(error: Error): IErrorResponse;
+}
+
+interface ITableFormat {
+  columns: IColumn[];
+  rows: any[][];
+  totalRecords: number;
+  page: number;
+  pageSize: number;
+}
+```
+
+## Scraping Agent Layer
+
+### Analysis Agent
+
+**Purpose**: Analyze website and determine scraping strategy
+
+**Process**:
+
+1. Load website
+2. Analyze HTML structure
+3. Detect if static HTML, SPA, or API-based
+4. Check for anti-scraping measures
+5. Determine optimal strategy
+
+**Strategies**:
+
+- CSS Selector: For static HTML sites
+- HAR Processing: For dynamic sites with API calls
+- OCR/ML: For image-heavy or canvas-based content
+- API Detection: Direct API calls if possible
+
+**Implementation**:
+
+```typescript
+interface IAnalysisAgent {
+  analyzeUrl(url: string): Promise<IScrapingStrategy>;
+}
+
+interface IScrapingStrategy {
+  method: "css-selector" | "har-processing" | "ocr-ml" | "api-direct";
+  selectors?: string[];
+  apiEndpoints?: string[];
+  requiresAuth: boolean;
+  estimatedRecords: number;
+}
+```
+
+**Gemini Prompt**:
+
+```
+Analyze this website and determine the best scraping strategy:
+
+URL: {url}
+HTML Structure: {htmlSample}
+Network Requests: {networkRequests}
+
+Determine:
+1. Is this static HTML, SPA, or API-based?
+2. What data is visible (company names, people, contact info)?
+3. Best extraction method?
+4. Expected number of records?
+5. Any authentication required?
+```
+
+### Implementation Agent
+
+**Purpose**: Execute the scraping strategy
+
+**Process**:
+
+1. Receive strategy from Analysis Agent
+2. Execute chosen method
+3. Handle pagination
+4. Extract structured data
+5. Return raw data for validation
+
+**Methods**:
+
+**CSS Selector Method**:
+
+```typescript
+async executeCSSSelector(url: string, selectors: string[]): Promise<any[]> {
+  const html = await fetchHTML(url);
+  const $ = cheerio.load(html);
+
+  return selectors.map(selector => {
+    return $(selector).map((i, el) => $(el).text()).get();
+  });
+}
+```
+
+**HAR Processing Method**:
+
+```typescript
+async processHAR(url: string): Promise<any[]> {
+  // Capture network traffic
+  const harData = await captureHAR(url);
+
+  // Find API calls containing data
+  const apiCalls = harData.log.entries.filter(entry =>
+    entry.response.content.mimeType === 'application/json'
+  );
+
+  // Extract data from API responses
+  return apiCalls.flatMap(call =>
+    JSON.parse(call.response.content.text)
+  );
+}
+```
+
+**OCR/ML Method**:
+
+```typescript
+async executeOCR(url: string): Promise<any[]> {
+  const screenshot = await captureScreenshot(url);
+  const text = await geminiVisionAPI.extractText(screenshot);
+  const structuredData = await geminiAPI.structureData(text);
+  return structuredData;
+}
+```
+
+### Validation Agent
+
+**Purpose**: Ensure data accuracy and quality
+
+**Validation Checks**:
+
+1. Expected record count matches actual
+2. Required fields are present
+3. Data format is correct (emails, phone numbers)
+4. No duplicate records
+5. Data makes logical sense
+
+**Implementation**:
+
+```typescript
+interface IValidationAgent {
+  validate(data: any[], expectedCount?: number): Promise<IValidationResult>;
+}
+
+interface IValidationResult {
+  isValid: boolean;
+  recordCount: number;
+  errors: IValidationError[];
+  warnings: string[];
+  confidence: 100; // Always 100% or fail
+}
+```
+
+**Validation Logic**:
+
+```typescript
+async validate(data: any[], expectedCount?: number): Promise<IValidationResult> {
+  const errors: IValidationError[] = [];
+
+  // Check 1: Record count
+  if (expectedCount && data.length !== expectedCount) {
+    errors.push({
+      type: 'count_mismatch',
+      expected: expectedCount,
+      actual: data.length
+    });
+  }
+
+  // Check 2: Required fields
+  data.forEach((record, index) => {
+    if (!record.name || !record.email) {
+      errors.push({
+        type: 'missing_required_field',
+        record: index,
+        message: 'Missing name or email'
+      });
+    }
+  });
+
+  // Check 3: Data format
+  data.forEach((record, index) => {
+    if (record.email && !isValidEmail(record.email)) {
+      errors.push({
+        type: 'invalid_format',
+        record: index,
+        field: 'email',
+        value: record.email
+      });
+    }
+  });
+
+  // Check 4: Logical consistency
+  const logicalErrors = await this.checkLogicalConsistency(data);
+  errors.push(...logicalErrors);
+
+  return {
+    isValid: errors.length === 0,
+    recordCount: data.length,
+    errors,
+    warnings: [],
+    confidence: errors.length === 0 ? 100 : 0
+  };
+}
+```
+
+**Retry Strategy**:
+If validation fails, try different scraping method:
+
+1. CSS → HAR
+2. HAR → OCR
+3. OCR → Manual HAR file upload prompt
+
+## Agent Communication
+
+### LangGraph State Management
+
+```typescript
+interface IAgentState {
+  userId: string;
+  query: string;
+  intent: IQueryIntent;
+  context: IConversationContext;
+  executionPlan: IExecutionPlan;
+  results: any;
+  errors: Error[];
+}
+```
+
+### Agent Workflow Example
+
+```
+User Query → Intent Recognition → Router → Execution Agents → Response Formatter → User
+                        ↓
+                Context Management (persistent across all steps)
+```
+# Multi-Agent System Architecture
+
+## Overview
+
+The platform uses a sophisticated multi-agent system powered by LangGraph and Gemini API to handle various user queries and operations.
+
+## Agent Layer Structure
+
+### Layer 1: Conversational Agents
+
+Handle natural language understanding and orchestration
+
+### Layer 2: Execution Agents
+
+Perform specific tasks (scraping, database operations, file processing)
+
+### Layer 3: Validation Agents
+
+Ensure data quality and accuracy
+
+## Conversational Agent Layer
+
+### Intent Recognition Agent
+
+**Purpose**: Analyze user input and determine query type
+
+**Responsibilities**:
+
+- Parse natural language input
+- Identify query type (database query, scraping request, entity lookup, file upload, HAR processing)
+- Extract entities (names, companies, URLs, etc.)
+- Detect file attachments and their types
+
+**Implementation**:
+
+```typescript
+interface IIntentRecognitionAgent {
+  analyzeQuery(input: string, files?: File[]): Promise<IQueryIntent>;
+}
+
+interface IQueryIntent {
+  type:
+    | "database"
+    | "scraping"
+    | "entity_lookup"
+    | "file_upload"
+    | "har_processing";
+  entities: IExtractedEntity[];
+  parameters: Record<string, any>;
+  confidence: number;
+}
+```
+
+**Gemini Prompt**:
+
+```
+Analyze this user query and determine:
+1. Query type (database, scraping, entity lookup, file upload, har processing)
+2. Key entities (people names, company names, URLs)
+3. Specific parameters (filters, date ranges, etc.)
+4. If files are attached, identify their type and purpose
+
+User query: "{query}"
+Files attached: {fileList}
+```
+
+### Context Management Agent
+
+**Purpose**: Maintain conversation state and history
+
+**Responsibilities**:
+
+- Store conversation history
+- Track user session state
+- Provide context to other agents
+- Maintain reference to previous queries and results
+
+**Implementation**:
+
+```typescript
+interface IContextManagementAgent {
+  addToContext(message: IMessage): void;
+  getContext(userId: string): IConversationContext;
+  clearContext(userId: string): void;
+}
+
+interface IConversationContext {
+  userId: string;
+  messages: IMessage[];
+  lastQuery: IQueryIntent;
+  sessionData: Record<string, any>;
+}
+```
+
+### Router Agent
+
+**Purpose**: Route requests to appropriate execution agents
+
+**Responsibilities**:
+
+- Determine execution path based on intent
+- Orchestrate multiple agents for complex queries
+- Manage parallel vs sequential execution
+- Handle fallback strategies
+
+**Implementation**:
+
+```typescript
+interface IRouterAgent {
+  route(
+    intent: IQueryIntent,
+    context: IConversationContext
+  ): Promise<IExecutionPlan>;
+}
+
+interface IExecutionPlan {
+  primaryAgent: string;
+  supportingAgents: string[];
+  executionMode: "parallel" | "sequential";
+  fallbackStrategy?: IExecutionPlan;
+}
+```
+
+### Database Query Agent
+
+**Purpose**: Execute database searches and queries
+
+**Responsibilities**:
+
+- Build SQL queries from natural language
+- Execute complex joins across People and Companies tables
+- Apply filters and pagination
+- Format results for display
+
+**Implementation**:
+
+```typescript
+interface IDatabaseQueryAgent {
+  searchPeople(filters: IPersonFilter): Promise<IPerson[]>;
+  searchCompanies(filters: ICompanyFilter): Promise<ICompany[]>;
+  executeCustomQuery(query: string): Promise<any[]>;
+}
+```
+
+**Example Queries**:
+
+- "Show me all people working at tech companies in San Francisco"
+- "Find companies in the SaaS industry with more than 100 employees"
+- "Get all contacts from Series A funded startups"
+
+### Scraper Controller Agent
+
+**Purpose**: Manage the scraping workflow
+
+**Responsibilities**:
+
+- Initialize scraping job
+- Coordinate Analysis, Implementation, Validation agents
+- Monitor scraping progress
+- Handle failures and retries
+- Update database with results
+
+**Implementation**:
+
+```typescript
+interface IScraperControllerAgent {
+  initiateScraping(url: string): Promise<IScrapingJob>;
+  monitorProgress(jobId: string): Promise<IScrapingProgress>;
+  handleFailure(jobId: string): Promise<void>;
+}
+
+interface IScrapingJob {
+  id: string;
+  url: string;
+  status:
+    | "pending"
+    | "analyzing"
+    | "scraping"
+    | "validating"
+    | "completed"
+    | "failed";
+  strategy: IScrapingStrategy;
+  progress: number;
+  recordsExtracted: number;
+}
+```
+
+### File Processor Agent
+
+**Purpose**: Handle file uploads (Excel, HAR)
+
+**Responsibilities**:
+
+- Detect file type automatically
+- Route Excel files to column mapping processor
+- Route HAR files to HTTP Archive parser
+- Validate file content and structure
+
+**Implementation**:
+
+```typescript
+interface IFileProcessorAgent {
+  processFile(file: File): Promise<IFileProcessingResult>;
+  detectFileType(file: File): "excel" | "har" | "unknown";
+}
+
+interface IExcelProcessor {
+  mapColumns(headers: string[]): Promise<IColumnMapping>;
+  processRows(rows: any[][], mapping: IColumnMapping): Promise<IProcessedData>;
+}
+
+interface IHARProcessor {
+  parseHAR(harContent: string): Promise<IHARData>;
+  extractDataFromHAR(harData: IHARData): Promise<IScrapedData>;
+}
+```
+
+**Excel Column Mapping Example**:
+
+```
+User Excel: ["Full Name", "Email Address", "Company Name"]
+Database: ["first_name", "last_name", "email", "company_id"]
+
+Intelligent Mapping:
+- "Full Name" → split into "first_name" + "last_name"
+- "Email Address" → "email"
+- "Company Name" → lookup/create "company_id"
+```
+
+### Online Search Agent
+
+**Purpose**: Search web for missing data
+
+**Responsibilities**:
+
+- Search when entity not found in database
+- Find LinkedIn profiles
+- Extract verified information
+- Add data to database
+
+**Implementation**:
+
+```typescript
+interface IOnlineSearchAgent {
+  searchPerson(name: string): Promise<IPerson>;
+  searchCompany(name: string): Promise<ICompany>;
+  findLinkedInProfile(name: string, company?: string): Promise<string>;
+  verifyAndExtractData(url: string): Promise<IVerifiedData>;
+}
+```
+
+**Search Flow**:
+
+1. Query database for entity
+2. If not found, search web
+3. Find LinkedIn profile
+4. Extract information
+5. Validate data accuracy (100% requirement)
+6. Add to database
+7. Return to user
+
+### Response Formatter Agent
+
+**Purpose**: Format results for user display
+
+**Responsibilities**:
+
+- Convert database results to Excel-like format
+- Generate natural language responses
+- Format error messages
+- Provide progress updates
+
+**Implementation**:
+
+```typescript
+interface IResponseFormatterAgent {
+  formatTableData(data: any[]): ITableFormat;
+  generateNLResponse(data: any, query: string): string;
+  formatError(error: Error): IErrorResponse;
+}
+
+interface ITableFormat {
+  columns: IColumn[];
+  rows: any[][];
+  totalRecords: number;
+  page: number;
+  pageSize: number;
+}
+```
+
+## Scraping Agent Layer
+
+### Analysis Agent
+
+**Purpose**: Analyze website and determine scraping strategy
+
+**Process**:
+
+1. Load website
+2. Analyze HTML structure
+3. Detect if static HTML, SPA, or API-based
+4. Check for anti-scraping measures
+5. Determine optimal strategy
+
+**Strategies**:
+
+- CSS Selector: For static HTML sites
+- HAR Processing: For dynamic sites with API calls
+- OCR/ML: For image-heavy or canvas-based content
+- API Detection: Direct API calls if possible
+
+**Implementation**:
+
+```typescript
+interface IAnalysisAgent {
+  analyzeUrl(url: string): Promise<IScrapingStrategy>;
+}
+
+interface IScrapingStrategy {
+  method: "css-selector" | "har-processing" | "ocr-ml" | "api-direct";
+  selectors?: string[];
+  apiEndpoints?: string[];
+  requiresAuth: boolean;
+  estimatedRecords: number;
+}
+```
+
+**Gemini Prompt**:
+
+```
+Analyze this website and determine the best scraping strategy:
+
+URL: {url}
+HTML Structure: {htmlSample}
+Network Requests: {networkRequests}
+
+Determine:
+1. Is this static HTML, SPA, or API-based?
+2. What data is visible (company names, people, contact info)?
+3. Best extraction method?
+4. Expected number of records?
+5. Any authentication required?
+```
+
+### Implementation Agent
+
+**Purpose**: Execute the scraping strategy
+
+**Process**:
+
+1. Receive strategy from Analysis Agent
+2. Execute chosen method
+3. Handle pagination
+4. Extract structured data
+5. Return raw data for validation
+
+**Methods**:
+
+**CSS Selector Method**:
+
+```typescript
+async executeCSSSelector(url: string, selectors: string[]): Promise<any[]> {
+  const html = await fetchHTML(url);
+  const $ = cheerio.load(html);
+
+  return selectors.map(selector => {
+    return $(selector).map((i, el) => $(el).text()).get();
+  });
+}
+```
+
+**HAR Processing Method**:
+
+```typescript
+async processHAR(url: string): Promise<any[]> {
+  // Capture network traffic
+  const harData = await captureHAR(url);
+
+  // Find API calls containing data
+  const apiCalls = harData.log.entries.filter(entry =>
+    entry.response.content.mimeType === 'application/json'
+  );
+
+  // Extract data from API responses
+  return apiCalls.flatMap(call =>
+    JSON.parse(call.response.content.text)
+  );
+}
+```
+
+**OCR/ML Method**:
+
+```typescript
+async executeOCR(url: string): Promise<any[]> {
+  const screenshot = await captureScreenshot(url);
+  const text = await geminiVisionAPI.extractText(screenshot);
+  const structuredData = await geminiAPI.structureData(text);
+  return structuredData;
+}
+```
+
+### Validation Agent
+
+**Purpose**: Ensure data accuracy and quality
+
+**Validation Checks**:
+
+1. Expected record count matches actual
+2. Required fields are present
+3. Data format is correct (emails, phone numbers)
+4. No duplicate records
+5. Data makes logical sense
+
+**Implementation**:
+
+```typescript
+interface IValidationAgent {
+  validate(data: any[], expectedCount?: number): Promise<IValidationResult>;
+}
+
+interface IValidationResult {
+  isValid: boolean;
+  recordCount: number;
+  errors: IValidationError[];
+  warnings: string[];
+  confidence: 100; // Always 100% or fail
+}
+```
+
+**Validation Logic**:
+
+```typescript
+async validate(data: any[], expectedCount?: number): Promise<IValidationResult> {
+  const errors: IValidationError[] = [];
+
+  // Check 1: Record count
+  if (expectedCount && data.length !== expectedCount) {
+    errors.push({
+      type: 'count_mismatch',
+      expected: expectedCount,
+      actual: data.length
+    });
+  }
+
+  // Check 2: Required fields
+  data.forEach((record, index) => {
+    if (!record.name || !record.email) {
+      errors.push({
+        type: 'missing_required_field',
+        record: index,
+        message: 'Missing name or email'
+      });
+    }
+  });
+
+  // Check 3: Data format
+  data.forEach((record, index) => {
+    if (record.email && !isValidEmail(record.email)) {
+      errors.push({
+        type: 'invalid_format',
+        record: index,
+        field: 'email',
+        value: record.email
+      });
+    }
+  });
+
+  // Check 4: Logical consistency
+  const logicalErrors = await this.checkLogicalConsistency(data);
+  errors.push(...logicalErrors);
+
+  return {
+    isValid: errors.length === 0,
+    recordCount: data.length,
+    errors,
+    warnings: [],
+    confidence: errors.length === 0 ? 100 : 0
+  };
+}
+```
+
+**Retry Strategy**:
+If validation fails, try different scraping method:
+
+1. CSS → HAR
+2. HAR → OCR
+3. OCR → Manual HAR file upload prompt
+
+## Agent Communication
+
+### LangGraph State Management
+
+```typescript
+interface IAgentState {
+  userId: string;
+  query: string;
+  intent: IQueryIntent;
+  context: IConversationContext;
+  executionPlan: IExecutionPlan;
+  results: any;
+  errors: Error[];
+}
+```
+
+### Agent Workflow Example
+
+```
+User Query → Intent Recognition → Router → Execution Agents → Response Formatter → User
+                        ↓
+                Context Management (persistent across all steps)
+```
