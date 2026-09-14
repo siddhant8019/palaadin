@@ -1,0 +1,37 @@
+{
+  "what": "Manual re-check of the 22 facts that the keyword rubric in eval/run_eval.py scored as wrong in the Vertex eval run (eval/results/facts.json). Each fact was read with its quote and source page.",
+  "rater": "the builder of this system, single rater",
+  "facts_scored_wrong_by_rubric": 22,
+  "clearly_wrong": 2,
+  "borderline": 1,
+  "correct_but_missed_by_rubric_keywords": 19,
+  "precision_if_rubric_misses_are_counted_correct": "138/141 counting the borderline fact as correct or 137/141 counting it as wrong; reported as a single-rater estimate, not as the eval result",
+  "clearly_wrong_facts": [
+    {"account": "clickup.com", "type": "hq_location", "value": "Dublin, Ireland", "why": "the page says ClickUp is headquartered in San Diego with a European HQ in Dublin; the European HQ was extracted as a second hq_location fact"},
+    {"account": "close.com", "type": "hq_location", "value": "Austin, Texas, United States", "why": "the quote is a mailing address; the same site describes Close as 100% remote"}
+  ],
+  "borderline_facts": [
+    {"account": "posthog.com", "type": "industry", "value": "AI company", "why": "quote is 'There are other AI companies, but they not like us', which implies rather than states the category"}
+  ],
+  "correct_but_missed_by_rubric": [
+    {"account": "linear.app", "type": "product", "value": "A tool to plan, build, and ship products", "why": "label keywords include 'planning' and 'project', not 'plan'"},
+    {"account": "posthog.com", "type": "product", "value": "A single platform to ingest, store, and query product and company data", "why": "true product description without a label keyword"},
+    {"account": "posthog.com", "type": "product", "value": "Software that automatically diagnoses problems, fixes bugs, and generates pull requests", "why": "true product description without a label keyword"},
+    {"account": "posthog.com", "type": "product", "value": "Pay-per-use products with monthly free tiers", "why": "true pricing statement typed as product"},
+    {"account": "cal.com", "type": "product", "value": "Cal Video, an in-house video conferencing platform", "why": "real product named on the page"},
+    {"account": "cal.com", "type": "product", "value": "Cal.ai, an AI phone agent", "why": "real product named on the page"},
+    {"account": "cal.com", "type": "hq_location", "value": "Fully distributed with no physical headquarters", "why": "accurate statement of the page; the label is null because no HQ city is stated"},
+    {"account": "retool.com", "type": "product", "value": "AI-native app builder", "why": "real product; label keywords are 'internal tool', 'internal software', 'apps'"},
+    {"account": "retool.com", "type": "product", "value": "AI-powered agents for task automation", "why": "real product named on the page"},
+    {"account": "zapier.com", "type": "product", "value": "AI chatbots to answer customer questions", "why": "real product named on the page"},
+    {"account": "intercom.com", "type": "industry", "value": "AI Customer Agents", "why": "accurate category for Fin; label keywords did not include it"},
+    {"account": "intercom.com", "type": "product", "value": "Omnichannel inbox, AI-powered ticketing, and Copilot real-time assistance", "why": "real product features"},
+    {"account": "sentry.io", "type": "product", "value": "Seer, an AI debugging agent and code reviewer", "why": "real product named on the page"},
+    {"account": "mixpanel.com", "type": "product", "value": "Mixpanel Headless", "why": "real product name"},
+    {"account": "mixpanel.com", "type": "product", "value": "Mixpanel MCP", "why": "real product name"},
+    {"account": "amplitude.com", "type": "product", "value": "Behavioral Graph database of customer behavior", "why": "real product named on the page"},
+    {"account": "front.com", "type": "product", "value": "Front AI for automating responses, assisting teams, and analyzing quality", "why": "real product named on the page"},
+    {"account": "front.com", "type": "product", "value": "Autopilot, an omnichannel AI agent to automate complex customer work", "why": "real product named on the page"},
+    {"account": "front.com", "type": "product", "value": "Copilot, a real-time AI assistant to boost agent productivity", "why": "real product named on the page"}
+  ]
+}

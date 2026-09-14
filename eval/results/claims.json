@@ -1,0 +1,1886 @@
+{
+  "production": {
+    "model": "gemini-3.5-flash",
+    "briefs": 19,
+    "claims_total": 87,
+    "claims_unsupported_before_validation": 1,
+    "unsupported_rate_before": 0.0115,
+    "unsupported_rate_after": 0.0,
+    "claims_kept": 86,
+    "note": "the after rate is 0 by construction (unsupported claims are stripped); kept claims shows what survived",
+    "dropped": [
+      {
+        "part": "summary",
+        "text": "Their product offerings include DIY Zap workflows, Tables for storing workflow data, and AI chatbots.",
+        "reason": "specific terms not in cited facts: ['DIY']",
+        "fact_ids": [
+          "f4",
+          "f5",
+          "f6"
+        ],
+        "domain": "zapier.com"
+      }
+    ]
+  },
+  "ablation": {
+    "model": "gemini-3.5-flash",
+    "accounts": 19,
+    "constrained": {
+      "briefs": 19,
+      "errors": 0,
+      "claims_total": 86,
+      "claims_unsupported_before_validation": 5,
+      "unsupported_rate_before": 0.0581,
+      "unsupported_rate_after": 0.0,
+      "rows": [
+        {
+          "domain": "linear.app",
+          "claims_total": 4,
+          "claims_unsupported": 2,
+          "dropped": [
+            {
+              "text": "Backed by Accel and Sequoia, the company is currently hiring for roles including a Solutions Engineer in London and an Account Executive for North American startups.",
+              "fact_ids": [
+                "f1",
+                "f9",
+                "f10",
+                "f12"
+              ],
+              "reason": "specific terms not in cited facts: ['American']",
+              "part": "summary"
+            },
+            {
+              "text": "I saw that Linear is currently hiring for a Solutions Engineer in London and an Account Executive for North American startups.",
+              "fact_ids": [
+                "f1",
+                "f9",
+                "f10"
+              ],
+              "reason": "specific terms not in cited facts: ['American']",
+              "part": "first_line"
+            }
+          ],
+          "kept": {
+            "summary": [
+              {
+                "text": "Linear provides a product development system designed for modern teams with AI workflows to plan, build, and ship products.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f4"
+                ]
+              },
+              {
+                "text": "The platform is trusted by over 40,000 companies, ranging from startups to major enterprises like OpenAI, Coinbase, and Ramp.",
+                "fact_ids": [
+                  "f3",
+                  "f5",
+                  "f6",
+                  "f7",
+                  "f8"
+                ]
+              }
+            ],
+            "first_line": null
+          }
+        },
+        {
+          "domain": "posthog.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "PostHog is an open source Product OS and AI company that is a single platform to ingest, store, and query product and company data.",
+                "fact_ids": [
+                  "f2",
+                  "f13",
+                  "f15"
+                ]
+              },
+              {
+                "text": "The company has over 230 people and is looking to add 11 team members.",
+                "fact_ids": [
+                  "f8",
+                  "f9"
+                ]
+              },
+              {
+                "text": "PostHog participated in Y Combinator's W20 batch and does not rely on investors to grow.",
+                "fact_ids": [
+                  "f11",
+                  "f12"
+                ]
+              },
+              {
+                "text": "Their software automatically diagnoses problems, fixes bugs, and generates pull requests.",
+                "fact_ids": [
+                  "f3"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "I saw that PostHog is looking to add 11 team members to your team of over 230 people.",
+              "fact_ids": [
+                "f8",
+                "f9"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "attio.com",
+          "claims_total": 4,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Attio is a London-based CRM platform designed for revenue teams at both startups and enterprises.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f4",
+                  "f5"
+                ]
+              },
+              {
+                "text": "The company has over 130 team members and is currently hiring for multiple roles across engineering, GTM, marketing, operations, and product.",
+                "fact_ids": [
+                  "f1",
+                  "f6",
+                  "f7"
+                ]
+              },
+              {
+                "text": "Their platform is used by notable customers including Granola, Modal, and Flatfile.",
+                "fact_ids": [
+                  "f8",
+                  "f9",
+                  "f10"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "With Attio currently hiring for operations roles at your London headquarters, I wanted to reach out about optimizing your team's internal workflows.",
+              "fact_ids": [
+                "f5",
+                "f7"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "cal.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Cal.com is a fully distributed scheduling software company that serves solopreneurs, technology companies, sales and success teams, and healthcare practices.",
+                "fact_ids": [
+                  "f2",
+                  "f7",
+                  "f8",
+                  "f9",
+                  "f10"
+                ]
+              },
+              {
+                "text": "Their product suite includes Cal Video, an AI phone agent called Cal.ai, and React atoms for adding scheduling to applications.",
+                "fact_ids": [
+                  "f4",
+                  "f5",
+                  "f6"
+                ]
+              },
+              {
+                "text": "The company is currently hiring for multiple positions, including a Senior Product Designer, a Chief of Staff for Go-to-Market, and a Senior Full-Stack Engineer.",
+                "fact_ids": [
+                  "f1",
+                  "f11",
+                  "f12",
+                  "f13"
+                ]
+              },
+              {
+                "text": "Cal.com's platform is trusted by notable customers such as Vercel, Supabase, and Mintlify.",
+                "fact_ids": [
+                  "f14",
+                  "f15",
+                  "f16"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "I saw that Cal.com is currently hiring a Chief of Staff, Go-to-Market to support your Head of Go-to-Market as you scale your scheduling platform.",
+              "fact_ids": [
+                "f2",
+                "f12"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "pipedrive.com",
+          "claims_total": 4,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Pipedrive is a New York-based sales CRM and pipeline management software company that is backed by Vista Equity Partners.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f8",
+                  "f12"
+                ]
+              },
+              {
+                "text": "The company has a team of over 850 employees and is actively hiring for open job positions.",
+                "fact_ids": [
+                  "f9",
+                  "f11"
+                ]
+              },
+              {
+                "text": "Their CRM tool serves startups, medium-sized companies, and larger teams.",
+                "fact_ids": [
+                  "f3",
+                  "f6",
+                  "f7"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "I noticed Pipedrive is actively hiring for open positions as you continue to scale your sales CRM and pipeline management software.",
+              "fact_ids": [
+                "f2",
+                "f11"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "retool.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Retool operates in the low-code space as an internal tools development platform that helps build, deploy, and manage internal tools.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f4"
+                ]
+              },
+              {
+                "text": "Their platform includes an AI-native app builder and AI-powered agents to automate workflows and complete tasks.",
+                "fact_ids": [
+                  "f5",
+                  "f6"
+                ]
+              },
+              {
+                "text": "Retool serves a wide range of customers from startups to Fortune 500 companies, including Amazon, Stripe, Brex, and Orangetheory Fitness.",
+                "fact_ids": [
+                  "f7",
+                  "f12"
+                ]
+              },
+              {
+                "text": "They are currently hiring for 20 roles across multiple departments such as engineering, product, and sales.",
+                "fact_ids": [
+                  "f10",
+                  "f11"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "I noticed that Retool helps operations teams and manufacturers modernize their operations across warehouses and global supply networks.",
+              "fact_ids": [
+                "f8",
+                "f9"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "airtable.com",
+          "claims_total": 4,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Headquartered in San Francisco, California, Airtable is an app-building platform with 700 people across five offices.",
+                "fact_ids": [
+                  "f1",
+                  "f2",
+                  "f10"
+                ]
+              },
+              {
+                "text": "Their platform enables users to build enterprise-ready AI workflows, apps, and agents that unify data and maximize collaboration.",
+                "fact_ids": [
+                  "f3",
+                  "f4"
+                ]
+              },
+              {
+                "text": "Major organizations like OpenAI, eBay, and West Elm use their system to run operations, process feedback, and manage creative work.",
+                "fact_ids": [
+                  "f5",
+                  "f6",
+                  "f7"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "I noticed that OpenAI runs their product operations in Airtable's shared system to surface risks before they slow down a launch.",
+              "fact_ids": [
+                "f5"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "zapier.com",
+          "claims_total": 5,
+          "claims_unsupported": 1,
+          "dropped": [
+            {
+              "text": "Their product offerings include DIY Zap workflows, tables to store workflow data, and AI chatbots to answer customer questions.",
+              "fact_ids": [
+                "f4",
+                "f5",
+                "f6"
+              ],
+              "reason": "specific terms not in cited facts: ['DIY']",
+              "part": "summary"
+            }
+          ],
+          "kept": {
+            "summary": [
+              {
+                "text": "Zapier is a workflow automation and AI orchestration platform with over 800 employees across 38 countries.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f9"
+                ]
+              },
+              {
+                "text": "They serve a diverse customer base from first-time founders to Fortune 500 companies, including Palo Alto Networks, Mercari, and ClickUp.",
+                "fact_ids": [
+                  "f7",
+                  "f8",
+                  "f12",
+                  "f13",
+                  "f14"
+                ]
+              },
+              {
+                "text": "The company is currently actively hiring for various roles.",
+                "fact_ids": [
+                  "f1",
+                  "f10",
+                  "f11"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "I noticed Zapier is actively hiring across 38 countries while helping customers like Palo Alto Networks and Mercari automate their workflows.",
+              "fact_ids": [
+                "f9",
+                "f10",
+                "f11",
+                "f12",
+                "f13"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "calendly.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Calendly offers meeting scheduling software and simplified booking tools, including an AI assistant named Callie and a meeting recap Notetaker.",
+                "fact_ids": [
+                  "f2",
+                  "f4",
+                  "f5",
+                  "f6"
+                ]
+              },
+              {
+                "text": "Their meeting management solution is designed for individuals, small businesses, and large companies.",
+                "fact_ids": [
+                  "f3",
+                  "f7"
+                ]
+              },
+              {
+                "text": "They serve teams in sales, marketing, customer success, and recruiting across industries like education, technology, and financial services.",
+                "fact_ids": [
+                  "f8",
+                  "f9"
+                ]
+              },
+              {
+                "text": "The company is actively hiring and has an active careers page with open roles.",
+                "fact_ids": [
+                  "f10",
+                  "f11"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "I saw how RBL Media streamlines its design workflow and client experience with Calendly, and I wanted to connect.",
+              "fact_ids": [
+                "f14"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "intercom.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Intercom is an AI-first customer service platform that provides a complete system for human and AI customer service.",
+                "fact_ids": [
+                  "f2",
+                  "f4"
+                ]
+              },
+              {
+                "text": "Their product suite includes the Fin AI Agent, an omnichannel inbox, AI-powered ticketing, and Copilot real-time assistance.",
+                "fact_ids": [
+                  "f5",
+                  "f6",
+                  "f7"
+                ]
+              },
+              {
+                "text": "The company has more than 1,400 employees across six global offices and is currently listing 121 open roles.",
+                "fact_ids": [
+                  "f11",
+                  "f12"
+                ]
+              },
+              {
+                "text": "They serve customer segments ranging from startups to large support teams, and are trusted by brands like Anthropic, Clay, and Vanta.",
+                "fact_ids": [
+                  "f8",
+                  "f9",
+                  "f10",
+                  "f15",
+                  "f16",
+                  "f17"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "With Intercom currently hiring for 121 open roles to expand your team of more than 1,400 people, I wanted to reach out.",
+              "fact_ids": [
+                "f11",
+                "f12"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "sentry.io",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Sentry provides application performance monitoring and error tracking software designed for developers and software teams.",
+                "fact_ids": [
+                  "f2",
+                  "f6",
+                  "f7"
+                ]
+              },
+              {
+                "text": "The company has raised $217 million in funding and has over 200 employees globally.",
+                "fact_ids": [
+                  "f8",
+                  "f11"
+                ]
+              },
+              {
+                "text": "Their product features include Seer, an AI debugging agent, and agent tracing to monitor AI agents.",
+                "fact_ids": [
+                  "f4",
+                  "f5"
+                ]
+              },
+              {
+                "text": "Sentry is currently hiring, with 43 open positions across all offices and teams.",
+                "fact_ids": [
+                  "f1",
+                  "f9"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "I saw how Sentry helps software teams at Disney+ and Duolingo monitor application performance and debug issues faster.",
+              "fact_ids": [
+                "f2",
+                "f6",
+                "f12",
+                "f14"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "supabase.com",
+          "claims_total": 4,
+          "claims_unsupported": 2,
+          "dropped": [
+            {
+              "text": "The company has over 350 team members globally and is actively hiring for roles such as Postgres and Frontend Engineers.",
+              "fact_ids": [
+                "f10",
+                "f11",
+                "f12",
+                "f13"
+              ],
+              "reason": "specific terms not in cited facts: ['Engineers']",
+              "part": "summary"
+            },
+            {
+              "text": "I noticed Supabase is actively hiring Postgres and Frontend Engineers to join your global team of over 350 members.",
+              "fact_ids": [
+                "f10",
+                "f11",
+                "f12",
+                "f13"
+              ],
+              "reason": "specific terms not in cited facts: ['Engineers']",
+              "part": "first_line"
+            }
+          ],
+          "kept": {
+            "summary": [
+              {
+                "text": "Supabase is an open source Firebase alternative and Postgres development platform that has raised $1 billion in funding.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f14",
+                  "f15"
+                ]
+              },
+              {
+                "text": "Their platform supports diverse users, ranging from creators of passion projects to large-scale applications running internet-scale workloads.",
+                "fact_ids": [
+                  "f7",
+                  "f8",
+                  "f9"
+                ]
+              }
+            ],
+            "first_line": null
+          }
+        },
+        {
+          "domain": "clickup.com",
+          "claims_total": 4,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "ClickUp is a fast-growing SaaS company headquartered in San Diego, California, with a European HQ in Dublin, Ireland.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f12"
+                ]
+              },
+              {
+                "text": "The company provides an AI-powered workspace platform and project management software used by businesses of all sizes, including Fortune 500 companies.",
+                "fact_ids": [
+                  "f8",
+                  "f10",
+                  "f13",
+                  "f14"
+                ]
+              },
+              {
+                "text": "Backed by $535M in funding, ClickUp is actively hiring for open positions, including executive roles reporting directly to the CEO.",
+                "fact_ids": [
+                  "f4",
+                  "f5",
+                  "f6"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "I am reaching out because ClickUp is actively hiring for executive roles reporting directly to the CEO in San Diego.",
+              "fact_ids": [
+                "f2",
+                "f5",
+                "f6"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "freshworks.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Freshworks provides AI-first customer service, IT, and CRM software designed to deliver exceptional customer and employee experiences.",
+                "fact_ids": [
+                  "f2",
+                  "f3"
+                ]
+              },
+              {
+                "text": "Their product offerings include Freshservice for IT service management, Freshdesk for customer support, and Freshsales for sales-focused CRM.",
+                "fact_ids": [
+                  "f4",
+                  "f5",
+                  "f6"
+                ]
+              },
+              {
+                "text": "They serve more than 70,000 customers, including global leaders like McLaren Racing, New Balance, Seagate, and Panasonic.",
+                "fact_ids": [
+                  "f7",
+                  "f9"
+                ]
+              },
+              {
+                "text": "Freshworks is currently hiring, with open job opportunities across multiple departments.",
+                "fact_ids": [
+                  "f1",
+                  "f8"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "I noticed that Freshworks uncomplicates work for more than 70,000 customers, including global leaders like McLaren Racing.",
+              "fact_ids": [
+                "f7",
+                "f9"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "mixpanel.com",
+          "claims_total": 4,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Mixpanel is a product intelligence platform that offers self-serve product analytics, session replay, experiments, feature flags, and AI-powered insights.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f4"
+                ]
+              },
+              {
+                "text": "Their platform serves product, data analyst, marketing, and engineering teams across enterprises, startups, and midsize businesses.",
+                "fact_ids": [
+                  "f7",
+                  "f8"
+                ]
+              },
+              {
+                "text": "They are currently hiring for open roles to build innovations in digital analytics.",
+                "fact_ids": [
+                  "f1",
+                  "f9",
+                  "f10"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "I noticed Mixpanel is actively hiring for open roles to build innovations in digital analytics.",
+              "fact_ids": [
+                "f1",
+                "f9",
+                "f10"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "amplitude.com",
+          "claims_total": 4,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Amplitude is a digital and product analytics platform that invented the Behavioral Graph database of customer behavior.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f5"
+                ]
+              },
+              {
+                "text": "The company has more than 700 employees worldwide and is actively hiring for open roles.",
+                "fact_ids": [
+                  "f10",
+                  "f11"
+                ]
+              },
+              {
+                "text": "They serve over 3,200 customers, including Atlassian, Ford, NBC, Walmart, and Cisco Systems.",
+                "fact_ids": [
+                  "f14",
+                  "f15"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "I noticed Amplitude is actively hiring as you scale your digital analytics platform to support over 3,200 customers like Ford and Walmart.",
+              "fact_ids": [
+                "f2",
+                "f11",
+                "f14"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "loom.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Loom offers a free online screen recording tool with advanced video editing and video storage.",
+                "fact_ids": [
+                  "f2"
+                ]
+              },
+              {
+                "text": "The platform supports async video messaging to improve communication for educators, sales teams, and engineering teams.",
+                "fact_ids": [
+                  "f3",
+                  "f4",
+                  "f5",
+                  "f6"
+                ]
+              },
+              {
+                "text": "Prominent organizations like Intercom, LaunchDarkly, and Brex use Loom to improve their workflows.",
+                "fact_ids": [
+                  "f7",
+                  "f8",
+                  "f9"
+                ]
+              },
+              {
+                "text": "Loom is associated with Atlassian, which currently has active job listings for open positions.",
+                "fact_ids": [
+                  "f1"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "I love how Loom helps companies like Intercom, LaunchDarkly, and Brex use async video messaging to improve communication.",
+              "fact_ids": [
+                "f3",
+                "f7",
+                "f8",
+                "f9"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "front.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Front is a modern CX and customer operations platform designed for B2B teams dealing with high stakes and hard problems.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f7"
+                ]
+              },
+              {
+                "text": "The company has secured $204M in venture funding from Sequoia, Salesforce Ventures, and Battery.",
+                "fact_ids": [
+                  "f13"
+                ]
+              },
+              {
+                "text": "Their product suite includes Front AI, Autopilot, and Copilot to automate complex customer work and boost agent productivity.",
+                "fact_ids": [
+                  "f4",
+                  "f5",
+                  "f6"
+                ]
+              },
+              {
+                "text": "They are actively hiring for open positions across multiple departments and locations.",
+                "fact_ids": [
+                  "f11",
+                  "f12"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "I noticed Front is helping B2B teams manage high-stakes customer operations while hiring for open roles across your five offices.",
+              "fact_ids": [
+                "f2",
+                "f7",
+                "f10",
+                "f11"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "close.com",
+          "claims_total": 4,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Close is a profitable, self-funded sales CRM platform based in Austin, Texas, that serves founders, small sales teams, and SMBs.",
+                "fact_ids": [
+                  "f2",
+                  "f5",
+                  "f6",
+                  "f7",
+                  "f10"
+                ]
+              },
+              {
+                "text": "The company currently has 120 employees and is actively hiring for open roles.",
+                "fact_ids": [
+                  "f8",
+                  "f9"
+                ]
+              },
+              {
+                "text": "Their platform includes built-in calling, email, SMS, pipeline management, reporting, and an AI sales agent named Chloe that qualifies prospects and books meetings.",
+                "fact_ids": [
+                  "f3",
+                  "f4"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "I noticed Close is expanding its sales CRM platform for SMBs and recently introduced Chloe, your built-in AI sales agent.",
+              "fact_ids": [
+                "f2",
+                "f4",
+                "f6"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "loose": {
+      "briefs": 19,
+      "errors": 0,
+      "claims_total": 94,
+      "claims_unsupported_before_validation": 8,
+      "unsupported_rate_before": 0.0851,
+      "unsupported_rate_after": 0.0,
+      "rows": [
+        {
+          "domain": "linear.app",
+          "claims_total": 5,
+          "claims_unsupported": 2,
+          "dropped": [
+            {
+              "text": "Linear is deeply integrating AI workflows and agent-first development into its core product, supported by active hiring for Senior and Staff AI Product Engineers.",
+              "fact_ids": [
+                "f4",
+                "f7",
+                "f8",
+                "f11"
+              ],
+              "reason": "specific terms not in cited facts: ['Engineers']",
+              "part": "summary"
+            },
+            {
+              "text": "With Linear currently expanding its GTM team with a new Solutions Engineer in London, I wanted to reach out about streamlining your internal operations workflows.",
+              "fact_ids": [
+                "f1",
+                "f10"
+              ],
+              "reason": "specific terms not in cited facts: ['GTM']",
+              "part": "first_line"
+            }
+          ],
+          "kept": {
+            "summary": [
+              {
+                "text": "Linear has established itself as the premier product development system for over 40,000 companies, including high-profile customers like OpenAI, Coinbase, and Ramp.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f5",
+                  "f6",
+                  "f7",
+                  "f8"
+                ]
+              },
+              {
+                "text": "The company is well-funded and backed by premier venture capital firms Accel and Sequoia to drive the next generation of software development tools.",
+                "fact_ids": [
+                  "f12",
+                  "f13",
+                  "f14"
+                ]
+              },
+              {
+                "text": "They are actively scaling their global go-to-market footprint, currently hiring for an Account Executive in North America and a Solutions Engineer in London.",
+                "fact_ids": [
+                  "f1",
+                  "f9",
+                  "f10"
+                ]
+              }
+            ],
+            "first_line": null
+          }
+        },
+        {
+          "domain": "posthog.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "PostHog is a highly successful open-source Product OS that has grown to over 230 employees and is currently looking to expand its team by hiring 11 new members.",
+                "fact_ids": [
+                  "f8",
+                  "f9",
+                  "f13",
+                  "f14"
+                ]
+              },
+              {
+                "text": "The company is financially stable and self-sustaining, choosing not to rely on investors for growth after participating in Y Combinator's W20 batch.",
+                "fact_ids": [
+                  "f11",
+                  "f12"
+                ]
+              },
+              {
+                "text": "PostHog has achieved massive market penetration among early-stage startups, with 65% of every Y Combinator batch using their single platform to ingest, store, and query data.",
+                "fact_ids": [
+                  "f2",
+                  "f5"
+                ]
+              },
+              {
+                "text": "They are expanding their product capabilities into AI-driven automation, including software that automatically diagnoses problems, fixes bugs, and generates pull requests.",
+                "fact_ids": [
+                  "f3",
+                  "f15"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "Love how PostHog has become the go-to open-source Product OS, capturing 65% of every Y Combinator batch to help engineers build and analyze.",
+              "fact_ids": [
+                "f5",
+                "f6",
+                "f13"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "attio.com",
+          "claims_total": 4,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Attio is a London-based CRM platform designed for revenue teams at both startups and enterprises, helping them build pipeline and accelerate deals.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f4",
+                  "f5"
+                ]
+              },
+              {
+                "text": "The company is experiencing rapid growth, currently employing over 130 team members and actively hiring for 38 open roles across operations, engineering, and GTM.",
+                "fact_ids": [
+                  "f1",
+                  "f6",
+                  "f7"
+                ]
+              },
+              {
+                "text": "Attio serves as a critical business engine for notable high-growth companies like Granola, Modal, and Flatfile to drive product-led growth and scale revenue.",
+                "fact_ids": [
+                  "f8",
+                  "f9",
+                  "f10"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "I saw Attio is expanding its London operations team to support your mission of building the next-generation CRM for startups and enterprises.",
+              "fact_ids": [
+                "f1",
+                "f4",
+                "f5",
+                "f7"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "cal.com",
+          "claims_total": 5,
+          "claims_unsupported": 1,
+          "dropped": [
+            {
+              "text": "I noticed Cal.com is hiring a Chief of Staff, Go-to-Market to support your GTM head as you scale your scheduling platform for customers like Vercel.",
+              "fact_ids": [
+                "f2",
+                "f12",
+                "f15"
+              ],
+              "reason": "specific terms not in cited facts: ['GTM']",
+              "part": "first_line"
+            }
+          ],
+          "kept": {
+            "summary": [
+              {
+                "text": "Cal.com is a fully customizable scheduling platform serving solopreneurs, tech companies, and healthcare practices, with a mission to connect a billion people by 2031.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f7",
+                  "f9"
+                ]
+              },
+              {
+                "text": "They power scheduling for major tech companies like Vercel, Supabase, and Mintlify, as well as sales and customer success teams.",
+                "fact_ids": [
+                  "f8",
+                  "f14",
+                  "f15",
+                  "f16"
+                ]
+              },
+              {
+                "text": "Operating as a fully distributed team, they are actively expanding their team with key roles including a Chief of Staff for Go-to-Market and a Senior Product Designer.",
+                "fact_ids": [
+                  "f10",
+                  "f11",
+                  "f12",
+                  "f13"
+                ]
+              },
+              {
+                "text": "They are expanding their product capabilities beyond basic scheduling with advanced features like Cal Video and Cal.ai, their AI phone agent.",
+                "fact_ids": [
+                  "f4",
+                  "f5"
+                ]
+              }
+            ],
+            "first_line": null
+          }
+        },
+        {
+          "domain": "pipedrive.com",
+          "claims_total": 5,
+          "claims_unsupported": 1,
+          "dropped": [
+            {
+              "text": "The company offers a robust sales CRM and pipeline management platform designed to help startups and SMBs optimize their sales processes.",
+              "fact_ids": [
+                "f2",
+                "f3",
+                "f4",
+                "f5",
+                "f6",
+                "f7"
+              ],
+              "reason": "specific terms not in cited facts: ['SMBs']",
+              "part": "summary"
+            }
+          ],
+          "kept": {
+            "summary": [
+              {
+                "text": "Pipedrive is backed by a majority investment from Vista Equity Partners and has grown its global team to over 850 employees.",
+                "fact_ids": [
+                  "f9",
+                  "f10",
+                  "f12",
+                  "f13"
+                ]
+              },
+              {
+                "text": "They are actively hiring and expanding their international presence, with open roles in locations like Riga, Tallinn, and Tartu.",
+                "fact_ids": [
+                  "f1",
+                  "f11"
+                ]
+              },
+              {
+                "text": "Pipedrive supports a diverse range of notable customers, including Instyle Solar, Interesting Content, and Nirmal Web Studio.",
+                "fact_ids": [
+                  "f14",
+                  "f15",
+                  "f16"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "With Pipedrive expanding its team of over 850 employees and hiring globally, keeping your internal operations workflows running smoothly is likely a top priority.",
+              "fact_ids": [
+                "f9",
+                "f11"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "retool.com",
+          "claims_total": 5,
+          "claims_unsupported": 1,
+          "dropped": [
+            {
+              "text": "The platform delivers massive ROI, helping DoorDash save 36,000 hours and Ramp save $8 million by optimizing their business operations.",
+              "fact_ids": [
+                "f13",
+                "f14"
+              ],
+              "reason": "specific terms not in cited facts: ['ROI']",
+              "part": "summary"
+            }
+          ],
+          "kept": {
+            "summary": [
+              {
+                "text": "Retool operates as a leading low-code platform that enables developers and operations teams to build, deploy, and manage internal tools.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f4",
+                  "f8"
+                ]
+              },
+              {
+                "text": "Trusted by over 10,000 organizations, Retool serves clients ranging from fast-growing startups to Fortune 500 giants like Amazon and Stripe.",
+                "fact_ids": [
+                  "f7",
+                  "f12"
+                ]
+              },
+              {
+                "text": "Retool is actively scaling its team, currently hiring for 20 open roles across engineering, product, sales, and business operations.",
+                "fact_ids": [
+                  "f1",
+                  "f10",
+                  "f11"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "I saw how Retool helped DoorDash save 36,000 hours and Ramp save $8M, and I would love to share how we help operations teams scale even faster.",
+              "fact_ids": [
+                "f13",
+                "f14"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "airtable.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Airtable operates as a next-generation app-building platform headquartered in San Francisco, supporting a global team of 700 employees across five offices.",
+                "fact_ids": [
+                  "f1",
+                  "f2",
+                  "f10"
+                ]
+              },
+              {
+                "text": "The platform focuses heavily on AI-powered capabilities, enabling teams to build enterprise-ready workflows, apps, and agents that unify data and maximize collaboration.",
+                "fact_ids": [
+                  "f3",
+                  "f4"
+                ]
+              },
+              {
+                "text": "They power critical operations for major brands, including OpenAI for product operations, eBay for customer feedback processing, and West Elm for creative work management.",
+                "fact_ids": [
+                  "f5",
+                  "f6",
+                  "f7"
+                ]
+              },
+              {
+                "text": "Airtable actively scales its reach by offering specialized plans for nonprofit and education organizations alongside robust solutions for large enterprises.",
+                "fact_ids": [
+                  "f8",
+                  "f9"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "Seeing how OpenAI runs product operations in Airtable, I wanted to reach out about streamlining your own internal operations workflows across your five offices.",
+              "fact_ids": [
+                "f2",
+                "f5"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "zapier.com",
+          "claims_total": 5,
+          "claims_unsupported": 2,
+          "dropped": [
+            {
+              "text": "The platform serves a massive customer base from first-time founders to Fortune 500 enterprises, delivering proven ROI for major brands like Palo Alto Networks, Mercari, and ClickUp.",
+              "fact_ids": [
+                "f7",
+                "f8",
+                "f12",
+                "f13",
+                "f14"
+              ],
+              "reason": "specific terms not in cited facts: ['ROI']",
+              "part": "summary"
+            },
+            {
+              "text": "Their product ecosystem has expanded beyond basic triggers to include DIY Zap workflows, data-storing Tables, and AI-powered chatbots.",
+              "fact_ids": [
+                "f4",
+                "f5",
+                "f6"
+              ],
+              "reason": "specific terms not in cited facts: ['DIY']",
+              "part": "summary"
+            }
+          ],
+          "kept": {
+            "summary": [
+              {
+                "text": "Zapier is a global leader in workflow automation and AI orchestration, operating with a fully remote team of over 800 employees across 38 countries.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f9"
+                ]
+              },
+              {
+                "text": "Zapier is actively hiring and expanding its global workforce to support its mission of making automation accessible to everyone.",
+                "fact_ids": [
+                  "f1",
+                  "f10",
+                  "f11"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "Seeing how Zapier helps ClickUp save over 917 hours a month, I wanted to share how we help operations teams streamline their own internal workflows.",
+              "fact_ids": [
+                "f14"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "calendly.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Calendly is expanding its core scheduling platform into AI-driven meeting management, recently introducing Callie, an AI scheduling assistant, and an automated meeting Notetaker.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f5",
+                  "f6"
+                ]
+              },
+              {
+                "text": "The company serves a diverse customer base ranging from individuals to Fortune 100 companies, with tailored solutions for sales, marketing, customer success, and recruiting teams.",
+                "fact_ids": [
+                  "f3",
+                  "f7",
+                  "f8"
+                ]
+              },
+              {
+                "text": "They are actively scaling their team, with multiple open roles advertised on their active careers page.",
+                "fact_ids": [
+                  "f1",
+                  "f10",
+                  "f11"
+                ]
+              },
+              {
+                "text": "Calendly has proven enterprise success across diverse sectors, helping organizations like Achievement First, Arbor Day Foundation, and RBL Media streamline their workflows.",
+                "fact_ids": [
+                  "f12",
+                  "f13",
+                  "f14"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "Loved seeing how Calendly helps the Arbor Day Foundation streamline 300+ global projects, and it made me think about your own internal operations workflows.",
+              "fact_ids": [
+                "f13"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "intercom.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Intercom operates as an AI-first customer service platform, combining its native Fin AI Agent with an omnichannel inbox and Copilot real-time assistance.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f5",
+                  "f6",
+                  "f7"
+                ]
+              },
+              {
+                "text": "The company has scaled to over 1,400 employees across six global offices and is currently hiring for 121 open roles.",
+                "fact_ids": [
+                  "f11",
+                  "f12"
+                ]
+              },
+              {
+                "text": "Intercom is trusted by prominent, forward-thinking businesses including Anthropic, Clay, and Vanta.",
+                "fact_ids": [
+                  "f15",
+                  "f16",
+                  "f17"
+                ]
+              },
+              {
+                "text": "The company established its market leadership early on, securing a 1.3 billion dollar valuation during its Series D round in 2018.",
+                "fact_ids": [
+                  "f13",
+                  "f14"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "With Intercom scaling to over 1,400 employees and hiring for 121 open roles, I wanted to share how we help operations teams streamline internal workflows.",
+              "fact_ids": [
+                "f11",
+                "f12"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "sentry.io",
+          "claims_total": 4,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Sentry has expanded beyond traditional error monitoring by launching Seer, an AI debugging agent, and agent tracing to help developers monitor AI agent performance and spend.",
+                "fact_ids": [
+                  "f3",
+                  "f4",
+                  "f5"
+                ]
+              },
+              {
+                "text": "The company boasts high-profile customers, helping Disney+ maintain service quality, monday.com reduce errors by 60 percent, and Duolingo debug issues 12 times faster.",
+                "fact_ids": [
+                  "f12",
+                  "f13",
+                  "f14"
+                ]
+              },
+              {
+                "text": "With over 217 million dollars raised across six funding rounds, Sentry is actively expanding its global footprint of over 200 employees, currently listing 43 open roles.",
+                "fact_ids": [
+                  "f1",
+                  "f8",
+                  "f9",
+                  "f10",
+                  "f11"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "Since Sentry helps companies like monday.com reduce errors by 60 percent, I wanted to see how your operations teams are currently optimizing their own internal workflows.",
+              "fact_ids": [
+                "f13"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "supabase.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Supabase operates as an open source Firebase alternative and Postgres development platform, offering dedicated databases, instant APIs, and vector embeddings.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f4",
+                  "f5"
+                ]
+              },
+              {
+                "text": "The company has raised 1 billion dollars in funding and grown its global footprint to over 350 team members across 60 plus countries.",
+                "fact_ids": [
+                  "f10",
+                  "f14",
+                  "f15"
+                ]
+              },
+              {
+                "text": "They support diverse customer segments from passion projects to enterprise clients like Chatbase, which scaled to 10 million dollars in ARR, and eXp Realty.",
+                "fact_ids": [
+                  "f8",
+                  "f9",
+                  "f17",
+                  "f18"
+                ]
+              },
+              {
+                "text": "Supabase is actively hiring for 60 open roles globally, including specialized Postgres and Frontend Engineer positions to support their platform's growth.",
+                "fact_ids": [
+                  "f1",
+                  "f11",
+                  "f12",
+                  "f13"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "Seeing how Chatbase scaled to 10 million dollars in ARR on Supabase, I wanted to reach out about streamlining the internal operations supporting your rapid global expansion.",
+              "fact_ids": [
+                "f10",
+                "f18"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "clickup.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "ClickUp is a rapidly growing SaaS powerhouse backed by $535M in funding from premier investors like Andreessen Horowitz and Tiger Global.",
+                "fact_ids": [
+                  "f4",
+                  "f12"
+                ]
+              },
+              {
+                "text": "The company is pioneering the Converged AI Workspace category, integrating their Brain AI assistant to unify workflows, data, and applications.",
+                "fact_ids": [
+                  "f7",
+                  "f8",
+                  "f9"
+                ]
+              },
+              {
+                "text": "They maintain a strong global footprint with headquarters in San Diego and Dublin, and are actively hiring for key executive roles reporting to the CEO.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f5",
+                  "f6"
+                ]
+              },
+              {
+                "text": "Their platform powers organizations of all sizes, including major enterprise customers like Chick-fil-A, Lids, and VaynerX.",
+                "fact_ids": [
+                  "f13",
+                  "f14",
+                  "f16",
+                  "f17",
+                  "f18"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "With ClickUp scaling its Converged AI Workspace globally from San Diego to Dublin, how is your operations team keeping internal workflows running smoothly?",
+              "fact_ids": [
+                "f2",
+                "f3",
+                "f7"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "freshworks.com",
+          "claims_total": 6,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Freshworks provides AI-first customer service, IT, and CRM software to over 70,000 customers ranging from solo founders to global brands.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f7"
+                ]
+              },
+              {
+                "text": "Their core product suite includes Freshservice for IT service management, Freshdesk for customer support, and Freshsales for CRM.",
+                "fact_ids": [
+                  "f4",
+                  "f5",
+                  "f6"
+                ]
+              },
+              {
+                "text": "Major global brands like McLaren Racing, New Balance, Seagate, and Panasonic rely on Freshworks to simplify operations and deliver exceptional experiences.",
+                "fact_ids": [
+                  "f9"
+                ]
+              },
+              {
+                "text": "Freshworks is actively expanding its team, with open job opportunities across multiple departments to support its mission of uncomplicated work.",
+                "fact_ids": [
+                  "f1",
+                  "f8"
+                ]
+              },
+              {
+                "text": "Their Freshservice platform recently helped Seagate modernize its IT operations, achieving a 32% ticket deflection rate in under a year using AI at scale.",
+                "fact_ids": [
+                  "f10"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "Seeing how Freshservice helped Seagate achieve a 32% ticket deflection rate in under a year, I wanted to reach out about streamlining your internal operations workflows.",
+              "fact_ids": [
+                "f10"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "mixpanel.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Mixpanel operates as a leading product intelligence platform, offering self-serve product analytics, session replays, and AI-powered insights to help teams convert and retain users.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f4"
+                ]
+              },
+              {
+                "text": "The platform serves diverse customer segments across product, engineering, and marketing teams, supporting major brands like Wise, Olo, and Sprig.",
+                "fact_ids": [
+                  "f7",
+                  "f11",
+                  "f12",
+                  "f13"
+                ]
+              },
+              {
+                "text": "Mixpanel is actively scaling its team, with open roles focused on building next-generation innovations in digital analytics.",
+                "fact_ids": [
+                  "f1",
+                  "f9",
+                  "f10"
+                ]
+              },
+              {
+                "text": "They continue to innovate their product suite with advanced developer tools, including Mixpanel Headless and Mixpanel MCP.",
+                "fact_ids": [
+                  "f5",
+                  "f6"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "Seeing how Mixpanel helped Olo boost conversion rates by 7.8% using your product analytics platform was incredibly impressive.",
+              "fact_ids": [
+                "f3",
+                "f12"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "amplitude.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Amplitude is a leading digital analytics and AI platform, recognized as the number one solution in product analytics and powered by their proprietary Behavioral Graph database.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f4",
+                  "f5"
+                ]
+              },
+              {
+                "text": "The company has scaled to over 700 employees globally across the US, Europe, and Asia, and continues to actively hire for open roles.",
+                "fact_ids": [
+                  "f1",
+                  "f9",
+                  "f10",
+                  "f11"
+                ]
+              },
+              {
+                "text": "Amplitude's growth is backed by major venture capital milestones, including a 15 million dollar Series B led by Battery Ventures and an 80 million dollar Series D led by Sequoia Capital.",
+                "fact_ids": [
+                  "f12",
+                  "f13"
+                ]
+              },
+              {
+                "text": "They support over 3,200 customers ranging from startups to massive enterprises like Atlassian, Ford, NBC, Walmart, Cisco, and The Economist.",
+                "fact_ids": [
+                  "f7",
+                  "f14",
+                  "f15",
+                  "f16"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "With Amplitude scaling past 700 employees and supporting giants like Ford and Walmart, how is your operations team keeping internal workflows streamlined?",
+              "fact_ids": [
+                "f9",
+                "f10",
+                "f14"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "loom.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Loom is a leading async video messaging platform that provides free screen recording, advanced video editing, and video storage.",
+                "fact_ids": [
+                  "f2",
+                  "f3"
+                ]
+              },
+              {
+                "text": "Now part of Atlassian, Loom is leveraging Atlassian's global hiring infrastructure to expand its team.",
+                "fact_ids": [
+                  "f1"
+                ]
+              },
+              {
+                "text": "The company serves diverse customer segments, offering tailored solutions for sales and engineering teams alongside discount programs for educators.",
+                "fact_ids": [
+                  "f4",
+                  "f5",
+                  "f6"
+                ]
+              },
+              {
+                "text": "Loom boasts a high-profile customer base including Intercom, LaunchDarkly, and Brex, helping them accelerate product development and improve sales outreach.",
+                "fact_ids": [
+                  "f7",
+                  "f8",
+                  "f9"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "With Loom helping companies like Brex and LaunchDarkly eliminate costly bottlenecks, I wanted to see how your operations team is currently managing its own internal workflow bottlenecks.",
+              "fact_ids": [
+                "f8",
+                "f9"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "front.com",
+          "claims_total": 5,
+          "claims_unsupported": 1,
+          "dropped": [
+            {
+              "text": "Front serves major B2B clients like Uber Freight and Echo Global Logistics, helping them significantly reduce response times and save thousands of operational hours.",
+              "fact_ids": [
+                "f14",
+                "f16"
+              ],
+              "reason": "specific terms not in cited facts: ['2B']",
+              "part": "summary"
+            }
+          ],
+          "kept": {
+            "summary": [
+              {
+                "text": "Front is a high-growth customer operations platform headquartered in San Francisco, with over 300 team members spread across 5 global offices.",
+                "fact_ids": [
+                  "f2",
+                  "f9",
+                  "f10"
+                ]
+              },
+              {
+                "text": "The company has secured $204 million in venture funding from prominent investors including Sequoia, Salesforce Ventures, and Battery.",
+                "fact_ids": [
+                  "f13"
+                ]
+              },
+              {
+                "text": "They are actively expanding their workforce, with open job positions across multiple departments and locations.",
+                "fact_ids": [
+                  "f1",
+                  "f11",
+                  "f12"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "Since Front helps companies like Echo Global Logistics save thousands of hours, I wanted to share how we help operations teams streamline their own internal workflows.",
+              "fact_ids": [
+                "f16"
+              ]
+            }
+          }
+        },
+        {
+          "domain": "close.com",
+          "claims_total": 5,
+          "claims_unsupported": 0,
+          "dropped": [],
+          "kept": {
+            "summary": [
+              {
+                "text": "Close is a profitable, self-funded sales CRM platform built specifically for SMBs, founders, and small sales teams.",
+                "fact_ids": [
+                  "f2",
+                  "f3",
+                  "f5",
+                  "f6",
+                  "f10",
+                  "f11"
+                ]
+              },
+              {
+                "text": "They recently launched Chloe, an AI sales agent integrated into their CRM that automates lead calling, qualification, and meeting booking.",
+                "fact_ids": [
+                  "f3",
+                  "f4",
+                  "f6"
+                ]
+              },
+              {
+                "text": "Operating as a fully remote team of 120 employees headquartered in Austin, Texas, Close is actively hiring to support rapid product expansion.",
+                "fact_ids": [
+                  "f1",
+                  "f6",
+                  "f7",
+                  "f8",
+                  "f9"
+                ]
+              },
+              {
+                "text": "They have proven success helping customers scale, such as helping Printavo double their revenue and Flatiron School increase conversions by 75 percent.",
+                "fact_ids": [
+                  "f12",
+                  "f13"
+                ]
+              }
+            ],
+            "first_line": {
+              "text": "With Close expanding its remote team to support rapid AI product growth like Chloe, how is your operations team keeping up with the increased workflow demands?",
+              "fact_ids": [
+                "f1",
+                "f4",
+                "f6",
+                "f8"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "cost_usd": 0.204261
+  }
+}

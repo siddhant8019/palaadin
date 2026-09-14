@@ -1,0 +1,38 @@
+{
+  "model": "gemini-3.5-flash",
+  "cases": 3,
+  "correct": 3,
+  "rows": [
+    {
+      "domain": "example.com",
+      "status": "refused",
+      "reason": "zero verified facts: no brief drafted, no model call made",
+      "facts": [],
+      "model_calls": [
+        "extract:gemini-3.5-flash"
+      ],
+      "brief_model_called": false,
+      "correct": true
+    },
+    {
+      "domain": "example.net",
+      "status": "refused",
+      "reason": "zero verified facts: no brief drafted, no model call made",
+      "facts": [],
+      "model_calls": [
+        "extract:gemini-3.5-flash"
+      ],
+      "brief_model_called": false,
+      "correct": true
+    },
+    {
+      "domain": "paladin-eval-nonexistent.invalid",
+      "status": "refused",
+      "reason": "zero verified facts: no brief drafted, no model call made",
+      "facts": [],
+      "model_calls": [],
+      "brief_model_called": false,
+      "correct": true
+    }
+  ]
+}

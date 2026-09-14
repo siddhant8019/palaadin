@@ -1,11 +1,17 @@
 {
   "what": "Human support audit of every claim the production prompt drafted in the Vertex eval run (phase A, raw drafts before code validation). Each claim was read against the values and quotes of the facts it cites.",
   "rater": "the builder of this system, single rater, no second labeler; treat as indicative, not as ground truth",
-  "source_file": "eval/results/claim_audit/production_claims.txt",
-  "rule": "unsupported = the sentence asserts something the cited quotes do not say, even if every name and number in it appears in the cited facts",
+  "source_file": "eval/results/claim_audit/production_claims.txt (P-numbered claims)",
+  "rule": "unsupported = the sentence asserts something about the account the cited quotes do not say: market position (leading, premier), growth rate (rapid, high-growth), scale or amounts beyond the quote, work model or location not in cited facts, or intent inferred by combining facts. Growth implied by active hiring is supported. The same rule was applied to the loose-prompt audit (loose_labels.json).",
   "claims_total": 87,
   "claims_unsupported": 6,
   "unsupported_rate": 0.069,
+  "stripped_by_code": 1,
+  "stripped_and_unsupported": 0,
+  "stripped_but_supported": 1,
+  "kept_after_code_validation": 86,
+  "kept_and_unsupported": 6,
+  "unsupported_rate_after_code_validation": 0.07,
   "unsupported": [
     {"id": "P10", "account": "attio.com", "claim": "hiring for multiple open roles across engineering, GTM, marketing, operations, and product", "why": "the cited quote only says 38 open positions match the current filters; the department list is not in the quote"},
     {"id": "P12", "account": "attio.com", "claim": "Attio is currently hiring for operations roles in London", "why": "combines an HQ fact and an open-roles fact into a location-specific hiring claim neither quote makes"},
@@ -14,8 +20,11 @@
     {"id": "P61", "account": "freshworks.com", "claim": "open job opportunities across multiple departments", "why": "the quote says explore job opportunities; multiple departments is not stated"},
     {"id": "P83", "account": "close.com", "claim": "Close is an Austin, Texas-based sales CRM platform", "why": "the quote is a mailing address; the same company describes itself as 100% remote (P85)"}
   ],
+  "stripped_but_supported": [
+    {"id": "P32", "account": "zapier.com", "why": "stripped for 'DIY', which abbreviates the quoted 'Do-it-yourself'"}
+  ],
   "borderline_counted_as_supported": [
     {"id": "P5", "account": "posthog.com", "claim": "PostHog is an open source Product OS and AI company", "why": "the AI company quote is 'There are other AI companies, but they not like us', which implies but does not plainly state it"}
   ],
-  "code_validation_caught": "none of these six: each uses only names and numbers present in its cited facts, which is exactly what the code check can verify"
+  "code_validation_caught": "none of the six: each uses only names and numbers present in its cited facts, which is all the code check verifies"
 }

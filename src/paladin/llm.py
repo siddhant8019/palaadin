@@ -70,7 +70,8 @@ def vertex_enabled() -> bool:
 
 def backend_description() -> str:
     if vertex_enabled():
-        return f"vertex:{os.getenv('GOOGLE_CLOUD_PROJECT', '?')}/{os.getenv('GOOGLE_CLOUD_LOCATION', 'global')}"
+        # The project id is left out on purpose: result files are committed and may be public.
+        return f"vertex:{os.getenv('GOOGLE_CLOUD_LOCATION', 'global')}"
     return "gemini-api-key"
 
 

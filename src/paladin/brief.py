@@ -70,7 +70,8 @@ Do not use em dashes or en dashes.
 """,
 }
 
-_NUMBER = re.compile(r"\$?\d[\d,.]*%?[kKmMbB]?")
+# A number must not start inside a word: "B2B" is not the number "2B" (bug found in the eval).
+_NUMBER = re.compile(r"(?<![A-Za-z0-9])\$?\d[\d,.]*%?[kKmMbB]?(?![A-Za-z0-9])")
 _WORD = re.compile(r"[A-Za-z][A-Za-z0-9&'.+-]*")
 # Capitalized words that carry no factual content on their own.
 _GENERIC = {

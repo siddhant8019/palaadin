@@ -41,10 +41,10 @@ def render() -> str:
         "|---|---|---|",
         f"| Research fact precision | {pct(facts['precision'])} | {facts['facts_correct']} of {facts['facts_scored']} extracted industry, product, HQ, hiring facts match labels |",
         f"| Research fact recall | {pct(facts['recall'])} | {facts['fields_covered']} of {facts['labeled_positive_fields']} positive labeled fields covered |",
-        f"| Unsupported claims before validation (production prompt) | {pct(prod['unsupported_rate_before'])} | {prod['claims_unsupported_before_validation']} of {prod['claims_total']} claims in {prod['briefs']} briefs |",
-        f"| Unsupported claims after validation | {pct(prod['unsupported_rate_after'])} | by construction; {prod['claims_kept']} claims kept |",
-        f"| Ablation, production prompt, same facts | {pct(abl['constrained']['unsupported_rate_before'])} | {abl['constrained']['claims_unsupported_before_validation']} of {abl['constrained']['claims_total']} claims, {abl['constrained']['briefs']} briefs, {abl['constrained']['errors']} errors |",
-        f"| Ablation, loose prompt (outside knowledge allowed), same facts | {pct(abl['loose']['unsupported_rate_before'])} | {abl['loose']['claims_unsupported_before_validation']} of {abl['loose']['claims_total']} claims, {abl['loose']['briefs']} briefs, {abl['loose']['errors']} errors |",
+        f"| Claims failing the code check, production prompt | {pct(prod['unsupported_rate_before'])} | {prod['claims_unsupported_before_validation']} of {prod['claims_total']} claims in {prod['briefs']} briefs |",
+        f"| Claims failing the code check after validation | {pct(prod['unsupported_rate_after'])} | 0 by construction (failing claims are stripped); {prod['claims_kept']} claims kept. The code check is not a full support check: see the human audit below |",
+        f"| Ablation: production prompt, same facts, claims failing the code check | {pct(abl['constrained']['unsupported_rate_before'])} | {abl['constrained']['claims_unsupported_before_validation']} of {abl['constrained']['claims_total']} claims, {abl['constrained']['briefs']} briefs, {abl['constrained']['errors']} errors |",
+        f"| Ablation: loose prompt (outside knowledge allowed), same facts, claims failing the code check | {pct(abl['loose']['unsupported_rate_before'])} | {abl['loose']['claims_unsupported_before_validation']} of {abl['loose']['claims_total']} claims, {abl['loose']['briefs']} briefs, {abl['loose']['errors']} errors |",
         f"| ICP score identical across {icp['reruns']} reruns | {icp['accounts_identical_score']} of {icp['accounts_complete']} accounts | max spread {icp['max_spread']} points out of 100 |",
         f"| Refusal correctness on garbage domains | {ref['correct']} of {ref['cases']} | refused, and brief model never called |",
         f"| Latency per account, p50 / p95 (snapshot replay) | {perf['pipeline_latency_ms']['p50']} ms / {perf['pipeline_latency_ms']['p95']} ms | {perf['accounts_measured']} accounts that reached approval |",
@@ -62,14 +62,14 @@ def render() -> str:
     lines += ["", "Refusal cases:", "", "| Domain | Status | Model calls made |", "|---|---|---|"]
     for r in ref["rows"]:
         lines.append(f"| {r['domain']} | {r['status']} | {', '.join(r['model_calls']) or 'none'} |")
-    lines += ["", "Claims stripped by validation (production prompt):", ""]
+    lines += ["", "Claims stripped by the code check (production prompt):", ""]
     if prod["dropped"]:
         lines += ["| Account | Claim | Reason |", "|---|---|---|"]
         for d in prod["dropped"]:
             lines.append(f"| {d['domain']} | {d['text']} | {d['reason']} |")
     else:
         lines.append("None.")
-    lines += ["", "Claims stripped by validation (loose-prompt ablation):", ""]
+    lines += ["", "Claims stripped by the code check (loose-prompt ablation):", ""]
     loose_drops = [dict(d, domain=r["domain"]) for r in abl["loose"]["rows"] if "dropped" in r for d in r["dropped"]]
     if loose_drops:
         lines += ["| Account | Claim | Reason |", "|---|---|---|"]

@@ -49,6 +49,15 @@ def test_claim_fails_when_stored_source_no_longer_contains_quote():
     assert "not found in stored source text" in out["dropped"][0]["reason"]
 
 
+def test_alphanumeric_tokens_are_not_numbers():
+    """Regression: the eval stripped a claim because "B2B" was read as the number "2B"."""
+    from paladin.brief import _specific_terms
+
+    assert "2B" not in _specific_terms("Front serves B2B teams.")
+    assert "$40M" in _specific_terms("They raised $40M last year.")
+    assert "200" in _specific_terms("Over 200 employees.")
+
+
 def test_supported_numbers_and_names_pass():
     facts, sources = _facts()
     draft = {"summary": [{"text": "Acme has over 200 employees and is headquartered in Denver, Colorado.",
