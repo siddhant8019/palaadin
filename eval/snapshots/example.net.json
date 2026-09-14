@@ -1,0 +1,73 @@
+{
+ "domain": "example.net",
+ "company": "Example Net",
+ "captured_at": "2026-09-14T07:26:34+00:00",
+ "fetch_wall_ms": 900,
+ "robots": "absent (http 404), allow all",
+ "pages": [
+  {
+   "url": "https://example.net/",
+   "requested_url": "https://example.net/",
+   "status": 200,
+   "text": "Example Domain Example Domain Example Domain This domain is for use in documentation examples without needing permission. Avoid use in operations. Learn more",
+   "error": null,
+   "latency_ms": 160
+  },
+  {
+   "url": "https://example.net/about",
+   "requested_url": "https://example.net/about",
+   "status": 404,
+   "text": "",
+   "error": "http 404",
+   "latency_ms": 29
+  },
+  {
+   "url": "https://example.net/about-us",
+   "requested_url": "https://example.net/about-us",
+   "status": 404,
+   "text": "",
+   "error": "http 404",
+   "latency_ms": 80
+  },
+  {
+   "url": "https://example.net/company",
+   "requested_url": "https://example.net/company",
+   "status": 404,
+   "text": "",
+   "error": "http 404",
+   "latency_ms": 82
+  },
+  {
+   "url": "https://example.net/careers",
+   "requested_url": "https://example.net/careers",
+   "status": 404,
+   "text": "",
+   "error": "http 404",
+   "latency_ms": 85
+  },
+  {
+   "url": "https://example.net/jobs",
+   "requested_url": "https://example.net/jobs",
+   "status": 404,
+   "text": "",
+   "error": "http 404",
+   "latency_ms": 80
+  },
+  {
+   "url": "https://example.net/customers",
+   "requested_url": "https://example.net/customers",
+   "status": 404,
+   "text": "",
+   "error": "http 404",
+   "latency_ms": 158
+  },
+  {
+   "url": "https://example.net/pricing",
+   "requested_url": "https://example.net/pricing",
+   "status": 404,
+   "text": "",
+   "error": "http 404",
+   "latency_ms": 91
+  }
+ ]
+}

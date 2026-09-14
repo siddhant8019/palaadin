@@ -1,0 +1,24 @@
+company name,domain,kind
+Linear,linear.app,real
+PostHog,posthog.com,real
+Attio,attio.com,real
+Cal.com,cal.com,real
+Pipedrive,pipedrive.com,real
+Retool,retool.com,real
+Airtable,airtable.com,real
+Zapier,zapier.com,real
+Calendly,calendly.com,real
+Intercom,intercom.com,real
+Sentry,sentry.io,real
+Supabase,supabase.com,real
+ClickUp,clickup.com,real
+Freshworks,freshworks.com,real
+Mixpanel,mixpanel.com,real
+Amplitude,amplitude.com,real
+Gusto,gusto.com,real
+Loom,loom.com,real
+Front,front.com,real
+Close,close.com,real
+Example Domain,example.com,garbage
+Example Net,example.net,garbage
+Nonexistent Co,paladin-eval-nonexistent.invalid,garbage

@@ -115,9 +115,11 @@ def _process_batch(batch_id: int, force: bool = False) -> None:
         _running_batches.add(batch_id)
     try:
         deps = make_deps(settings)
+        runner = Runner(deps)
         try:
-            run_batch(Runner(deps), batch_id, force=force)
+            run_batch(runner, batch_id, force=force)
         finally:
+            runner.close()
             deps.conn.close()
     finally:
         with _lock:
@@ -184,11 +186,25 @@ def decision(request: Request, run_id: str, action: str = Form(...), reason: str
             orig_summary = "\n".join(c["text"] for c in original.get("summary") or [])
             orig_first = (original.get("first_line") or {}).get("text", "")
             if summary.strip() != orig_summary.strip() or first_line.strip() != orig_first.strip():
+                # Unchanged lines keep their citations; lines the human wrote or changed carry none and
+                # are marked, so the export shows which text is not machine-verified.
+                ids_by_text = {c["text"].strip(): c["fact_ids"] for c in original.get("summary") or []}
+                if original.get("first_line"):
+                    ids_by_text[orig_first.strip()] = original["first_line"]["fact_ids"]
+
+                def claim(text):
+                    ids = ids_by_text.get(text)
+                    return {"text": text, "fact_ids": ids or [], "human_written": ids is None}
+
                 edited = {
-                    "summary": [{"text": line.strip(), "fact_ids": []} for line in summary.splitlines() if line.strip()],
-                    "first_line": {"text": first_line.strip(), "fact_ids": []} if first_line.strip() else None,
+                    "summary": [claim(line.strip()) for line in summary.splitlines() if line.strip()],
+                    "first_line": claim(first_line.strip()) if first_line.strip() else None,
                 }
-        status = Runner(deps).decide(run_id, action, user, reason or None, edited)
+        runner = Runner(deps)
+        try:
+            status = runner.decide(run_id, action, user, reason or None, edited)
+        finally:
+            runner.close()
     except (ValueError, LookupError) as exc:
         return RedirectResponse(f"/queue?msg=Not+saved:+{exc}", status_code=303)
     finally:
@@ -241,7 +257,11 @@ def api_run_account(request: Request, account_id: int):
         account = deps.conn.execute("SELECT id, name, domain FROM accounts WHERE id = %s", (account_id,)).fetchone()
         if not account:
             raise HTTPException(404, "account not found")
-        return Runner(deps).start(account)
+        runner = Runner(deps)
+        try:
+            return jsonable(runner.start(account))
+        finally:
+            runner.close()
     finally:
         deps.conn.close()
 

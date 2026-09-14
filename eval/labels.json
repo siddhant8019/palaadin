@@ -1,0 +1,23 @@
+{
+  "_about": "Hand labels written from eval/snapshots (captured 2026-09-14), not from outside knowledge. industry/product: any listed keyword appearing in an extracted fact value counts as correct. hq: city only when the snapshot text explicitly states a headquarters, else null. hiring_page: a careers or jobs page loaded in the snapshot with job content.",
+  "linear.app": {"industry": ["product development", "software", "project management", "issue tracking", "planning"], "product": ["product development", "planning", "issue", "project", "roadmap", "agents"], "hq": null, "hiring_page": true},
+  "posthog.com": {"industry": ["product", "analytics", "developer", "data", "open source"], "product": ["analytics", "session replay", "feature flag", "experiment", "error", "data warehouse", "warehouse"], "hq": null, "hiring_page": true},
+  "attio.com": {"industry": ["crm"], "product": ["crm"], "hq": "London", "hiring_page": true},
+  "cal.com": {"industry": ["scheduling"], "product": ["scheduling", "booking"], "hq": null, "hiring_page": true},
+  "pipedrive.com": {"industry": ["crm", "sales"], "product": ["crm", "pipeline", "sales"], "hq": "New York", "hiring_page": true},
+  "retool.com": {"industry": ["internal tools", "software", "developer", "low-code", "ai"], "product": ["internal tool", "internal software", "apps"], "hq": null, "hiring_page": true},
+  "airtable.com": {"industry": ["software", "platform", "no-code", "workflow", "collaboration", "apps"], "product": ["workflow", "app", "agent", "collaboration", "automat", "database"], "hq": "San Francisco", "hiring_page": true},
+  "zapier.com": {"industry": ["automation", "orchestration", "workflow", "no-code", "integration"], "product": ["automation", "workflow", "agent", "zap", "tables", "forms"], "hq": null, "hiring_page": true},
+  "calendly.com": {"industry": ["scheduling", "meeting"], "product": ["scheduling", "meeting"], "hq": null, "hiring_page": true},
+  "intercom.com": {"industry": ["customer service", "customer support", "customer experience", "helpdesk", "ai agent"], "product": ["helpdesk", "ai agent", "fin", "customer service", "customer agent"], "hq": null, "hiring_page": true},
+  "sentry.io": {"industry": ["monitoring", "developer", "application performance", "error tracking", "observability"], "product": ["error", "monitoring", "tracing", "session replay", "performance", "logs"], "hq": null, "hiring_page": true},
+  "supabase.com": {"industry": ["database", "developer", "postgres", "backend", "open source"], "product": ["postgres", "database", "auth", "storage", "realtime", "functions", "vector"], "hq": null, "hiring_page": true},
+  "clickup.com": {"industry": ["productivity", "project management", "work management", "software"], "product": ["task", "docs", "project", "chat", "everything app", "ai"], "hq": "San Diego", "hiring_page": true},
+  "freshworks.com": {"industry": ["saas", "business software", "customer service", "it service", "software"], "product": ["customer", "employee", "service", "saas", "crm", "itsm"], "hq": null, "hiring_page": true},
+  "mixpanel.com": {"industry": ["analytics", "product intelligence", "product analytics"], "product": ["analytics", "session replay", "experiment", "feature flag"], "hq": null, "hiring_page": true},
+  "amplitude.com": {"industry": ["analytics", "digital analytics"], "product": ["analytics", "session replay", "experiment", "feedback", "agents"], "hq": null, "hiring_page": true},
+  "gusto.com": {"unlabelable": true, "reason": "every snapshot page returned HTTP 403 to the bot user agent, so no text to label from"},
+  "loom.com": {"industry": ["video", "screen record", "communication"], "product": ["screen record", "video"], "hq": null, "hiring_page": true},
+  "front.com": {"industry": ["customer service", "customer operations", "cx", "communication"], "product": ["customer service", "customer operations", "inbox", "communication", "platform"], "hq": "San Francisco", "hiring_page": true},
+  "close.com": {"industry": ["crm", "sales"], "product": ["crm", "sales"], "hq": null, "hiring_page": true}
+}

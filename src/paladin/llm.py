@@ -78,10 +78,17 @@ class GeminiClient:
                 return self.client.models.generate_content(model=model, contents=contents, config=config)
             except genai_errors.APIError as exc:
                 code = getattr(exc, "code", None)
-                retryable = code in (429, 500, 502, 503, 504)
+                message = str(exc)
+                # A per-day quota will not clear in seconds, and every retry is itself a counted request
+                # (learned the hard way: retries on a daily-capped key burned the day's quota).
+                daily = code == 429 and ("PerDay" in message or "free_tier_requests" in message and "PerMinute" not in message)
+                no_detail = code == 429 and "quota" in message.lower() and "retry in" not in message.lower()
+                retryable = code in (429, 500, 502, 503, 504) and not daily and not no_detail
                 if not retryable or attempt == self.max_transport_retries:
-                    raise ProviderUnavailable(f"gemini {code}: {str(exc)[:200]}") from exc
-                time.sleep(delay)
+                    kind = "daily quota exhausted" if daily else "quota exhausted" if no_detail else "error"
+                    raise ProviderUnavailable(f"gemini {code} {kind}: {message[:240]}") from exc
+                hinted = re.search(r"retry in ([\d.]+)s", message)
+                time.sleep(float(hinted.group(1)) + 1 if hinted else delay)
                 delay = min(delay * 2, 60)
 
     def generate_json(

@@ -55,7 +55,11 @@ Documents:
 {documents}
 """
 
-_HIRING_RE = re.compile(r"(open roles|open positions|we'?re hiring|join (?:our|the) team|current openings|view (?:all )?jobs|careers at)", re.I)
+_HIRING_RE = re.compile(
+    r"(open roles|open positions|see open positions|we(?:'|’)?re hiring|join (?:our|the) team|current openings"
+    r"|view (?:all )?(?:jobs|openings)|careers at|job openings|explore (?:exciting )?career opportunities)",
+    re.I,
+)
 
 
 @dataclass
@@ -94,8 +98,14 @@ def hiring_fact_from_pages(pages: list[Page]) -> dict | None:
         m = _HIRING_RE.search(p.text)
         if not m:
             continue
+        # Widen to whole words so the quote reads cleanly and still appears verbatim in the page.
         start = max(0, m.start() - 30)
-        quote = p.text[start : m.end() + 30].strip()
+        end = min(len(p.text), m.end() + 30)
+        while start > 0 and not p.text[start - 1].isspace():
+            start -= 1
+        while end < len(p.text) and not p.text[end].isspace():
+            end += 1
+        quote = p.text[start:end].strip()
         return {"type": "hiring", "value": "Careers page with hiring language is live", "quote": quote,
                 "source_url": p.url, "extracted_by": "code"}
     return None
@@ -167,7 +177,11 @@ def run_research(account: dict, fetcher: SiteFetcher, llm, settings, tracer=None
         out.providers["tavily"] = "provider disabled: no key"
 
     # 3. Gemini grounded search: ask for public facts, then fetch each cited page ourselves and verify.
-    if settings.grounded_search:
+    breaker = getattr(llm, "grounded_disabled_reason", None)
+    if settings.grounded_search and breaker:
+        out.providers["gemini_grounded_search"] = f"skipped: {breaker}"
+        ev("grounded_search_skipped", {"reason": breaker})
+    elif settings.grounded_search:
         t1 = time.perf_counter()
         try:
             g = llm.grounded_search(
@@ -193,6 +207,12 @@ def run_research(account: dict, fetcher: SiteFetcher, llm, settings, tracer=None
                latency_ms=int((time.perf_counter() - t1) * 1000), tokens_in=g.tokens_in, tokens_out=g.tokens_out)
         except ProviderUnavailable as exc:
             out.providers["gemini_grounded_search"] = f"error: {exc}"
+            if "quota" in str(exc).lower():
+                # Circuit breaker: stop calling a quota-exhausted provider for the rest of this process.
+                try:
+                    llm.grounded_disabled_reason = "quota exhausted earlier in this process"
+                except AttributeError:
+                    pass
             ev("grounded_search_error", {"error": str(exc)}, latency_ms=int((time.perf_counter() - t1) * 1000))
     else:
         out.providers["gemini_grounded_search"] = "disabled: PALADIN_GROUNDED_SEARCH=0"

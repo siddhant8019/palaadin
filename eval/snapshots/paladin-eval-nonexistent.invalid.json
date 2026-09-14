@@ -1,0 +1,17 @@
+{
+ "domain": "paladin-eval-nonexistent.invalid",
+ "company": "Nonexistent Co",
+ "captured_at": "2026-09-14T07:26:34+00:00",
+ "fetch_wall_ms": 59,
+ "robots": "unreachable (network: ConnectError: [Errno 8] nodename nor servname provided, or not known), disallow all",
+ "pages": [
+  {
+   "url": "https://paladin-eval-nonexistent.invalid/",
+   "requested_url": "https://paladin-eval-nonexistent.invalid/",
+   "status": null,
+   "text": "",
+   "error": "skipped: robots unreachable (network: ConnectError: [Errno 8] nodename nor servname provided, or not known), disallow all",
+   "latency_ms": 0
+  }
+ ]
+}

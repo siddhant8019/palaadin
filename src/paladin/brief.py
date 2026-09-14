@@ -102,7 +102,9 @@ def _specific_terms(sentence: str) -> list[str]:
             continue
         if sentence_start and not (len(w) > 1 and (w.isupper() or any(c.isupper() for c in w[1:]))):
             continue  # ordinary capitalized first word
-        terms.append(w)
+        # "London-based" asserts "London": check the capitalized parts of a hyphenated compound.
+        parts = [p for p in w.split("-") if p and p[0].isupper()] if "-" in w else [w]
+        terms.extend(p for p in parts if p.lower() not in _GENERIC)
     return terms
 
 
@@ -112,6 +114,8 @@ def _unsupported_terms(text: str, cited: list[dict], account: dict) -> list[str]
     missing = []
     for term in _specific_terms(text):
         t = norm(term)
+        if t.endswith("'s"):
+            t = t[:-2]  # possessive: "PostHog's" is supported by "PostHog"
         if t in haystack or t.replace(",", "") in haystack_compact:
             continue
         missing.append(term)

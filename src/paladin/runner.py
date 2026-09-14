@@ -36,8 +36,15 @@ def make_deps(settings, conn=None, llm=None, fetcher=None) -> Deps:
 class Runner:
     def __init__(self, deps: Deps):
         self.deps = deps
-        self.checkpointer = PostgresSaver(deps.conn)
+        # The checkpointer gets its own connection: PostgresSaver uses pipeline mode and must not
+        # share a connection with trace writes (found in the first live run: "another command is
+        # already in progress").
+        self.checkpoint_conn = connect(deps.settings.database_url)
+        self.checkpointer = PostgresSaver(self.checkpoint_conn)
         self.graph = build_graph(deps, self.checkpointer)
+
+    def close(self) -> None:
+        self.checkpoint_conn.close()
 
     def start(self, account: dict) -> dict:
         run_id = str(uuid.uuid4())
