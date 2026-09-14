@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Approval queue <span class="muted" style="font-size:15px">{{ pending|length }} waiting</span></h2>
+
+{% for r in pending %}
+{% set facts = r.facts %}
+<div class="card">
+  <div class="row" style="justify-content:space-between">
+    <h3>{{ r.name }} <span class="muted mono">{{ r.domain }}</span></h3>
+    <span>ICP <strong>{{ r.icp.total }}</strong><span class="muted">/{{ r.icp.max }}</span></span>
+  </div>
+  <div class="grid" style="margin-top:12px">
+    <div>
+      <form method="post" action="/runs/{{ r.id }}/decision" class="decision">
+        <label>Brief (one claim per line; edits are recorded as human edits)</label>
+        <textarea name="summary">{% for c in r.brief.summary %}{{ c.text }}
+{% endfor %}</textarea>
+        <div class="muted" style="font-size:12px">cites: {% for c in r.brief.summary %}<span class="mono">[{{ c.fact_ids|join(', ') }}]</span> {% endfor %}</div>
+        <label>First line</label>
+        <input type="text" name="first_line" value="{{ r.brief.first_line.text if r.brief.first_line else '' }}">
+        <label>Reason (required to reject)</label>
+        <input type="text" name="reason">
+        <div class="row" style="margin-top:12px">
+          <button class="btn" name="action" value="approve" type="submit">Approve</button>
+          <button class="btn ghost" name="action" value="reject" type="submit">Reject</button>
+          <a class="muted" href="/runs/{{ r.id }}">trace</a>
+        </div>
+        <p class="muted" style="font-size:12px">Validation stripped {{ r.validation.claims_unsupported }} of {{ r.validation.claims_total }} drafted claims.</p>
+      </form>
+    </div>
+    <div>
+      <label>Verified facts</label>
+      <ul class="clean">
+        {% for f in facts %}
+        <li><span class="mono">{{ f.id }}</span> <span class="muted">{{ f.type }}</span> {{ f.value }}
+          <div class="muted" style="font-size:12.5px">"{{ f.quote }}" <a href="{{ f.source_url }}" target="_blank" rel="noopener">source</a></div></li>
+        {% endfor %}
+      </ul>
+      <label>Score breakdown (code, config/icp.json)</label>
+      <ul class="clean">
+        {% for rule in r.icp.rules %}
+        <li>{{ rule.id }}: {{ rule.points }}/{{ rule.weight }} <span class="muted">{{ rule.detail }}</span></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="card muted">Nothing waiting for approval.</div>
+{% endfor %}
+
+<div class="card">
+  <h2>Recent outcomes</h2>
+  <ul class="clean">
+  {% for d in decided %}
+    <li><span class="mono">{{ d.domain }}</span> {{ d.status }}
+      <span class="muted">{{ d.decided_by or '' }} {{ d.decision_reason or d.status_reason or '' }}</span>
+      <a class="muted" href="/runs/{{ d.id }}">trace</a></li>
+  {% else %}<li class="muted">None yet.</li>{% endfor %}
+  </ul>
+</div>
+<script>
+  document.querySelectorAll("form.decision").forEach(function (form) {
+    form.addEventListener("submit", function (e) {
+      var action = e.submitter && e.submitter.value;
+      if (action === "reject" && !form.reason.value.trim()) {
+        e.preventDefault();
+        form.reason.focus();
+        form.reason.style.borderColor = "#B3261E";
+      }
+    });
+  });
+</script>
+{% endblock %}

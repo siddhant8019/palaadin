@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "description": "Northbeam Ops ICP (fictional customer): mid-market B2B software companies in North America or the UK. The model never scores; this file and paladin/icp.py do.",
+  "rules": [
+    {
+      "id": "headcount_band",
+      "type": "headcount_band",
+      "fact_types": ["headcount"],
+      "min": 50,
+      "max": 1000,
+      "weight": 25
+    },
+    {
+      "id": "industry_match",
+      "type": "keywords",
+      "fact_types": ["industry", "product", "customer_segment"],
+      "keywords": ["saas", "software", "b2b", "platform", "api", "developer", "workflow", "automation", "analytics", "crm", "productivity", "collaboration"],
+      "weight": 35
+    },
+    {
+      "id": "hiring_signal",
+      "type": "fact_present",
+      "fact_types": ["hiring"],
+      "weight": 20
+    },
+    {
+      "id": "geography",
+      "type": "keywords",
+      "fact_types": ["hq_location"],
+      "keywords": ["united states", "usa", "u.s.", "san francisco", "new york", "boston", "seattle", "austin", "chicago", "denver", "los angeles", "california", "canada", "toronto", "united kingdom", "london"],
+      "weight": 20
+    }
+  ]
+}

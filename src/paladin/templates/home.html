@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Upload an account list</h2>
+  <p class="muted">CSV with a company name column and a domain column. Re-uploading a list never duplicates accounts.</p>
+  <form method="post" action="/upload" enctype="multipart/form-data" class="row">
+    <input type="file" name="file" accept=".csv,text/csv" required>
+    <button class="btn" type="submit">Upload</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>Lists</h2>
+  <div class="scroll">
+  <table>
+    <tr><th>Batch</th><th>File</th><th>New / known / invalid</th><th>Run status</th><th></th></tr>
+    {% for b in batches %}
+    <tr>
+      <td class="mono">#{{ b.id }}</td>
+      <td>{{ b.filename }}<div class="muted" style="font-size:12px">{{ b.uploaded_by }}</div></td>
+      <td>{{ b.rows_new }} / {{ b.rows_duplicate }} / {{ b.rows_invalid }}</td>
+      <td>{% if b.statuses %}{% for s, c in b.statuses.items() %}<div>{{ s.replace('_', ' ') }}: {{ c }}</div>{% endfor %}{% else %}<span class="muted">not run</span>{% endif %}
+          {% if b.id in running %}<div class="muted">research in progress, refresh</div>{% endif %}</td>
+      <td><form method="post" action="/batches/{{ b.id }}/run"><button class="btn ghost" type="submit">Run research</button></form></td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" class="muted">No lists yet.</td></tr>
+    {% endfor %}
+  </table>
+  </div>
+</div>
+
+<p><a class="btn" href="/queue">Review {{ pending }} pending</a></p>
+{% endblock %}
