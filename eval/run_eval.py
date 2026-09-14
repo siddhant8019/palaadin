@@ -1,10 +1,10 @@
 """PALADIN evaluation. Replays real captured snapshots through the shipped code with live Gemini.
 
-Constraint that shaped this design: the only key available is a Gemini free-tier key, capped at
-about 20 generate requests per day per model (observed: "generate_content_free_tier_requests,
-limit: 20" on gemini-3.5-flash) plus per-minute limits. So each measurement runs on ONE model
-and stays under that cap, and different measurements use different models. Models are recorded
-in results/meta.json. Phases:
+Constraint that shaped this design: the only key available is a Gemini free-tier key with per-model
+caps (observed: "generate_content_free_tier_requests, limit: 20" per day on gemini-3.5-flash; a
+per-minute limit of 15 on gemini-3.5-flash-lite). Every model is configurable per phase through
+EVAL_MODEL_* so each measurement runs on a single model; the models actually used are recorded in
+results/meta.json. Phases:
 
   A. full graph, 1 run per company: fact precision/recall, production-prompt unsupported-claim
      rate before/after validation, latency, cost                   (extract model + brief model)
@@ -281,7 +281,7 @@ def main() -> None:
         "run_finished": datetime.now(UTC).isoformat(timespec="seconds"),
         "models": {"phase_a_extract": M_EXTRACT, "phase_a_brief": M_BRIEF, "phase_b_ablation": M_ABLATION,
                    "phase_c_stability": M_STABILITY, "phase_d_refusal": M_REFUSAL},
-        "why_multiple_models": "free-tier key, about 20 requests/day per model; each measurement uses one model",
+        "model_note": "free-tier key with per-model daily and per-minute caps; each measurement uses a single model, recorded above",
         "grounded_search": "disabled (reproducibility; key returned 429 quota on grounded requests)",
         "snapshot_capture_dates": sorted({json.loads(p.read_text())["captured_at"][:10]
                                           for p in (HERE / "snapshots").glob("*.json")}),

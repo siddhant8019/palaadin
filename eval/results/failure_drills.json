@@ -1,0 +1,233 @@
+{
+  "run_at": "2026-09-14T07:32:09+00:00",
+  "models": {
+    "extract": "gemini-3.1-flash-lite-preview",
+    "brief": "gemini-3.1-flash-lite-preview"
+  },
+  "site_403": {
+    "status": "refused",
+    "reason": "zero verified facts: no brief drafted, no model call made",
+    "log": [
+      {
+        "ts": "2026-09-14T07:32:10.542+00:00",
+        "domain": "gusto.com",
+        "node": "research",
+        "event": "site_fetched",
+        "latency_ms": 940,
+        "data": "{\"robots\": \"absent (http 403), allow all\", \"pages\": [{\"url\": \"https://gusto.com/\", \"requested_url\": \"https://gusto.com/\", \"status\": 403, \"error\": \"http 403\", \"latency_ms\": 63, \"chars\": 0}, {\"url\": \"https://gusto.com/about\", \"requested_url\": \"https://gusto.com/about\", \"status\": 403, \"error\": \"http 403\", \"latency_ms\": 78, \"chars\": 0}, {\"url\": \"https://gusto.com/about-us\", \"requested_url\": \"https://gusto.com/about-us\", \"status\": 403, \"error\": \"http 403\", \"latency_ms\": 176, \"chars\": 0}, {\"url\": \"https://gusto.com/company\", \"requested_url\": \"https://gusto.com/company\", \"status\": 403, \"error\": \"http 403\", \"latency_ms\": 87, \"chars\": 0}, {\"url\": \"https://gusto.com/careers\", \"requested_url\": \"https://gusto.com/careers\", \"status\": 403, \"error\": \"http 403\", \"latency_ms\": 85, \"chars\": 0}, {\"url\": \"https://gusto.com/jobs\", \"requested_url\": \"https://gusto.com/jobs\", \"status\": 403, \"error\": \"http 403\",...(truncated)"
+      },
+      {
+        "ts": "2026-09-14T07:32:10.543+00:00",
+        "domain": "gusto.com",
+        "node": "research",
+        "event": "extract_skipped",
+        "latency_ms": null,
+        "data": {
+          "reason": "no usable source documents"
+        }
+      },
+      {
+        "ts": "2026-09-14T07:32:10.550+00:00",
+        "domain": "gusto.com",
+        "node": "refuse",
+        "event": "refused",
+        "latency_ms": null,
+        "data": {
+          "reason": "zero verified facts: no brief drafted, no model call made"
+        }
+      }
+    ]
+  },
+  "site_timeout": {
+    "status": "refused",
+    "reason": "zero verified facts: no brief drafted, no model call made",
+    "log": [
+      {
+        "ts": "2026-09-14T07:32:10.761+00:00",
+        "domain": "linear.app",
+        "node": "research",
+        "event": "site_fetched",
+        "latency_ms": 145,
+        "data": {
+          "robots": "parsed",
+          "pages": [
+            {
+              "url": "https://linear.app/",
+              "requested_url": "https://linear.app/",
+              "status": null,
+              "error": "timeout: ReadTimeout",
+              "latency_ms": 52,
+              "chars": 0
+            },
+            {
+              "url": "https://linear.app",
+              "requested_url": "https://linear.app",
+              "status": null,
+              "error": "site unreachable, remaining paths skipped",
+              "latency_ms": 0,
+              "chars": 0
+            }
+          ]
+        }
+      },
+      {
+        "ts": "2026-09-14T07:32:10.762+00:00",
+        "domain": "linear.app",
+        "node": "research",
+        "event": "extract_skipped",
+        "latency_ms": null,
+        "data": {
+          "reason": "no usable source documents"
+        }
+      },
+      {
+        "ts": "2026-09-14T07:32:10.766+00:00",
+        "domain": "linear.app",
+        "node": "refuse",
+        "event": "refused",
+        "latency_ms": null,
+        "data": {
+          "reason": "zero verified facts: no brief drafted, no model call made"
+        }
+      }
+    ]
+  },
+  "malformed_json": {
+    "results": [
+      {
+        "domain": "attio.com",
+        "status": "failed",
+        "status_reason": "brief model returned malformed JSON twice: attempt 1: malformed JSON: Unterminated string starting at: line 12 column 15 (char 353); attempt 2: malformed JSON: Unterminated string starting at: line 12 column 15 (char 353)"
+      },
+      {
+        "domain": "close.com",
+        "status": "pending_approval",
+        "status_reason": null
+      }
+    ],
+    "log": [
+      {
+        "ts": "2026-09-14T07:32:20.058+00:00",
+        "domain": "attio.com",
+        "node": "draft",
+        "event": "malformed_output",
+        "latency_ms": 3546,
+        "data": {
+          "error": "attempt 1: malformed JSON: Unterminated string starting at: line 12 column 15 (char 353); attempt 2: malformed JSON: Unterminated string starting at: line 12 column 15 (char 353)"
+        }
+      },
+      {
+        "ts": "2026-09-14T07:32:20.062+00:00",
+        "domain": "attio.com",
+        "node": "fail",
+        "event": "failed_closed",
+        "latency_ms": null,
+        "data": {
+          "reason": "brief model returned malformed JSON twice: attempt 1: malformed JSON: Unterminated string starting at: line 12 column 15 (char 353); attempt 2: malformed JSON: Unterminated string starting at: line 12 column 15 (char 353)"
+        }
+      },
+      {
+        "ts": "2026-09-14T07:32:24.857+00:00",
+        "event": "batch_done"
+      }
+    ]
+  },
+  "no_evidence_refusal": {
+    "status": "refused",
+    "reason": "zero verified facts: no brief drafted, no model call made",
+    "log": [
+      {
+        "ts": "2026-09-14T07:32:24.922+00:00",
+        "domain": "paladin-eval-nonexistent.invalid",
+        "node": "research",
+        "event": "site_fetched",
+        "latency_ms": 2,
+        "data": {
+          "robots": "unreachable (network: ConnectError: [Errno 8] nodename nor servname provided, or not known), disallow all",
+          "pages": [
+            {
+              "url": "https://paladin-eval-nonexistent.invalid/",
+              "requested_url": "https://paladin-eval-nonexistent.invalid/",
+              "status": null,
+              "error": "skipped: robots unreachable (network: ConnectError: [Errno 8] nodename nor servname provided, or not known), disallow all",
+              "latency_ms": 0,
+              "chars": 0
+            }
+          ]
+        }
+      },
+      {
+        "ts": "2026-09-14T07:32:25.198+00:00",
+        "domain": "paladin-eval-nonexistent.invalid",
+        "node": "research",
+        "event": "grounded_search_error",
+        "latency_ms": 274,
+        "data": {
+          "error": "gemini 429 quota exhausted: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To moni"
+        }
+      },
+      {
+        "ts": "2026-09-14T07:32:25.199+00:00",
+        "domain": "paladin-eval-nonexistent.invalid",
+        "node": "research",
+        "event": "extract_skipped",
+        "latency_ms": null,
+        "data": {
+          "reason": "no usable source documents"
+        }
+      },
+      {
+        "ts": "2026-09-14T07:32:25.205+00:00",
+        "domain": "paladin-eval-nonexistent.invalid",
+        "node": "refuse",
+        "event": "refused",
+        "latency_ms": null,
+        "data": {
+          "reason": "zero verified facts: no brief drafted, no model call made"
+        }
+      }
+    ]
+  },
+  "duplicate_upload": {
+    "first": {
+      "batch_id": 5,
+      "rows_total": 5,
+      "rows_new": 3,
+      "rows_duplicate": 2,
+      "rows_invalid": 0
+    },
+    "second": {
+      "batch_id": 6,
+      "rows_total": 5,
+      "rows_new": 0,
+      "rows_duplicate": 5,
+      "rows_invalid": 0
+    },
+    "accounts_in_db": 8
+  },
+  "reviewer_reject": {
+    "status": "rejected",
+    "row": {
+      "status": "rejected",
+      "decision": "rejected",
+      "decided_by": "drill-reviewer",
+      "decision_reason": "Not our segment: sells to SMB sales teams"
+    },
+    "export_csv": "Company name,Company Domain Name,Description,paladin_first_line,paladin_icp_score,paladin_sources,paladin_approved_by,paladin_approved_at,paladin_run_id\n",
+    "log": [
+      {
+        "ts": "2026-09-14T07:32:25.220+00:00",
+        "domain": "close.com",
+        "node": "approval",
+        "event": "decision",
+        "latency_ms": null,
+        "data": {
+          "action": "reject",
+          "by": "drill-reviewer",
+          "reason": "Not our segment: sells to SMB sales teams",
+          "edited": false
+        }
+      }
+    ]
+  }
+}

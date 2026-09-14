@@ -88,7 +88,13 @@ class GeminiClient:
                     kind = "daily quota exhausted" if daily else "quota exhausted" if no_detail else "error"
                     raise ProviderUnavailable(f"gemini {code} {kind}: {message[:240]}") from exc
                 hinted = re.search(r"retry in ([\d.]+)s", message)
-                time.sleep(float(hinted.group(1)) + 1 if hinted else delay)
+                wait = float(hinted.group(1)) + 1 if hinted else delay
+                # Retries are otherwise invisible in the trace; a slow account should explain itself.
+                from .trace import log_json
+
+                log_json(event="gemini_retry", model=model, code=code, attempt=attempt + 1, wait_s=round(wait, 1),
+                         message=message[:160])
+                time.sleep(wait)
                 delay = min(delay * 2, 60)
 
     def generate_json(
