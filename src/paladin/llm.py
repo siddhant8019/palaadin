@@ -64,9 +64,32 @@ def parse_json_text(text: str):
     return json.loads(cleaned)
 
 
+def vertex_enabled() -> bool:
+    return os.getenv("GOOGLE_GENAI_USE_VERTEXAI", "").strip().lower() in ("1", "true", "yes")
+
+
+def backend_description() -> str:
+    if vertex_enabled():
+        return f"vertex:{os.getenv('GOOGLE_CLOUD_PROJECT', '?')}/{os.getenv('GOOGLE_CLOUD_LOCATION', 'global')}"
+    return "gemini-api-key"
+
+
 class GeminiClient:
+    """Two auth modes, chosen by environment:
+    - Vertex AI: GOOGLE_GENAI_USE_VERTEXAI=true, GOOGLE_CLOUD_PROJECT, GOOGLE_CLOUD_LOCATION, and
+      Application Default Credentials.
+    - Gemini API key: GEMINI_API_KEY.
+    """
+
     def __init__(self, api_key: str | None = None, max_transport_retries: int = 4):
-        self.client = genai.Client(api_key=api_key or os.getenv("GEMINI_API_KEY"))
+        if vertex_enabled():
+            self.client = genai.Client(
+                vertexai=True,
+                project=os.getenv("GOOGLE_CLOUD_PROJECT"),
+                location=os.getenv("GOOGLE_CLOUD_LOCATION", "global"),
+            )
+        else:
+            self.client = genai.Client(api_key=api_key or os.getenv("GEMINI_API_KEY"))
         self.max_transport_retries = max_transport_retries
         self.calls = 0
 
@@ -81,8 +104,10 @@ class GeminiClient:
                 message = str(exc)
                 # A per-day quota will not clear in seconds, and every retry is itself a counted request
                 # (learned the hard way: retries on a daily-capped key burned the day's quota).
-                daily = code == 429 and ("PerDay" in message or "free_tier_requests" in message and "PerMinute" not in message)
-                no_detail = code == 429 and "quota" in message.lower() and "retry in" not in message.lower()
+                daily = code == 429 and ("PerDay" in message or "per_day" in message.lower())
+                # AI Studio free-tier quota errors without a retry hint (seen on grounded requests) do not clear.
+                no_detail = (code == 429 and "check your plan and billing details" in message
+                             and "retry in" not in message.lower())
                 retryable = code in (429, 500, 502, 503, 504) and not daily and not no_detail
                 if not retryable or attempt == self.max_transport_retries:
                     kind = "daily quota exhausted" if daily else "quota exhausted" if no_detail else "error"

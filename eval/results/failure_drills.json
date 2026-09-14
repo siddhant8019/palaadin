@@ -1,23 +1,23 @@
 {
-  "run_at": "2026-09-14T07:32:09+00:00",
+  "run_at": "2026-09-14T08:08:20+00:00",
   "models": {
-    "extract": "gemini-3.1-flash-lite-preview",
-    "brief": "gemini-3.1-flash-lite-preview"
+    "extract": "gemini-3.5-flash",
+    "brief": "gemini-3.5-flash"
   },
   "site_403": {
     "status": "refused",
     "reason": "zero verified facts: no brief drafted, no model call made",
     "log": [
       {
-        "ts": "2026-09-14T07:32:10.542+00:00",
+        "ts": "2026-09-14T08:08:21.482+00:00",
         "domain": "gusto.com",
         "node": "research",
         "event": "site_fetched",
-        "latency_ms": 940,
-        "data": "{\"robots\": \"absent (http 403), allow all\", \"pages\": [{\"url\": \"https://gusto.com/\", \"requested_url\": \"https://gusto.com/\", \"status\": 403, \"error\": \"http 403\", \"latency_ms\": 63, \"chars\": 0}, {\"url\": \"https://gusto.com/about\", \"requested_url\": \"https://gusto.com/about\", \"status\": 403, \"error\": \"http 403\", \"latency_ms\": 78, \"chars\": 0}, {\"url\": \"https://gusto.com/about-us\", \"requested_url\": \"https://gusto.com/about-us\", \"status\": 403, \"error\": \"http 403\", \"latency_ms\": 176, \"chars\": 0}, {\"url\": \"https://gusto.com/company\", \"requested_url\": \"https://gusto.com/company\", \"status\": 403, \"error\": \"http 403\", \"latency_ms\": 87, \"chars\": 0}, {\"url\": \"https://gusto.com/careers\", \"requested_url\": \"https://gusto.com/careers\", \"status\": 403, \"error\": \"http 403\", \"latency_ms\": 85, \"chars\": 0}, {\"url\": \"https://gusto.com/jobs\", \"requested_url\": \"https://gusto.com/jobs\", \"status\": 403, \"error\": \"http 403\",...(truncated)"
+        "latency_ms": 791,
+        "data": "{\"robots\": \"absent (http 403), allow all\", \"pages\": [{\"url\": \"https://gusto.com/\", \"requested_url\": \"https://gusto.com/\", \"status\": 403, \"error\": \"http 403\", \"latency_ms\": 72, \"chars\": 0}, {\"url\": \"https://gusto.com/about\", \"requested_url\": \"https://gusto.com/about\", \"status\": 403, \"error\": \"http 403\", \"latency_ms\": 65, \"chars\": 0}, {\"url\": \"https://gusto.com/about-us\", \"requested_url\": \"https://gusto.com/about-us\", \"status\": 403, \"error\": \"http 403\", \"latency_ms\": 77, \"chars\": 0}, {\"url\": \"https://gusto.com/company\", \"requested_url\": \"https://gusto.com/company\", \"status\": 403, \"error\": \"http 403\", \"latency_ms\": 153, \"chars\": 0}, {\"url\": \"https://gusto.com/careers\", \"requested_url\": \"https://gusto.com/careers\", \"status\": 403, \"error\": \"http 403\", \"latency_ms\": 77, \"chars\": 0}, {\"url\": \"https://gusto.com/jobs\", \"requested_url\": \"https://gusto.com/jobs\", \"status\": 403, \"error\": \"http 403\",...(truncated)"
       },
       {
-        "ts": "2026-09-14T07:32:10.543+00:00",
+        "ts": "2026-09-14T08:08:21.483+00:00",
         "domain": "gusto.com",
         "node": "research",
         "event": "extract_skipped",
@@ -27,7 +27,7 @@
         }
       },
       {
-        "ts": "2026-09-14T07:32:10.550+00:00",
+        "ts": "2026-09-14T08:08:21.494+00:00",
         "domain": "gusto.com",
         "node": "refuse",
         "event": "refused",
@@ -43,11 +43,11 @@
     "reason": "zero verified facts: no brief drafted, no model call made",
     "log": [
       {
-        "ts": "2026-09-14T07:32:10.761+00:00",
+        "ts": "2026-09-14T08:08:21.802+00:00",
         "domain": "linear.app",
         "node": "research",
         "event": "site_fetched",
-        "latency_ms": 145,
+        "latency_ms": 232,
         "data": {
           "robots": "parsed",
           "pages": [
@@ -71,7 +71,7 @@
         }
       },
       {
-        "ts": "2026-09-14T07:32:10.762+00:00",
+        "ts": "2026-09-14T08:08:21.803+00:00",
         "domain": "linear.app",
         "node": "research",
         "event": "extract_skipped",
@@ -81,7 +81,7 @@
         }
       },
       {
-        "ts": "2026-09-14T07:32:10.766+00:00",
+        "ts": "2026-09-14T08:08:21.811+00:00",
         "domain": "linear.app",
         "node": "refuse",
         "event": "refused",
@@ -97,7 +97,7 @@
       {
         "domain": "attio.com",
         "status": "failed",
-        "status_reason": "brief model returned malformed JSON twice: attempt 1: malformed JSON: Unterminated string starting at: line 12 column 15 (char 353); attempt 2: malformed JSON: Unterminated string starting at: line 12 column 15 (char 353)"
+        "status_reason": "brief model returned malformed JSON twice: attempt 1: malformed JSON: Expecting ',' delimiter: line 10 column 3 (char 397); attempt 2: malformed JSON: Expecting ',' delimiter: line 10 column 3 (char 397)"
       },
       {
         "domain": "close.com",
@@ -107,27 +107,27 @@
     ],
     "log": [
       {
-        "ts": "2026-09-14T07:32:20.058+00:00",
+        "ts": "2026-09-14T08:08:57.849+00:00",
         "domain": "attio.com",
         "node": "draft",
         "event": "malformed_output",
-        "latency_ms": 3546,
+        "latency_ms": 18672,
         "data": {
-          "error": "attempt 1: malformed JSON: Unterminated string starting at: line 12 column 15 (char 353); attempt 2: malformed JSON: Unterminated string starting at: line 12 column 15 (char 353)"
+          "error": "attempt 1: malformed JSON: Expecting ',' delimiter: line 10 column 3 (char 397); attempt 2: malformed JSON: Expecting ',' delimiter: line 10 column 3 (char 397)"
         }
       },
       {
-        "ts": "2026-09-14T07:32:20.062+00:00",
+        "ts": "2026-09-14T08:08:57.852+00:00",
         "domain": "attio.com",
         "node": "fail",
         "event": "failed_closed",
         "latency_ms": null,
         "data": {
-          "reason": "brief model returned malformed JSON twice: attempt 1: malformed JSON: Unterminated string starting at: line 12 column 15 (char 353); attempt 2: malformed JSON: Unterminated string starting at: line 12 column 15 (char 353)"
+          "reason": "brief model returned malformed JSON twice: attempt 1: malformed JSON: Expecting ',' delimiter: line 10 column 3 (char 397); attempt 2: malformed JSON: Expecting ',' delimiter: line 10 column 3 (char 397)"
         }
       },
       {
-        "ts": "2026-09-14T07:32:24.857+00:00",
+        "ts": "2026-09-14T08:09:33.537+00:00",
         "event": "batch_done"
       }
     ]
@@ -137,11 +137,11 @@
     "reason": "zero verified facts: no brief drafted, no model call made",
     "log": [
       {
-        "ts": "2026-09-14T07:32:24.922+00:00",
+        "ts": "2026-09-14T08:09:33.600+00:00",
         "domain": "paladin-eval-nonexistent.invalid",
         "node": "research",
         "event": "site_fetched",
-        "latency_ms": 2,
+        "latency_ms": 3,
         "data": {
           "robots": "unreachable (network: ConnectError: [Errno 8] nodename nor servname provided, or not known), disallow all",
           "pages": [
@@ -157,17 +157,20 @@
         }
       },
       {
-        "ts": "2026-09-14T07:32:25.198+00:00",
+        "ts": "2026-09-14T08:10:10.824+00:00",
         "domain": "paladin-eval-nonexistent.invalid",
         "node": "research",
-        "event": "grounded_search_error",
-        "latency_ms": 274,
+        "event": "grounded_search",
+        "latency_ms": 37221,
         "data": {
-          "error": "gemini 429 quota exhausted: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To moni"
+          "answer": "Nonexistent Co is a fictional entity and does not exist. Its website domain uses the invalid extension which is reserved exclusively for testing. Since the company is not real, it does not sell any products and has no associated industry. For the same reason, it does not have a headquarters or an em",
+          "sources": [],
+          "fetched_ok": 0,
+          "rejected": []
         }
       },
       {
-        "ts": "2026-09-14T07:32:25.199+00:00",
+        "ts": "2026-09-14T08:10:10.825+00:00",
         "domain": "paladin-eval-nonexistent.invalid",
         "node": "research",
         "event": "extract_skipped",
@@ -177,7 +180,7 @@
         }
       },
       {
-        "ts": "2026-09-14T07:32:25.205+00:00",
+        "ts": "2026-09-14T08:10:10.830+00:00",
         "domain": "paladin-eval-nonexistent.invalid",
         "node": "refuse",
         "event": "refused",
@@ -216,7 +219,7 @@
     "export_csv": "Company name,Company Domain Name,Description,paladin_first_line,paladin_icp_score,paladin_sources,paladin_approved_by,paladin_approved_at,paladin_run_id\n",
     "log": [
       {
-        "ts": "2026-09-14T07:32:25.220+00:00",
+        "ts": "2026-09-14T08:10:10.837+00:00",
         "domain": "close.com",
         "node": "approval",
         "event": "decision",

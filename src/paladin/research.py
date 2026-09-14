@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import re
 import time
+from urllib.parse import urlsplit
 from dataclasses import dataclass, field
 
 from .fetch import Page, SiteFetcher
@@ -111,6 +112,15 @@ def hiring_fact_from_pages(pages: list[Page]) -> dict | None:
     return None
 
 
+def mentions_account(page: Page, name: str, domain: str) -> bool:
+    """A grounded source counts only if it is the company's own site or names the company."""
+    host = (urlsplit(page.url).hostname or "").lower()
+    if host == domain or host.endswith("." + domain):
+        return True
+    text = norm(page.text)
+    return norm(domain) in text or (len(name) >= 4 and norm(name) in text)
+
+
 def verify_candidates(candidates: list[dict], pages_by_url: dict[str, Page]) -> tuple[list[dict], list[dict]]:
     kept, dropped = [], []
     for c in candidates:
@@ -193,17 +203,23 @@ def run_research(account: dict, fetcher: SiteFetcher, llm, settings, tracer=None
             out.grounded_requests += 1
             out.tokens_in += g.tokens_in
             out.tokens_out += g.tokens_out
-            fetched = 0
+            fetched, rejected = 0, []
             for src in g.sources[:4]:
-                p = fetcher.fetch_url(src["uri"])
+                final_url = fetcher.resolve_redirect(src["uri"])
+                p = fetcher.fetch_url(final_url)
+                if p.ok() and not mentions_account(p, name, domain):
+                    # Search can return pages about a different company; never let those become facts.
+                    rejected.append({"url": p.url, "reason": "page does not mention the account name or domain"})
+                    p.error = "rejected: does not mention the account"
                 out.documents.append(p)
                 if p.ok():
                     fetched += 1
                     pages.append(p)
             out.providers["gemini_grounded_search"] = (
-                f"used: {len(g.sources)} sources, {fetched} fetched" if g.sources else "used: returned no sources"
+                f"used: {len(g.sources)} sources, {fetched} usable" if g.sources else "used: returned no sources"
             )
-            ev("grounded_search", {"sources": g.sources, "fetched_ok": fetched},
+            ev("grounded_search", {"answer": g.text[:300], "sources": g.sources, "fetched_ok": fetched,
+                                   "rejected": rejected},
                latency_ms=int((time.perf_counter() - t1) * 1000), tokens_in=g.tokens_in, tokens_out=g.tokens_out)
         except ProviderUnavailable as exc:
             out.providers["gemini_grounded_search"] = f"error: {exc}"

@@ -2,6 +2,17 @@
 
 All commands run from the repo root. Configuration is environment variables (see `.env.example`).
 
+## Model auth: Vertex AI or API key
+
+Gemini is the only model provider, reached through `google-genai` in one of two modes, chosen by environment:
+
+| mode | set | notes |
+|---|---|---|
+| Vertex AI | `GOOGLE_GENAI_USE_VERTEXAI=true`, `GOOGLE_CLOUD_PROJECT`, `GOOGLE_CLOUD_LOCATION` (`global`, or `us-central1` as a fallback) | Uses Application Default Credentials. Google Search grounding works. Takes precedence when enabled. |
+| API key | `GEMINI_API_KEY` | AI Studio key. A free-tier key allows about 20 requests per day per model and did not allow grounded requests during this build. |
+
+Check which backend a run used: the eval writes it to `eval/results/meta.json` (`backend`). If Vertex returns `404` for a model id in `global`, set `GOOGLE_CLOUD_LOCATION=us-central1` or pick another id in `PALADIN_MODEL_*`.
+
 ## Re-run a list
 
 Uploading the same CSV again is safe: accounts are keyed on the normalized domain, so nothing duplicates.

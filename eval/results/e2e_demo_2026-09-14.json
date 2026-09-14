@@ -1,0 +1,133 @@
+{
+  "captured_at": "2026-09-14T08:14:18+00:00",
+  "what": "local end-to-end run: examples/accounts_5.csv via CLI (website fetch + Gemini grounded search on Vertex AI), decisions via the live web app over HTTP, export via /export.csv",
+  "export_file": "examples/sample_hubspot_export_2026-09-14.csv",
+  "price_note": "cost_usd uses placeholder prices from src/paladin/config.py, including an assumed 0.035 USD per grounded request",
+  "runs": [
+    {
+      "domain": "linear.app",
+      "run_id": "bd88ac56-fabc-47da-a92d-f1494708881f",
+      "status": "approved",
+      "decided_by": "operator",
+      "decision_reason": null,
+      "providers": {
+        "apollo": "provider disabled: no key",
+        "tavily": "provider disabled: no key",
+        "website": "used: 7/7 pages ok",
+        "gemini_grounded_search": "used: 5 sources, 1 usable"
+      },
+      "tokens_in": 8607,
+      "tokens_out": 9006,
+      "grounded_requests": 1,
+      "cost_usd": 0.060097,
+      "facts": 15,
+      "offsite_facts": 4,
+      "icp_total": "100",
+      "claims_total": "5",
+      "claims_unsupported": "0",
+      "edited_by_human": "true",
+      "model": "gemini-3.5-flash",
+      "pipeline_latency_ms": 49353
+    },
+    {
+      "domain": "posthog.com",
+      "run_id": "9e681989-a667-4010-bb72-cff257652754",
+      "status": "rejected",
+      "decided_by": "operator",
+      "decision_reason": "HQ and funding claims come only from a data broker (leadiq.com) and conflict with PostHog's own careers page, which says fully remote",
+      "providers": {
+        "apollo": "provider disabled: no key",
+        "tavily": "provider disabled: no key",
+        "website": "used: 5/5 pages ok",
+        "gemini_grounded_search": "used: 2 sources, 2 usable"
+      },
+      "tokens_in": 14991,
+      "tokens_out": 9219,
+      "grounded_requests": 1,
+      "cost_usd": 0.062545,
+      "facts": 15,
+      "offsite_facts": 7,
+      "icp_total": "100",
+      "claims_total": "5",
+      "claims_unsupported": "0",
+      "edited_by_human": null,
+      "model": "gemini-3.5-flash",
+      "pipeline_latency_ms": 44214
+    },
+    {
+      "domain": "attio.com",
+      "run_id": "e86773ed-7a92-447d-9877-72a76688441e",
+      "status": "approved",
+      "decided_by": "operator",
+      "decision_reason": null,
+      "providers": {
+        "apollo": "provider disabled: no key",
+        "tavily": "provider disabled: no key",
+        "website": "used: 4/7 pages ok",
+        "gemini_grounded_search": "used: 3 sources, 2 usable"
+      },
+      "tokens_in": 14514,
+      "tokens_out": 11064,
+      "grounded_requests": 1,
+      "cost_usd": 0.067014,
+      "facts": 16,
+      "offsite_facts": 4,
+      "icp_total": "100",
+      "claims_total": "5",
+      "claims_unsupported": "0",
+      "edited_by_human": "false",
+      "model": "gemini-3.5-flash",
+      "pipeline_latency_ms": 59370
+    },
+    {
+      "domain": "cal.com",
+      "run_id": "cbcaeb68-20ef-4fe0-9129-c0bcd6b87075",
+      "status": "approved",
+      "decided_by": "operator",
+      "decision_reason": null,
+      "providers": {
+        "apollo": "provider disabled: no key",
+        "tavily": "provider disabled: no key",
+        "website": "used: 7/8 pages ok",
+        "gemini_grounded_search": "used: 2 sources, 0 usable"
+      },
+      "tokens_in": 13608,
+      "tokens_out": 7916,
+      "grounded_requests": 1,
+      "cost_usd": 0.058872,
+      "facts": 16,
+      "offsite_facts": 0,
+      "icp_total": "55",
+      "claims_total": "4",
+      "claims_unsupported": "0",
+      "edited_by_human": "false",
+      "model": "gemini-3.5-flash",
+      "pipeline_latency_ms": 40757
+    },
+    {
+      "domain": "pipedrive.com",
+      "run_id": "91b1b45d-3b02-449e-b115-06d88d760720",
+      "status": "approved",
+      "decided_by": "operator",
+      "decision_reason": null,
+      "providers": {
+        "apollo": "provider disabled: no key",
+        "tavily": "provider disabled: no key",
+        "website": "used: 3/8 pages ok",
+        "gemini_grounded_search": "used: 4 sources, 3 usable"
+      },
+      "tokens_in": 15027,
+      "tokens_out": 13091,
+      "grounded_requests": 1,
+      "cost_usd": 0.072236,
+      "facts": 24,
+      "offsite_facts": 11,
+      "icp_total": "100",
+      "claims_total": "5",
+      "claims_unsupported": "0",
+      "edited_by_human": "false",
+      "model": "gemini-3.5-flash",
+      "pipeline_latency_ms": 62397
+    }
+  ]
+}

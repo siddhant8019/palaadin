@@ -10,6 +10,7 @@ import pytest
 os.environ.setdefault("TEST_DATABASE_URL", "postgresql://postgres@localhost:5545/paladin_test")
 os.environ["DATABASE_URL"] = os.environ["TEST_DATABASE_URL"]
 os.environ["PALADIN_GROUNDED_SEARCH"] = "0"
+os.environ.pop("GOOGLE_GENAI_USE_VERTEXAI", None)  # tests never call a real model
 os.environ.pop("APOLLO_API_KEY", None)
 os.environ.pop("TAVILY_API_KEY", None)
 

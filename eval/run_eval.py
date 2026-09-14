@@ -1,10 +1,10 @@
 """PALADIN evaluation. Replays real captured snapshots through the shipped code with live Gemini.
 
-Constraint that shaped this design: the only key available is a Gemini free-tier key with per-model
-caps (observed: "generate_content_free_tier_requests, limit: 20" per day on gemini-3.5-flash; a
-per-minute limit of 15 on gemini-3.5-flash-lite). Every model is configurable per phase through
-EVAL_MODEL_* so each measurement runs on a single model; the models actually used are recorded in
-results/meta.json. Phases:
+Model backend: Vertex AI (ADC) or a Gemini API key, chosen by environment (see RUNBOOK). The first
+eval run used a free-tier API key with per-model daily caps; its results are archived under
+results/archive/. Every model is configurable per phase through EVAL_MODEL_*, a hard call budget
+(EVAL_MAX_CALLS) stops the run before overspending, and the backend and models actually used are
+recorded in results/meta.json. Phases:
 
   A. full graph, 1 run per company: fact precision/recall, production-prompt unsupported-claim
      rate before/after validation, latency, cost                   (extract model + brief model)
@@ -31,8 +31,8 @@ sys.path.insert(0, str(HERE))
 
 if os.getenv("EVAL_DATABASE_URL"):
     os.environ["DATABASE_URL"] = os.environ["EVAL_DATABASE_URL"]
-# Grounded search is off in the eval: results must be reproducible from snapshots, and this key
-# returned 429 quota errors for every grounded request.
+# Grounded search is off in the eval so results are reproducible from snapshots. It is exercised
+# live in eval/failure_drills.py and the local end-to-end run instead.
 os.environ["PALADIN_GROUNDED_SEARCH"] = "0"
 
 from snapshot import load_companies, load_snapshot  # noqa: E402
@@ -43,20 +43,21 @@ from paladin.config import PRICE_INPUT_PER_M, PRICE_OUTPUT_PER_M, estimate_cost,
 from paladin.db import connect, migrate  # noqa: E402
 from paladin.fetch import SiteFetcher  # noqa: E402
 from paladin.ingest import ingest  # noqa: E402
-from paladin.llm import GeminiClient, MalformedModelOutput, ProviderUnavailable  # noqa: E402
+from paladin.llm import GeminiClient, MalformedModelOutput, ProviderUnavailable, backend_description  # noqa: E402
 from paladin.research import run_research  # noqa: E402
 from paladin.runner import Runner, make_deps  # noqa: E402
 from paladin.text import norm  # noqa: E402
 from paladin.trace import setup_logging  # noqa: E402
 
-M_EXTRACT = os.getenv("EVAL_MODEL_EXTRACT", "gemini-3.6-flash")
-M_BRIEF = os.getenv("EVAL_MODEL_BRIEF", "gemini-3-flash-preview")
-M_ABLATION = os.getenv("EVAL_MODEL_ABLATION", "gemini-3.8-flash")
-M_STABILITY = os.getenv("EVAL_MODEL_STABILITY", "gemini-3.7-flash")
-M_REFUSAL = os.getenv("EVAL_MODEL_REFUSAL", "gemini-3.1-flash-lite")
-ABLATION_N = int(os.getenv("EVAL_ABLATION_N", "9"))
-STABILITY_N = int(os.getenv("EVAL_STABILITY_N", "6"))
+M_EXTRACT = os.getenv("EVAL_MODEL_EXTRACT", "gemini-3.5-flash")
+M_BRIEF = os.getenv("EVAL_MODEL_BRIEF", "gemini-3.5-flash")
+M_ABLATION = os.getenv("EVAL_MODEL_ABLATION", "gemini-3.5-flash")
+M_STABILITY = os.getenv("EVAL_MODEL_STABILITY", "gemini-3.5-flash")
+M_REFUSAL = os.getenv("EVAL_MODEL_REFUSAL", "gemini-3.5-flash")
+ABLATION_N = int(os.getenv("EVAL_ABLATION_N", "19"))
+STABILITY_N = int(os.getenv("EVAL_STABILITY_N", "19"))
 RERUNS = int(os.getenv("EVAL_RERUNS", "3"))
+MAX_CALLS = int(os.getenv("EVAL_MAX_CALLS", "700"))  # hard budget guard on model calls
 RESULTS = HERE / "results"
 
 
@@ -70,6 +71,9 @@ class CountingGemini(GeminiClient):
 
     def generate_json(self, model, prompt, schema, purpose, context_domain=None, max_attempts=2):
         with self._lock:
+            used = sum(len(v) for v in self.by_domain.values())
+            if used >= MAX_CALLS:
+                raise SystemExit(f"eval call budget reached ({MAX_CALLS}); stopping before spending more")
             self.by_domain.setdefault(context_domain or "?", []).append(f"{purpose}:{model}")
         return super().generate_json(model, prompt, schema, purpose, context_domain, max_attempts)
 
@@ -281,8 +285,9 @@ def main() -> None:
         "run_finished": datetime.now(UTC).isoformat(timespec="seconds"),
         "models": {"phase_a_extract": M_EXTRACT, "phase_a_brief": M_BRIEF, "phase_b_ablation": M_ABLATION,
                    "phase_c_stability": M_STABILITY, "phase_d_refusal": M_REFUSAL},
+        "backend": backend_description(),
         "model_note": "free-tier key with per-model daily and per-minute caps; each measurement uses a single model, recorded above",
-        "grounded_search": "disabled (reproducibility; key returned 429 quota on grounded requests)",
+        "grounded_search": "disabled in the eval for reproducibility (snapshots only)",
         "snapshot_capture_dates": sorted({json.loads(p.read_text())["captured_at"][:10]
                                           for p in (HERE / "snapshots").glob("*.json")}),
         "companies_real": len(real), "companies_garbage": len(refusal_rows),

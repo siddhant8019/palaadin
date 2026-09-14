@@ -110,6 +110,20 @@ class SiteFetcher:
             return parser, f"absent (http {page.status}), allow all"
         return None, f"unreachable ({page.error}), disallow all"
 
+    def resolve_redirect(self, url: str, max_hops: int = 3) -> str:
+        """Follow Location headers without downloading bodies, so robots.txt is checked on the real site."""
+        current = url
+        for _ in range(max_hops):
+            try:
+                resp = self.client.get(current, follow_redirects=False)
+            except httpx.HTTPError:
+                return current
+            location = resp.headers.get("location")
+            if resp.status_code not in (301, 302, 303, 307, 308) or not location:
+                return current
+            current = urljoin(current, location)
+        return current
+
     def fetch_url(self, url: str) -> Page:
         parts = urlsplit(url)
         base = f"{parts.scheme}://{parts.netloc}"
