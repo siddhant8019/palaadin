@@ -1,0 +1,19 @@
+{
+  "run_started": "2026-09-14T07:51:09+00:00",
+  "run_finished": "2026-09-14T08:04:21+00:00",
+  "models": {
+    "phase_a_extract": "gemini-3.5-flash-lite",
+    "phase_a_brief": "gemini-3.5-flash-lite",
+    "phase_b_ablation": "gemini-3.5-flash-lite",
+    "phase_c_stability": "gemini-3.5-flash-lite",
+    "phase_d_refusal": "gemini-3.5-flash-lite"
+  },
+  "model_note": "free-tier key with per-model daily and per-minute caps; each measurement uses a single model, recorded above",
+  "grounded_search": "disabled (reproducibility; key returned 429 quota on grounded requests)",
+  "snapshot_capture_dates": [
+    "2026-09-14"
+  ],
+  "companies_real": 20,
+  "companies_garbage": 3,
+  "model_calls_total": 135
+}

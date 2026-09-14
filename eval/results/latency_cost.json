@@ -1,0 +1,35 @@
+{
+  "models": {
+    "extract": "gemini-3.5-flash",
+    "brief": "gemini-3.5-flash"
+  },
+  "accounts_measured": 19,
+  "measured_on": "accounts that reached pending_approval in phase A",
+  "pipeline_latency_ms": {
+    "p50": 32831,
+    "p95": 40077
+  },
+  "pipeline_plus_live_fetch_ms": {
+    "p50": 36591,
+    "p95": 44751
+  },
+  "cost_usd_per_account": {
+    "mean": 0.0223,
+    "p50": 0.02208,
+    "p95": 0.02653
+  },
+  "tokens_per_account": {
+    "in_mean": 10384,
+    "out_mean": 7675
+  },
+  "price_assumption_usd_per_m": {
+    "input": 0.3,
+    "output_incl_thinking": 2.5,
+    "note": "placeholder prices, see src/paladin/config.py"
+  },
+  "phase_a_statuses": {
+    "refused": 1,
+    "pending_approval": 19
+  },
+  "note": "pipeline latency replays snapshots (no website fetching) with workers=1 and includes any per-minute rate-limit waits; pipeline_plus_live_fetch adds the fetch wall time measured at capture"
+}

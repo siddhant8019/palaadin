@@ -1,0 +1,659 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "precision": 0.907,
+  "recall": 0.9194,
+  "facts_scored": 86,
+  "facts_correct": 78,
+  "labeled_positive_fields": 62,
+  "fields_covered": 57,
+  "method": "precision: share of extracted industry/product/hq_location/hiring facts that match the label; recall: share of positive labeled fields with at least one matching fact; match = a label keyword (or the HQ city) appears in the fact value",
+  "rows": [
+    {
+      "domain": "linear.app",
+      "tp_facts": 4,
+      "fp_facts": 1,
+      "covered": 3,
+      "positives": 3,
+      "per_field": {
+        "industry": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 1,
+          "correct": 0,
+          "label_positive": false,
+          "wrong_values": [
+            "Distributed across North America and Europe"
+          ]
+        },
+        "hiring": {
+          "extracted": 2,
+          "correct": 2,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "posthog.com",
+      "tp_facts": 4,
+      "fp_facts": 0,
+      "covered": 3,
+      "positives": 3,
+      "per_field": {
+        "industry": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 0,
+          "correct": 0,
+          "label_positive": false,
+          "wrong_values": []
+        },
+        "hiring": {
+          "extracted": 2,
+          "correct": 2,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "attio.com",
+      "tp_facts": 5,
+      "fp_facts": 0,
+      "covered": 4,
+      "positives": 4,
+      "per_field": {
+        "industry": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hiring": {
+          "extracted": 2,
+          "correct": 2,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "cal.com",
+      "tp_facts": 6,
+      "fp_facts": 2,
+      "covered": 3,
+      "positives": 3,
+      "per_field": {
+        "industry": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 2,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": [
+            "In-house video conferencing platform"
+          ]
+        },
+        "hq_location": {
+          "extracted": 1,
+          "correct": 0,
+          "label_positive": false,
+          "wrong_values": [
+            "No physical headquarters"
+          ]
+        },
+        "hiring": {
+          "extracted": 4,
+          "correct": 4,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "pipedrive.com",
+      "tp_facts": 5,
+      "fp_facts": 0,
+      "covered": 4,
+      "positives": 4,
+      "per_field": {
+        "industry": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hiring": {
+          "extracted": 2,
+          "correct": 2,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "retool.com",
+      "tp_facts": 3,
+      "fp_facts": 1,
+      "covered": 3,
+      "positives": 3,
+      "per_field": {
+        "industry": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 1,
+          "correct": 0,
+          "label_positive": false,
+          "wrong_values": [
+            "San Francisco, United States"
+          ]
+        },
+        "hiring": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "airtable.com",
+      "tp_facts": 2,
+      "fp_facts": 0,
+      "covered": 2,
+      "positives": 4,
+      "per_field": {
+        "industry": {
+          "extracted": 0,
+          "correct": 0,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hiring": {
+          "extracted": 0,
+          "correct": 0,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "zapier.com",
+      "tp_facts": 6,
+      "fp_facts": 0,
+      "covered": 3,
+      "positives": 3,
+      "per_field": {
+        "industry": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 3,
+          "correct": 3,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 0,
+          "correct": 0,
+          "label_positive": false,
+          "wrong_values": []
+        },
+        "hiring": {
+          "extracted": 2,
+          "correct": 2,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "calendly.com",
+      "tp_facts": 5,
+      "fp_facts": 0,
+      "covered": 3,
+      "positives": 3,
+      "per_field": {
+        "industry": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 3,
+          "correct": 3,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 0,
+          "correct": 0,
+          "label_positive": false,
+          "wrong_values": []
+        },
+        "hiring": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "intercom.com",
+      "tp_facts": 3,
+      "fp_facts": 1,
+      "covered": 2,
+      "positives": 3,
+      "per_field": {
+        "industry": {
+          "extracted": 0,
+          "correct": 0,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 1,
+          "correct": 0,
+          "label_positive": false,
+          "wrong_values": [
+            "San Francisco"
+          ]
+        },
+        "hiring": {
+          "extracted": 2,
+          "correct": 2,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "sentry.io",
+      "tp_facts": 4,
+      "fp_facts": 1,
+      "covered": 2,
+      "positives": 3,
+      "per_field": {
+        "industry": {
+          "extracted": 0,
+          "correct": 0,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 2,
+          "correct": 2,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 1,
+          "correct": 0,
+          "label_positive": false,
+          "wrong_values": [
+            "San Francisco, USA"
+          ]
+        },
+        "hiring": {
+          "extracted": 2,
+          "correct": 2,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "supabase.com",
+      "tp_facts": 4,
+      "fp_facts": 0,
+      "covered": 3,
+      "positives": 3,
+      "per_field": {
+        "industry": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 0,
+          "correct": 0,
+          "label_positive": false,
+          "wrong_values": []
+        },
+        "hiring": {
+          "extracted": 2,
+          "correct": 2,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "clickup.com",
+      "tp_facts": 5,
+      "fp_facts": 0,
+      "covered": 4,
+      "positives": 4,
+      "per_field": {
+        "industry": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hiring": {
+          "extracted": 2,
+          "correct": 2,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "freshworks.com",
+      "tp_facts": 5,
+      "fp_facts": 0,
+      "covered": 3,
+      "positives": 3,
+      "per_field": {
+        "industry": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 2,
+          "correct": 2,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 0,
+          "correct": 0,
+          "label_positive": false,
+          "wrong_values": []
+        },
+        "hiring": {
+          "extracted": 2,
+          "correct": 2,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "mixpanel.com",
+      "tp_facts": 4,
+      "fp_facts": 1,
+      "covered": 3,
+      "positives": 3,
+      "per_field": {
+        "industry": {
+          "extracted": 2,
+          "correct": 2,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 1,
+          "correct": 0,
+          "label_positive": false,
+          "wrong_values": [
+            "San Francisco"
+          ]
+        },
+        "hiring": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "amplitude.com",
+      "tp_facts": 3,
+      "fp_facts": 0,
+      "covered": 3,
+      "positives": 3,
+      "per_field": {
+        "industry": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 0,
+          "correct": 0,
+          "label_positive": false,
+          "wrong_values": []
+        },
+        "hiring": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "gusto.com",
+      "skipped": "every snapshot page returned HTTP 403 to the bot user agent, so no text to label from"
+    },
+    {
+      "domain": "loom.com",
+      "tp_facts": 3,
+      "fp_facts": 0,
+      "covered": 2,
+      "positives": 3,
+      "per_field": {
+        "industry": {
+          "extracted": 0,
+          "correct": 0,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 2,
+          "correct": 2,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 0,
+          "correct": 0,
+          "label_positive": false,
+          "wrong_values": []
+        },
+        "hiring": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "front.com",
+      "tp_facts": 4,
+      "fp_facts": 0,
+      "covered": 4,
+      "positives": 4,
+      "per_field": {
+        "industry": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hiring": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    },
+    {
+      "domain": "close.com",
+      "tp_facts": 3,
+      "fp_facts": 1,
+      "covered": 3,
+      "positives": 3,
+      "per_field": {
+        "industry": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "product": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        },
+        "hq_location": {
+          "extracted": 1,
+          "correct": 0,
+          "label_positive": false,
+          "wrong_values": [
+            "Austin, Texas"
+          ]
+        },
+        "hiring": {
+          "extracted": 1,
+          "correct": 1,
+          "label_positive": true,
+          "wrong_values": []
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+ "domain": "gusto.com",
+ "company": "Gusto",
+ "captured_at": "2026-09-14T07:26:25+00:00",
+ "fetch_wall_ms": 1292,
+ "robots": "absent (http 403), allow all",
+ "pages": [
+  {
+   "url": "https://gusto.com/",
+   "requested_url": "https://gusto.com/",
+   "status": 403,
+   "text": "",
+   "error": "http 403",
+   "latency_ms": 118
+  },
+  {
+   "url": "https://gusto.com/about",
+   "requested_url": "https://gusto.com/about",
+   "status": 403,
+   "text": "",
+   "error": "http 403",
+   "latency_ms": 227
+  },
+  {
+   "url": "https://gusto.com/about-us",
+   "requested_url": "https://gusto.com/about-us",
+   "status": 403,
+   "text": "",
+   "error": "http 403",
+   "latency_ms": 177
+  },
+  {
+   "url": "https://gusto.com/company",
+   "requested_url": "https://gusto.com/company",
+   "status": 403,
+   "text": "",
+   "error": "http 403",
+   "latency_ms": 92
+  },
+  {
+   "url": "https://gusto.com/careers",
+   "requested_url": "https://gusto.com/careers",
+   "status": 403,
+   "text": "",
+   "error": "http 403",
+   "latency_ms": 206
+  },
+  {
+   "url": "https://gusto.com/jobs",
+   "requested_url": "https://gusto.com/jobs",
+   "status": 403,
+   "text": "",
+   "error": "http 403",
+   "latency_ms": 113
+  },
+  {
+   "url": "https://gusto.com/customers",
+   "requested_url": "https://gusto.com/customers",
+   "status": 403,
+   "text": "",
+   "error": "http 403",
+   "latency_ms": 144
+  },
+  {
+   "url": "https://gusto.com/pricing",
+   "requested_url": "https://gusto.com/pricing",
+   "status": 403,
+   "text": "",
+   "error": "http 403",
+   "latency_ms": 91
+  }
+ ]
+}

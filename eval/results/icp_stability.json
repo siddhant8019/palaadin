@@ -1,0 +1,552 @@
+{
+  "model": "gemini-3.5-flash",
+  "reruns": 3,
+  "accounts_attempted": 19,
+  "accounts_complete": 19,
+  "accounts_identical_score": 16,
+  "stability_rate": 0.8421,
+  "max_spread": 35,
+  "runs": {
+    "linear.app": [
+      {
+        "total": 20,
+        "facts": 15,
+        "matched_rules": [
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 55,
+        "facts": 14,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 55,
+        "facts": 14,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      }
+    ],
+    "posthog.com": [
+      {
+        "total": 80,
+        "facts": 9,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 80,
+        "facts": 11,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 80,
+        "facts": 11,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal"
+        ]
+      }
+    ],
+    "attio.com": [
+      {
+        "total": 100,
+        "facts": 10,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      },
+      {
+        "total": 100,
+        "facts": 10,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      },
+      {
+        "total": 100,
+        "facts": 14,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      }
+    ],
+    "cal.com": [
+      {
+        "total": 55,
+        "facts": 16,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 55,
+        "facts": 16,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 55,
+        "facts": 12,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      }
+    ],
+    "pipedrive.com": [
+      {
+        "total": 100,
+        "facts": 16,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      },
+      {
+        "total": 100,
+        "facts": 18,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      },
+      {
+        "total": 100,
+        "facts": 18,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      }
+    ],
+    "retool.com": [
+      {
+        "total": 55,
+        "facts": 14,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 55,
+        "facts": 14,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 55,
+        "facts": 14,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      }
+    ],
+    "airtable.com": [
+      {
+        "total": 100,
+        "facts": 11,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      },
+      {
+        "total": 100,
+        "facts": 12,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      },
+      {
+        "total": 100,
+        "facts": 11,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      }
+    ],
+    "zapier.com": [
+      {
+        "total": 80,
+        "facts": 13,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 80,
+        "facts": 13,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 80,
+        "facts": 13,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal"
+        ]
+      }
+    ],
+    "calendly.com": [
+      {
+        "total": 55,
+        "facts": 11,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 55,
+        "facts": 11,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 55,
+        "facts": 14,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      }
+    ],
+    "intercom.com": [
+      {
+        "total": 55,
+        "facts": 17,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 45,
+        "facts": 19,
+        "matched_rules": [
+          "headcount_band",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 55,
+        "facts": 17,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      }
+    ],
+    "sentry.io": [
+      {
+        "total": 80,
+        "facts": 16,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 80,
+        "facts": 14,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 80,
+        "facts": 16,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal"
+        ]
+      }
+    ],
+    "supabase.com": [
+      {
+        "total": 80,
+        "facts": 15,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 80,
+        "facts": 15,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 80,
+        "facts": 15,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal"
+        ]
+      }
+    ],
+    "clickup.com": [
+      {
+        "total": 75,
+        "facts": 15,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      },
+      {
+        "total": 75,
+        "facts": 15,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      },
+      {
+        "total": 75,
+        "facts": 13,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      }
+    ],
+    "freshworks.com": [
+      {
+        "total": 55,
+        "facts": 13,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 55,
+        "facts": 10,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 55,
+        "facts": 13,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      }
+    ],
+    "mixpanel.com": [
+      {
+        "total": 55,
+        "facts": 12,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 55,
+        "facts": 12,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 55,
+        "facts": 14,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      }
+    ],
+    "amplitude.com": [
+      {
+        "total": 80,
+        "facts": 16,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 80,
+        "facts": 16,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 80,
+        "facts": 16,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal"
+        ]
+      }
+    ],
+    "loom.com": [
+      {
+        "total": 55,
+        "facts": 11,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 20,
+        "facts": 9,
+        "matched_rules": [
+          "hiring_signal"
+        ]
+      },
+      {
+        "total": 55,
+        "facts": 11,
+        "matched_rules": [
+          "industry_match",
+          "hiring_signal"
+        ]
+      }
+    ],
+    "front.com": [
+      {
+        "total": 100,
+        "facts": 16,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      },
+      {
+        "total": 100,
+        "facts": 14,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      },
+      {
+        "total": 100,
+        "facts": 16,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      }
+    ],
+    "close.com": [
+      {
+        "total": 100,
+        "facts": 14,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      },
+      {
+        "total": 100,
+        "facts": 14,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      },
+      {
+        "total": 100,
+        "facts": 14,
+        "matched_rules": [
+          "headcount_band",
+          "industry_match",
+          "hiring_signal",
+          "geography"
+        ]
+      }
+    ]
+  },
+  "note": "the scoring function is deterministic for fixed facts (tests/test_icp.py); any spread comes from run-to-run variation in what the model extracts"
+}

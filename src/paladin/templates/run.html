@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>{{ run.name }} <span class="muted mono">{{ run.domain }}</span></h2>
+  <p>Status <strong>{{ run.status }}</strong> <span class="muted">{{ run.status_reason or '' }}</span></p>
+  <p class="mono">run {{ run.id }} . tokens in {{ run.tokens_in }} . out {{ run.tokens_out }} . est. cost ${{ run.cost_usd }}</p>
+  <p class="muted">Providers: {% for k, v in run.providers.items() %}<span class="mono">{{ k }}</span> {{ v }}; {% endfor %}</p>
+  {% if run.decision %}<p>Decision <strong>{{ run.decision }}</strong> by {{ run.decided_by }} <span class="muted">{{ run.decision_reason or '' }}</span></p>{% endif %}
+</div>
+<div class="card scroll">
+  <h2>Trace</h2>
+  <table>
+    <tr><th>Node</th><th>Event</th><th>ms</th><th>Tokens</th><th>Data</th></tr>
+    {% for e in events %}
+    <tr><td class="mono">{{ e.node }}</td><td>{{ e.event }}</td><td>{{ e.latency_ms or '' }}</td>
+      <td>{{ e.tokens_in or '' }}{% if e.tokens_out %} / {{ e.tokens_out }}{% endif %}</td>
+      <td><details><summary class="muted">view</summary><pre class="mono" style="white-space:pre-wrap">{{ e.data | tojson(indent=2) }}</pre></details></td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

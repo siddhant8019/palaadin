@@ -1,0 +1,33 @@
+{
+  "date": "2026-09-14T08:04:21+00:00",
+  "models": {
+    "phase_a_extract": "gemini-3.5-flash-lite",
+    "phase_a_brief": "gemini-3.5-flash-lite",
+    "phase_b_ablation": "gemini-3.5-flash-lite",
+    "phase_c_stability": "gemini-3.5-flash-lite",
+    "phase_d_refusal": "gemini-3.5-flash-lite"
+  },
+  "fact_precision": 0.907,
+  "fact_recall": 0.9194,
+  "facts_scored": 86,
+  "production_unsupported_rate_before": 0.0123,
+  "production_claims": "1/81",
+  "ablation_constrained_rate_before": 0.0,
+  "ablation_constrained_claims": "0/82",
+  "ablation_loose_rate_before": 0.0115,
+  "ablation_loose_claims": "1/87",
+  "unsupported_rate_after": 0.0,
+  "icp_identical_across_reruns": "15/19",
+  "icp_max_spread": 35,
+  "refusals_correct": "3/3",
+  "latency_p50_ms": 3490,
+  "latency_p95_ms": 12039,
+  "latency_with_live_fetch_p50_ms": 5793,
+  "latency_with_live_fetch_p95_ms": 18482,
+  "cost_per_account_mean_usd": 0.00497,
+  "phase_a_statuses": {
+    "refused": 1,
+    "pending_approval": 19
+  },
+  "model_calls_total": 135
+}
